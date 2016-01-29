@@ -9,4 +9,5 @@ module.exports = function (app, io) {
       matchMaking.connection(io, socket);
     });
 
+    matchMaking.boot(io);
 };

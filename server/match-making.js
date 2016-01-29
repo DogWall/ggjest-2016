@@ -1,36 +1,42 @@
 'use strict';
 
+var _     = require('lodash');
+var debug = require('debug')('ocult:matchmaking')
+
 var Match = require('./match');
 
 var matchs = {};
 
 module.exports = {
 
+  boot: function (io) {
+    createMatch(io, { name: 'Test' }, function (error, match) {
+      debug('created a first match');
+    });
+  },
+
   connection: function (io, socket) {
 
-    findJoinableMatch(function (error, match) {
-      match.join({ id:socket.id });
-      socket.emit('has-joined-match', match);
-    });
+    var user = { id:socket.id, socket:socket };
 
-    // réagit quand un client a envoyé l'événement ping
-    socket.on('ping', function () {
+    socket.on('search-matchs', function () {
+      debug('find an open match for %o', user.id);
 
-      socket.emit('has-ping', { user:socket.id });
+      findJoinableMatch(function (error, match) {
+        debug('found an open match for %o : %o', user.id, match.id);
 
-      // avertit tous les autres clients que cette bière est bue
-      socket.broadcast.emit('has-ping', { user:socket.id });
+        joinUserToMatch(user, match, function (error) {
 
+        });
+      });
     });
 
     socket.emit('connection', { user:socket.id });
   }
-
 };
 
-
-function createMatch (callback) {
-  var match = new Match();
+function createMatch (io, options, callback) {
+  var match = new Match(io, options);
   matchs[match.id] = match;
   callback(null, match);
 }
@@ -39,4 +45,9 @@ function findJoinableMatch (callback) {
   callback(null, _.find(matchs, function (m) {
     return m.canBeJoined();
   }));
+}
+
+function joinUserToMatch (user, match, callback) {
+  match.join(user);
+  callback(null);
 }
