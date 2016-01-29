@@ -1,8 +1,18 @@
 'use strict';
 
+var Match = require('./match');
+
+var matchs = {};
+
 module.exports = {
 
   connection: function (io, socket) {
+
+    findJoinableMatch(function (error, match) {
+      match.join({ id:socket.id });
+      socket.emit('has-joined-match', match);
+    });
+
     // réagit quand un client a envoyé l'événement ping
     socket.on('ping', function () {
 
@@ -17,3 +27,16 @@ module.exports = {
   }
 
 };
+
+
+function createMatch (callback) {
+  var match = new Match();
+  matchs[match.id] = match;
+  callback(null, match);
+}
+
+function findJoinableMatch (callback) {
+  callback(null, _.find(matchs, function (m) {
+    return m.canBeJoined();
+  }));
+}
