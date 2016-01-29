@@ -3,9 +3,3 @@
 ##
 
 ## Team
-
- * Hellgy
- * Christophe
- * Biou
- * Encelade
- * AllYouNeedIsGNU
