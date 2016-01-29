@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/DogWall/ggjest-2016",
   "dependencies": {
+    "express": "^4.13.4",
     "phaser": "~2.4.3",
-    "requirejs": "~2.1.20"
+    "requirejs": "~2.1.20",
+    "socket.io": "^1.4.5"
   }
 }
