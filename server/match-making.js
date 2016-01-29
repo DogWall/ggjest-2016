@@ -27,6 +27,10 @@ module.exports = {
 
         joinUserToMatch(user, match, function (error) {
 
+          if (match.isReady()) {
+            match.startLobby();
+          }
+
         });
       });
     });

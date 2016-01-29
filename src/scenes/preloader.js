@@ -1,6 +1,6 @@
 define([
-    'phaser'
-], function (Phaser) {
+    'phaser', 'components/network'
+], function (Phaser, Network) {
     'use strict';
 
     function Preloader(game) {
@@ -8,7 +8,7 @@ define([
         this.preloadBar = null;
         this.ready = false;
         this.game = game;
-                
+
         this.images = [
             ['logo', 'assets/images/title.png'],
             ['bg', 'assets/images/fond.png'],
@@ -23,7 +23,7 @@ define([
             ['credits-img', 'assets/images/credits.png'],
             ['credits-txt', 'assets/images/credits-txt.png']
         ];
-        
+
         this.sprites = [
             ['bbq', 'assets/images/bbq-sprites.png', 90, 130, 6],
             ['splash', 'assets/images/taches.png', 80, 30, 2],
@@ -34,10 +34,10 @@ define([
             ['vie-humaine', 'assets/images/icone-mort-humain.png', 50,60,2],
             ['vie-saucisse', 'assets/images/icone-saucisse-ratee.png', 30,60,2],
         ];
-        
+
         this.scripts = [
         ]
-        
+
         this.audio = [
             ['zik-intro', 'assets/sounds/sausage_squad_intro_master.mp3'],
             ['zik', 'assets/sounds/sausage_squad_master.mp3'],
@@ -66,26 +66,29 @@ define([
             for(var key in this.images) {
                 this.game.load.image(this.images[key][0], this.images[key][1]);
             }
-            
+
             for(var key in this.sprites) {
                 this.game.load.spritesheet(this.sprites[key][0], this.sprites[key][1], this.sprites[key][2], this.sprites[key][3], this.sprites[key][4]);
             }
-            
+
             for(var key in this.scripts) {
                 this.game.load.script(this.scripts[key][0], this.scripts[key][1], this.scripts[key][2], this.scripts[key][3], this.sprites[key][4]);
             }
-            
+
             for(var key in this.audio) {
                 this.game.load.audio(this.audio[key][0], this.audio[key][1], this.audio[key][2], this.audio[key][3], this.audio[key][4]);
             }
-            
+
         },
         create: function () {
             //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
             var logo = this.game.add.sprite(0, 10, 'logo-bandeau');
             logo.scale.setTo(0.5, 0.5);
-            
+
             this.preloadBar.cropEnabled = false;
+
+            // Initialize network, search games once connected
+            this.game.network = new Network(this.game);
         },
         update: function () {
             //	You don't actually need to do this, but I find it gives a much smoother game experience.
