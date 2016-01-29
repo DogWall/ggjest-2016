@@ -10,6 +10,7 @@ define([
         this.game = game;
 
         this.images = [
+            ['dot', 'assets/images/dot.png'],
             ['logo', 'assets/images/title.png'],
             ['bg', 'assets/images/fond.png'],
             ['building', 'assets/images/immeuble-vide.png'],
@@ -39,8 +40,6 @@ define([
         ]
 
         this.audio = [
-            ['zik-intro', 'assets/sounds/sausage_squad_intro_master.mp3'],
-            ['zik', 'assets/sounds/sausage_squad_master.mp3'],
             ['clic', 'assets/sounds/clic_menu_1.wav'],
             ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
             ['cri_saucisse', 'assets/sounds/cri_2.wav'],
@@ -64,6 +63,7 @@ define([
             //	Here we load the rest of the assets our game needs.
             //	As this is just a Project Template I've not provided these assets, swap them for your own.
             for(var key in this.images) {
+              console.log('loading ',key)
                 this.game.load.image(this.images[key][0], this.images[key][1]);
             }
 
@@ -100,10 +100,11 @@ define([
             //	If you don't have any music in your game then put the game.state.start line into the create function and delete
             //	the update function completely.
 
-            if (this.cache.isSoundDecoded('zik') && this.ready == false)
+            //if (this.cache.isSoundDecoded('zik') && this.ready == false)
             {
                 this.ready = true;
-                this.state.start('Menu');
+                //this.state.start('Menu');
+                this.state.start('Runes');
             }
 
         }
