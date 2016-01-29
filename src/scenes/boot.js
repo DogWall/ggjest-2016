@@ -4,6 +4,7 @@ define([
     'use strict';
 
     function Boot(game) {
+        this.game = game;
     }
 
     Boot.prototype = {
@@ -38,8 +39,7 @@ define([
             //this.load.image('dot', 'assets/images/dot.png');
         },
         create: function () {
-            this.game.add.text(16, 16, 'boot', {fontSize: '32px', fill: '#fff'});
-            this.state.start('Preloader');
+            this.state.start('Game');
         }
     };
 
