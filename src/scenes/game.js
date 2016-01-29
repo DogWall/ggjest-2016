@@ -25,12 +25,13 @@ define([
             this.score = 0;
             this.scoreText = this.game.add.text(10, this.game.height - 46, 'Score: -', {font: '32px slkscr', fill: '#fff'});
             this.scoreText.text = 'Score: 0';
-            
+
             if (this.game.device.desktop) {
                 this.firstSwitch = false;
             }
 
-            this.game.input.onDown.add(this.switchControl, this);
+            //this.game.input.onDown.add(this.switchControl, this);
+            //this.game.input
         },
         update: function () {
             //  Collide the player and the stars with the platforms
@@ -67,7 +68,11 @@ define([
             }
         },
         setupBackground: function () {
-            this.music = this.game.add.audio('zik');
+          for (var x=0;x<3;x++) {
+            for (var y=0;y<3;y++) {
+            }
+          }
+            /*this.music = this.game.add.audio('zik');
             this.music.loop = true;
             this.music.play();
             this.music.volume = 0.25;
@@ -83,7 +88,7 @@ define([
             this.nuage2.scale.setTo(0.5, 0.5);
 
             this.building = new Building(this.game);
-            this.ground = new Ground(this.game);
+            this.ground = new Ground(this.game);*/
         },
         setupForeground: function () {
             // arbres de devant

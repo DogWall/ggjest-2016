@@ -8,24 +8,25 @@ define([
         this.preloadBar = null;
         this.ready = false;
         this.game = game;
-                
+
         this.images = [
-            ['logo', 'assets/images/title.png'],
-            ['background', 'assets/images/fond.png']
+            ['dot', 'assets/images/dot.png'],
+            /*['logo', 'assets/images/title.png'],
+            ['background', 'assets/images/fond.png']*/
         ];
-        
+
         this.sprites = [
-            ['bbq', 'assets/images/bbq-sprites.png', 90, 130, 6],
-            ['splash', 'assets/images/taches.png', 80, 30, 2],
+            /*['bbq', 'assets/images/bbq-sprites.png', 90, 130, 6],
+            ['splash', 'assets/images/taches.png', 80, 30, 2]*/
         ];
-        
+
         this.scripts = [
         ]
-        
+
         this.audio = [
-            ['zik-intro', 'assets/sounds/sausage_squad_intro_master.mp3'],
+            /*['zik-intro', 'assets/sounds/sausage_squad_intro_master.mp3'],
             ['zik', 'assets/sounds/sausage_squad_master.mp3'],
-            ['clic', 'assets/sounds/clic_menu_1.wav'],
+            ['clic', 'assets/sounds/clic_menu_1.wav'],*/
         ];
     }
 
@@ -45,27 +46,28 @@ define([
             //	Here we load the rest of the assets our game needs.
             //	As this is just a Project Template I've not provided these assets, swap them for your own.
             for(var key in this.images) {
+              console.log('loading ',key)
                 this.game.load.image(this.images[key][0], this.images[key][1]);
             }
-            
+
             for(var key in this.sprites) {
                 this.game.load.spritesheet(this.sprites[key][0], this.sprites[key][1], this.sprites[key][2], this.sprites[key][3], this.sprites[key][4]);
             }
-            
+
             for(var key in this.scripts) {
                 this.game.load.script(this.scripts[key][0], this.scripts[key][1], this.scripts[key][2], this.scripts[key][3], this.sprites[key][4]);
             }
-            
+
             for(var key in this.audio) {
                 this.game.load.audio(this.audio[key][0], this.audio[key][1], this.audio[key][2], this.audio[key][3], this.audio[key][4]);
             }
-            
+
         },
         create: function () {
             //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
             //var logo = this.game.add.sprite(0, 10, 'logo-bandeau');
             //logo.scale.setTo(0.5, 0.5);
-            
+
             //this.preloadBar.cropEnabled = false;
         },
         update: function () {
@@ -81,7 +83,8 @@ define([
             //if (this.cache.isSoundDecoded('zik') && this.ready == false)
             {
                 this.ready = true;
-                this.state.start('Menu');
+                //this.state.start('Menu');
+                this.state.start('Runes');
             }
 
         }
