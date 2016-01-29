@@ -1,19 +1,53 @@
 'use strict';
 
+var _     = require('lodash');
+var debug = require('debug')('ocult:matchmaking')
+
+var Match = require('./match');
+
+var matchs = {};
+
 module.exports = {
 
+  boot: function (io) {
+    createMatch(io, { name: 'Test' }, function (error, match) {
+      debug('created a first match');
+    });
+  },
+
   connection: function (io, socket) {
-    // réagit quand un client a envoyé l'événement ping
-    socket.on('ping', function () {
 
-      socket.emit('has-ping', { user:socket.id });
+    var user = { id:socket.id, socket:socket };
 
-      // avertit tous les autres clients que cette bière est bue
-      socket.broadcast.emit('has-ping', { user:socket.id });
+    socket.on('search-matchs', function () {
+      debug('find an open match for %o', user.id);
 
+      findJoinableMatch(function (error, match) {
+        debug('found an open match for %o : %o', user.id, match.id);
+
+        joinUserToMatch(user, match, function (error) {
+
+        });
+      });
     });
 
     socket.emit('connection', { user:socket.id });
   }
-
 };
+
+function createMatch (io, options, callback) {
+  var match = new Match(io, options);
+  matchs[match.id] = match;
+  callback(null, match);
+}
+
+function findJoinableMatch (callback) {
+  callback(null, _.find(matchs, function (m) {
+    return m.canBeJoined();
+  }));
+}
+
+function joinUserToMatch (user, match, callback) {
+  match.join(user);
+  callback(null);
+}
