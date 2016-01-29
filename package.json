@@ -1,0 +1,20 @@
+{
+  "name": "unknown",
+  "version": "0.0.0",
+  "description": "...",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DogWall/ggjest-2016.git"
+  },
+  "author": "",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/DogWall/ggjest-2016/issues"
+  },
+  "homepage": "https://github.com/DogWall/ggjest-2016",
+  "dependencies": {
+    "phaser": "~2.4.3",
+    "requirejs": "~2.1.20"
+  }
+}
