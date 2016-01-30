@@ -67,6 +67,7 @@ define([
         },
 
         register: function (userName) {
+            this.game.userName = userName;
             this.game.socket.emit('search-matchs', {
                 prefered: location.hash.substr(1),
                 name: userName,
