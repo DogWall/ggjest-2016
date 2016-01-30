@@ -6,9 +6,7 @@ define([
     function Network(game) {
 
         this.game = game;
-
         this.currentMatch = null;
-        this.currentNSP   = null;
     }
 
     Network.prototype = {
@@ -46,11 +44,11 @@ define([
                 console.log('invite friends to', matchUrl);
                 location.hash = hash;
 
-                self.currentNSP = game.io(match.room);
                 self.currentMatch = match;
                 self.showLobby();
 
-                // FIXME: comment attendre que l'ecran Lobby soit bien affiché ?
+                // FIXME: comment attendre que
+                // l'ecran Lobby soit bien affiché ?
                 setTimeout(function () {
                     self.game.lobby.setTeam(team);
                     event.match.teams.forEach(function (t) {
@@ -78,14 +76,14 @@ define([
             console.log('in lobby', this.currentMatch);
             self.game.state.start('Lobby');
 
-            self.currentNSP.on('user-joined', function (event) {
+            self.game.socket.on('user-joined', function (event) {
                 self.game.lobby.addPlayer(event.player, event.team);
             });
 
             this.game.socket.on('game-start', function (g) {
                 console.log('start game !!!');
 
-                self.currentNSP.on('team-scores', function (scores) {
+                self.game.socket.on('team-scores', function (scores) {
                     console.log('scores are', scores);
                 });
 
@@ -104,6 +102,14 @@ define([
                 }
 
             });
+
+            self.game.socket.on('match-end', function (event) {
+                self.showEndGame(event.winner, event.looser);
+            });
+        },
+
+        showEndGame: function (winner, looser) {
+            this.game.state.start('Endmatch', true, false, winner, looser);
         },
 
         userGoodGlyphed: function () {

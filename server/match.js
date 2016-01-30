@@ -17,18 +17,22 @@ function Match (io) {
 
     this.io      = io;
     this.room    = '/match-' + this.id;
-    this.nsp     = io.of(this.room);
     this.running = false;
+
     this.sync = new Sync(this);
     this.solist  = 0;
     this.round   = 0;
     this.timer   = null;
+    this.sync    = new Sync(this);
 
     this.teams = {
       white: new Team(io, { name:'white' }),
       black: new Team(io, { name:'black' }),
     }
+};
 
+Match.prototype.emit = function(event, data) {
+    this.io.to(this.room).emit(event, data);
 };
 
 Match.prototype.toJSON = function() {
@@ -50,6 +54,11 @@ Match.prototype.scoreboard = function() {
             '</ul>');
     });
     return '<ul><li>' + scoreboard.join('</li><li>') + '</li></ul>';
+};
+
+Match.prototype.playerSummary = function() {
+    var summary = [];
+    return summary.join('\n');
 };
 
 Match.prototype.playersIn = function(team) {
@@ -107,7 +116,7 @@ Match.prototype.join = function(player, team) {
         };
 
         player.socket.emit('has-joined-match', event);
-        this.nsp.emit('user-joined', event);
+        player.socket.broadcast.emit('user-joined', event);
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
@@ -150,18 +159,42 @@ Match.prototype.start = function() {
     debug('match %o is starting', this.id);
     this.running = true;
 
+
     self.setupGames();
     self.timer = setInterval(function () {
         self.setupGames();
     }, 5000);
     //}, 24000);
+
+
+    setTimeout(function () {
+        self.teams.white.addScore(Math.round(Math.random() * 10000));
+        self.teams.black.addScore(Math.round(Math.random() * 10000));
+        self.end();
+    }, 20 * 1000);
+};
+
+Match.prototype.end = function() {
+    debug('match %o is ending, winner is %o', this.id, this.winner());
+    this.emit('match-end', {
+        winner: this.teams[this.winner()].toJSON(),
+        looser: this.teams[this.looser()].toJSON(),
+    });
+};
+
+Match.prototype.winner = function() {
+    return this.teams.white.getScore() > this.teams.black.getScore() ? 'white' : 'black';
+};
+
+Match.prototype.looser = function() {
+    return this.winner() === 'white' ? 'black' : 'white';
 };
 
 Match.prototype.playerTapped = function(player) {
     var team  = this.findTeamOfPlayer(player);
     var score = 10;
 
-    team.playerScored(user, score);
+    team.playerScored(player, score);
     this.sendScores();
 };
 Match.prototype.glyphSuccess = function(player) {
@@ -172,7 +205,7 @@ Match.prototype.glyphSuccess = function(player) {
 };
 
 Match.prototype.sendScores = function() {
-    this.nsp.emit('team-scores', this.teamScores());
+    this.emit('team-scores', this.teamScores());
 };
 
 Match.prototype.teamScores = function() {

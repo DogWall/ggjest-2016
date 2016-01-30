@@ -39,6 +39,7 @@ Team.prototype.toJSON = function() {
     return {
         id: this.id,
         name: this.name,
+        score: this.score,
         players: _.invokeMap(this.players, 'toJSON')
     };
 };

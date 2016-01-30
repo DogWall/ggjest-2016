@@ -14,7 +14,9 @@ define([
             ['logo', 'assets/images/logo.png'],
             ['lobby', 'assets/images/fond-choix.png'],
             ['hide-white', 'assets/images/hide-white.png'],
-            ['hide-black', 'assets/images/hide-black.png']
+            ['hide-black', 'assets/images/hide-black.png'],
+            ['win-black', 'assets/images/WINNER-blackmagic.png'],
+            ['win-white', 'assets/images/WINNER-whitemagic.png']
         ];
 
         this.sprites = [
@@ -26,7 +28,8 @@ define([
 
         this.json = [
             ['glyphs', 'assets/data/glyph.json'],
-            ['lyrics', 'assets/data/lyrics.json']
+            ['lyrics', 'assets/data/lyrics.json'],
+            ['names', 'assets/data/names.json']
         ];
 
         this.audio = [
@@ -44,7 +47,6 @@ define([
             //	A nice sparkly background and a loading progress bar
             //this.preloadBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloaderBar');
             //this.preloadBar.anchor.setTo(0.5, 0.5);
-            
             //	This sets the preloadBar sprite as a loader sprite.
             //	What that does is automatically crop the sprite from 0 to full-width
             //	as the files below are loaded in.
@@ -89,9 +91,9 @@ define([
             this.game.network.reconnect();
 
             this.game.lyrics  = new Lyrics(this.game);
-            
+
             // Force font here.
-            this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});            
+            this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
         update: function () {
             //this.game.preloaded = true;
