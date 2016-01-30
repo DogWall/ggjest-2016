@@ -33,12 +33,12 @@ define([
             field.value              = this.savedUserName();
             field.style.textAlign    = 'center';
             field.style.position     = 'absolute';
-            field.style.top          = 300;
+            field.style.top          = 307;
             field.style.left         = 22;
             field.style.width        = 276;
             field.style.border       = 'none';
             field.style.outlineWidth = 0;
-            field.style.fontSize     = '1.5em';
+            field.style.font     = '32px comicrunes';
             field.addEventListener('keypressed', function (e) {
                 if (e.keyCode === 13) {
                     self.onConfirm(field.value);
