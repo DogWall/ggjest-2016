@@ -103,8 +103,9 @@ define([
             //if (this.cache.isSoundDecoded('zik') && this.ready == false)
             {
                 this.ready = true;
-                //this.state.start('Menu');
-                this.state.start('Runes');
+                // this.state.start('Menu');
+                // this.state.start('Runes');
+                this.state.start('Profile');
             }
 
         }

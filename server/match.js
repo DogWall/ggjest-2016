@@ -1,6 +1,6 @@
 'use strict';
 
-var TEAM_SIZE = 1;
+var TEAM_SIZE = 2;
 
 var _       = require('lodash');
 var shortid = require('shortid');
@@ -14,9 +14,10 @@ function Match (io) {
 
     this.id = shortid.generate(),
 
-    this.io   = io;
-    this.room = '/match-' + this.id;
-    this.nsp  = io.of(this.room);
+    this.io      = io;
+    this.room    = '/match-' + this.id;
+    this.nsp     = io.of(this.room);
+    this.running = false;
 
     this.teams = {
       white: new Team(io, { name:'white' }),
@@ -41,9 +42,10 @@ Match.prototype.smallestTeam = function() {
     _.each(this.teams, function (t) {
         if (t.size() < smallest) {
             smallest = t;
+            team = t;
         }
     });
-    return t;
+    return team;
 }
 
 Match.prototype.smallestTeamWithoutPlayer = function(playerId) {
@@ -58,7 +60,7 @@ Match.prototype.smallestTeamWithoutPlayer = function(playerId) {
 }
 
 Match.prototype.canBeJoined = function() {
-    return true;
+    return ! this.running;
 };
 
 Match.prototype.join = function(player) {
@@ -67,14 +69,21 @@ Match.prototype.join = function(player) {
     if (team) {
         team.players[player.id] = player;
         player.socket.join(this.room);
-        player.socket.emit('has-joined-match', this.toJSON());
-        this.nsp.emit('user-joined', { id:player.id });
 
-        debug('user %o has joined match %o (%o)', player.id, self.id, self.room);
+        var event = {
+            player: { id:player.id, name:player.name },
+            match: this.toJSON(),
+            team: team.toJSON()
+        };
+
+        player.socket.emit('has-joined-match', event);
+        this.nsp.emit('user-joined', event);
+
+        debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
         player.socket.on('disconnect', function () {
             team.removePlayer(player);
-            debug('user %o has left match %o (%o)', player.id, self.id, self.room);
+            debug('user %o has left match %o (%o)', player.name, self.id, self.room);
         });
     }
     return team;
@@ -86,7 +95,12 @@ Match.prototype.isReady = function() {
     })
 };
 
-Match.prototype.startLobby = function() {
-    debug('match %o is ready', this.id);
-    this.nsp.emit('lobby-ready');
+Match.prototype.start = function() {
+    var self = this;
+    debug('match %o is starting', this.id);
+    this.running = true;
+
+    setTimeout(function () {
+        self.nsp.emit('game-start');
+    }, 3000);
 };

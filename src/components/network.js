@@ -18,25 +18,41 @@ define([
             game.io = io;
             game.socket = socket;
             game.user = user;
-
-            socket.emit('search-matchs');
+            game.user.name = game.userName;
         });
 
-        socket.on('has-joined-match', function (match) {
+        socket.on('has-joined-match', function (event) {
+            var match = event.match;
             console.log('joining match', match);
-
+            self.currentNSP = game.io(match.room);
             self.currentMatch = match;
-            self.currentNSP   = game.io(match.room);
-
-            self.currentNSP.on('lobby-ready', self.startLobby.bind(self));
+            self.showLobby();
+            setTimeout(function () {
+                self.game.lobby.addPlayer(event.player, event.team);
+            }, 1000);
         });
     }
 
     Network.prototype = {
         constructor: Network,
 
-        startLobby: function () {
+        register: function (userName) {
+            this.game.socket.emit('search-matchs', { name:userName });
+        },
+
+        showLobby: function () {
+            var self = this;
             console.log('in lobby', this.currentMatch);
+            self.game.state.start('Lobby');
+
+            self.currentNSP.on('user-joined', function (event) {
+                self.game.lobby.addPlayer(event.player, event.team);
+            });
+
+            self.currentNSP.on('game-start', function () {
+                console.log('start game !!!');
+                self.game.state.start('Runes');
+            });
         }
     };
 
