@@ -1,6 +1,7 @@
 define([
-    'socket.io/socket.io.js'
-], function (io) {
+    'socket.io/socket.io.js',
+    'components/state'
+], function (io, State) {
     'use strict';
 
     function Network(game) {
@@ -47,6 +48,7 @@ define([
                 // FIXME: comment attendre que
                 // l'ecran Lobby soit bien affiché ?
                 setTimeout(function () {
+                    self.game.game_state.setTeam(team);
                     self.game.lobby.setTeam(team);
                     event.match.teams.forEach(function (t) {
                         t.players.forEach(function (p) {

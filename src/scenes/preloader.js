@@ -1,6 +1,6 @@
 define([
-    'phaser', 'components/network', 'components/lyrics'
-], function (Phaser, Network, Lyrics) {
+    'phaser', 'components/state', 'components/network', 'components/lyrics'
+], function (Phaser, State, Network, Lyrics) {
     'use strict';
 
     function Preloader(game) {
@@ -14,7 +14,10 @@ define([
             ['logo', 'assets/images/logo.png'],
             ['lobby', 'assets/images/fond-choix.png'],
             ['hide-white', 'assets/images/hide-white.png'],
-            ['hide-black', 'assets/images/hide-black.png']
+            ['hide-black', 'assets/images/hide-black.png'],
+            ['tap', 'assets/images/tap.png'],
+            ['zone-jeu-black', 'assets/images/zone-jeu-black.png'],
+            ['zone-jeu-white', 'assets/images/zone-jeu-white.png']
         ];
 
         this.sprites = [
@@ -85,6 +88,7 @@ define([
             */
 
             // Initialize network, search games once connected
+            this.game.game_state = new State(this.game);
             this.game.network = new Network(this.game);
             this.game.network.reconnect();
 
