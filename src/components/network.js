@@ -37,9 +37,15 @@ define([
             socket.on('has-joined-match', function (event) {
                 var match = event.match;
                 console.log('joining match', match);
+
+                var matchUrl = location.toString().replace(/#.*$/, '#' + match.id);
+                console.log('invite friends to', matchUrl);
+
                 self.currentNSP = game.io(match.room);
                 self.currentMatch = match;
                 self.showLobby();
+
+                // FIXME: comment attendre que l'ecran Lobby soit bien affiché ?
                 setTimeout(function () {
                     event.match.teams.forEach(function (t) {
                         t.players.forEach(function (p) {
@@ -55,7 +61,10 @@ define([
         },
 
         register: function (userName) {
-            this.game.socket.emit('search-matchs', { name:userName });
+            this.game.socket.emit('search-matchs', {
+                prefered: location.hash.substr(1),
+                name: userName,
+            });
         },
 
         showLobby: function () {

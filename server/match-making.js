@@ -36,12 +36,9 @@ module.exports = function (io) {
 
       socket.on('search-matchs', function (request) {
         if (! request) return;
-
         player.setName(request.name);
 
-        debug('find an open match for %o', player.name);
-
-        findJoinableMatch(function (error, match) {
+        findMatch(player, request.prefered, function (error, match) {
           if (error || ! match) {
             console.error('No matchs available :(');
             return;
@@ -49,10 +46,6 @@ module.exports = function (io) {
 
           debug('found an open match for %o : %o', player.name, match.id);
           match.join(player);
-
-          if (match.isReady()) {
-            match.start();
-          }
         });
       });
 
@@ -66,11 +59,25 @@ module.exports = function (io) {
   };
 
 
-
   function createMatch (io, options, callback) {
     var match = new Match(io, options);
     matchs[match.id] = match;
     callback(null, match);
+  }
+
+  function findMatch (player, prefered, callback) {
+    if (prefered && prefered.length) {
+      debug('player %o ask to join game %o', player.name, prefered);
+      var match = matchs[prefered];
+      if (match && match.canBeJoined()) {
+        debug('honor request to join game %o', match.id);
+        return callback(null, match);
+      } else {
+        debug('cannot honor request to join game %o (match is closed or deleted)', prefered);
+      }
+    }
+    debug('find an open match for %o', player.name);
+    findJoinableMatch(callback);
   }
 
   function findJoinableMatch (callback) {
