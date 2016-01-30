@@ -22,6 +22,7 @@ define([
             ['tap', 'assets/images/tap.png'],
             ['zone-jeu-black', 'assets/images/zone-jeu-black.png'],
             ['zone-jeu-white', 'assets/images/zone-jeu-white.png'],
+            ['points', 'assets/images/points.png'],
             ['win-white', 'assets/images/WINNER-whitemagic.png'],
             ['win-black', 'assets/images/WINNER-blackmagic.png'],
             ['vs-bg-white', 'assets/images/vs-fond-white.png'],
