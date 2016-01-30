@@ -1,6 +1,6 @@
 'use strict';
 
-var TEAM_SIZE = 3;
+var TEAM_SIZE = 1;
 
 var _       = require('lodash');
 var shortid = require('shortid');
@@ -17,15 +17,17 @@ function Match (io) {
 
     this.io      = io;
     this.room    = '/match-' + this.id;
-    this.nsp     = io.of(this.room);
     this.running = false;
-    this.sync = new Sync(this);
+    this.sync    = new Sync(this);
 
     this.teams = {
       white: new Team(io, { name:'white' }),
       black: new Team(io, { name:'black' }),
     }
+};
 
+Match.prototype.emit = function(event, data) {
+    this.io.to(this.room).emit(event, data);
 };
 
 Match.prototype.toJSON = function() {
@@ -104,21 +106,21 @@ Match.prototype.join = function(player, team) {
         };
 
         player.socket.emit('has-joined-match', event);
-        this.nsp.emit('user-joined', event);
+        player.socket.broadcast.emit('user-joined', event);
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
-        this.nsp.on('user-tapped', function () {
+        player.socket.on('user-tapped', function () {
             debug('user %o tapped', player.name);
             self.playerTapped(player);
         });
 
-        this.nsp.on('user-good-glyphed', function () {
+        player.socket.on('user-good-glyphed', function () {
             debug('user %o glyphed good', player.name);
             // self.playerTapped(user);
         });
 
-        this.nsp.on('user-mis-glyphed', function () {
+        player.socket.on('user-mis-glyphed', function () {
             debug('user %o glyphed bad', player.name);
             // self.playerTapped(user);
         });
@@ -148,7 +150,7 @@ Match.prototype.start = function() {
     this.running = true;
 
     setTimeout(function () {
-        self.nsp.emit('game-start');
+        self.emit('game-start');
     }, 3000);
 };
 
@@ -161,7 +163,7 @@ Match.prototype.playerTapped = function(player) {
 };
 
 Match.prototype.sendScores = function() {
-    this.nsp.emit('team-scores', this.teamScores());
+    this.emit('team-scores', this.teamScores());
 };
 
 Match.prototype.teamScores = function() {
