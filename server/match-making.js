@@ -33,12 +33,11 @@ module.exports = function (io) {
           }
 
           debug('found an open match for %o : %o', user.name, match.id);
+          match.join(user);
 
-          joinUserToMatch(user, match, function (error) {
-            if (match.isReady()) {
-              match.start();
-            }
-          });
+          if (match.isReady()) {
+            match.start();
+          }
         });
       });
 
@@ -67,11 +66,6 @@ module.exports = function (io) {
       callback(null, match);
     }
 
-  }
-
-  function joinUserToMatch (user, match, callback) {
-    match.join(user);
-    callback(null);
   }
 
 };

@@ -28,7 +28,11 @@ define([
             self.currentMatch = match;
             self.showLobby();
             setTimeout(function () {
-                self.game.lobby.addPlayer(event.player, event.team);
+                event.match.teams.forEach(function (t) {
+                    t.players.forEach(function (p) {
+                        self.game.lobby.addPlayer(p, t);
+                    });
+                });
             }, 1000);
         });
     }
