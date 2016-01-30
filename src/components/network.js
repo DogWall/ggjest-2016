@@ -52,7 +52,7 @@ define([
                             self.game.lobby.addPlayer(p, t);
                         });
                     });
-                }, 1000);
+                }, 2000);
             });
 
             socket.on('latency', function (timestamp, callback) {
