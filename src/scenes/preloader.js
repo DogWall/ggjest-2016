@@ -13,11 +13,21 @@ define([
             ['dot', 'assets/images/dot.png'],
             ['logo', 'assets/images/logo.png'],
             ['lobby', 'assets/images/fond-choix.png'],
+            ['home', 'assets/images/fond-start.png'],
+            ['join', 'assets/images/start-button-only.png'],
             ['hide-white', 'assets/images/hide-white.png'],
             ['hide-black', 'assets/images/hide-black.png'],
             ['tap', 'assets/images/tap.png'],
             ['zone-jeu-black', 'assets/images/zone-jeu-black.png'],
-            ['zone-jeu-white', 'assets/images/zone-jeu-white.png']
+            ['zone-jeu-white', 'assets/images/zone-jeu-white.png'],
+            ['win-white', 'assets/images/WINNER-whitemagic.png'],
+            ['win-black', 'assets/images/WINNER-blackmagic.png'],
+            ['vs-bg-white', 'assets/images/vs-fond-white.png'],
+            ['vs-bg-black', 'assets/images/vs-fondblack.png'],
+            ['vs-white-unicorn-bad', 'assets/images/VS-licorne-white-null.png'],
+            ['vs-white-unicorn-good', 'assets/images/VS-licorne-white-ok.png'],
+            ['vs-black-unicorn-bad', 'assets/images/VS-licorne-black-null.png'],
+            ['vs-black-unicorn-good', 'assets/images/VS-licorne-black-ok.png']
         ];
 
         this.sprites = [
@@ -98,6 +108,7 @@ define([
             this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
         update: function () {
+            //this.game.preloaded = true;
             //	You don't actually need to do this, but I find it gives a much smoother game experience.
             //	Basically it will wait for our audio file to be decoded before proceeding to the MainMenu.
             //	You can jump right into the menu if you want and still play the music, but you'll have a few
@@ -107,9 +118,9 @@ define([
             //	If you don't have any music in your game then put the game.state.start line into the create function and delete
             //	the update function completely.
 
-            //if (this.cache.isSoundDecoded('zik') && this.ready == false)
-            {
-                this.ready = true;
+            //if (this.cache.isSoundDecoded('cri_saucisse_sol') && this.game.connected == true)
+            //if (this.game.connected == true)
+            //{
                 // this.state.start('Menu');
                 /* //test runes
                 var glyphs = this.game.cache.getJSON('glyphs');
@@ -117,8 +128,8 @@ define([
                 console.log(glyph)
                 this.state.start('Runes',true,false,glyph);
                 */
-                this.state.start('Profile');
-            }
+
+            //}
 
         }
     };

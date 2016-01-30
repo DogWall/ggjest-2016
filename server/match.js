@@ -1,13 +1,13 @@
 'use strict';
 
-var TEAM_SIZE = 1;
+var TEAM_SIZE = process.env.PLAYERS || 1;
 
-var _       = require('lodash');
-var shortid = require('shortid');
-var debug   = require('debug')('ocult:matchmaking')
+var _         = require('lodash');
+var shortid   = require('shortid');
+var debug     = require('debug')('ocult:matchmaking')
 
-var Team    = require('./team');
-var Sync    = require('./sync');
+var Team      = require('./team');
+var Sync      = require('./sync');
 
 module.exports = Match;
 
@@ -18,6 +18,10 @@ function Match (io) {
     this.io      = io;
     this.room    = '/match-' + this.id;
     this.running = false;
+
+    this.solist  = 0;
+    this.round   = 0;
+    this.timer   = null;
     this.sync    = new Sync(this);
 
     this.teams = {
@@ -49,6 +53,11 @@ Match.prototype.scoreboard = function() {
             '</ul>');
     });
     return '<ul><li>' + scoreboard.join('</li><li>') + '</li></ul>';
+};
+
+Match.prototype.playerSummary = function() {
+    var summary = [];
+    return summary.join('\n');
 };
 
 Match.prototype.playersIn = function(team) {
@@ -150,8 +159,28 @@ Match.prototype.start = function() {
     this.running = true;
 
     setTimeout(function () {
-        self.emit('game-start');
+        self.setupGames();
     }, 3000);
+};
+
+Match.prototype.end = function() {
+
+    // self.teams.white.addScore(Math.round(Math.random() * 10000));
+    // self.teams.black.addScore(Math.round(Math.random() * 10000));
+
+    debug('match %o is ending, winner is %o', this.id, this.winner());
+    this.emit('match-end', {
+        winner: this.teams[this.winner()].toJSON(),
+        looser: this.teams[this.looser()].toJSON(),
+    });
+};
+
+Match.prototype.winner = function() {
+    return this.teams.white.getScore() > this.teams.black.getScore() ? 'white' : 'black';
+};
+
+Match.prototype.looser = function() {
+    return this.winner() === 'white' ? 'black' : 'white';
 };
 
 Match.prototype.playerTapped = function(player) {
@@ -185,3 +214,38 @@ Match.prototype.teamScores = function() {
     });
     return scores;
 };
+
+
+Match.prototype.setupGames = function() {
+    var self = this;
+    console.log('setupGames');
+    console.log('round:', this.round);
+
+    if (this.round < 6) {
+        _.each(this.teams, function (t) {
+            var i = 0;
+            for (var p in t.players) {
+                if (self.solist == i) {
+                    console.log('solist', self.solist);
+                    t.players[p].socket.emit('game-start', {game: 'Runes'});
+                    console.log('game-start: Rune', i);
+                } else {
+                    t.players[p].socket.emit('game-start', {game: 'Tempo'});
+                    console.log('game-start: Tempo', i);
+                }
+                i++;
+            }
+        });
+        self.solist = (self.solist + 1 ) % TEAM_SIZE;
+
+        setTimeout(function () {
+            self.setupGames();
+        }, 5000);
+        //}, 24000);
+
+    } else {
+        clearInterval(this.timer);
+        self.end();
+    }
+    this.round++;
+}

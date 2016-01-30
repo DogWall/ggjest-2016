@@ -8,26 +8,26 @@ define([
 
     Lobby.prototype = {
         constructor: Lobby,
-        
+
         create: function () {
             this.emptyPlayers();
             this.game.lobby = this;
- 
-            this.backgrounds = this.game.add.group();            
+
+            this.backgrounds = this.game.add.group();
             this.tops = this.game.add.group();
-            
+
             // background
             var bg =  this.game.add.sprite(0, 0, 'lobby');
             bg.scale.setTo(0.5, 0.5);
             this.backgrounds.add(bg);
-            
+
             var logo =  this.game.add.sprite(0, 0, 'logo');
             logo.scale.setTo(0.5, 0.5);
             this.tops.add(logo);
-            
+
             this.statusText = this.game.add.text(10, this.game.height - 46, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
-        
+
         update: function () {
         },
 
@@ -51,9 +51,9 @@ define([
             hide.scale.setTo(0.5, 0.5);
             this.backgrounds.add(hide);
             this.statusText.text = "Waiting for players";
-            
+
         },
-        
+
         addPlayer: function (player, team) {
             /*
             var leftOffset;

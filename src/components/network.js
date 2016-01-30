@@ -24,9 +24,12 @@ define([
                 game.socket = socket;
                 game.user = user;
                 game.user.name = game.userName;
+                self.game.state.start('Profile');
             });
 
+            // disconnect
             socket.on('disconnect', function () {
+                console.log('disconnect');
                 self.game.state.start('Waiting');
             });
 
@@ -79,17 +82,37 @@ define([
                 self.game.lobby.addPlayer(event.player, event.team);
             });
 
-            self.game.socket.on('game-start', function () {
+            self.game.socket.on('team-scores', function (scores) {
+                console.log('scores are', scores);
+            });
+
+            this.game.socket.on('game-start', function (g) {
                 console.log('start game !!!');
 
-                self.game.socket.on('team-scores', function (scores) {
-                    console.log('scores are', scores);
-                });
+                // FIXME: redondant avec Match-end?
+                // self.game.socket.on('game-end', function () {
+                //     self.game.state.start('Score', true, false);
+                //     console.log('game end!');
+                // });
 
-                var glyphs = self.game.cache.getJSON('glyphs');
-                var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
-                self.game.state.start('Runes', true, false, glyph);
+                if (g.game == 'Runes') {
+                    var glyphs = self.game.cache.getJSON('glyphs');
+                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
+
+                    self.game.state.start(g.game, true, false, glyph);
+                } else {
+                    self.game.state.start(g.game, true, false);
+                }
+
             });
+
+            self.game.socket.on('match-end', function (event) {
+                self.showEndGame(event.winner, event.looser);
+            });
+        },
+
+        showEndGame: function (winner, looser) {
+            this.game.state.start('Endmatch', true, false, winner, looser);
         },
 
         userGoodGlyphed: function () {
