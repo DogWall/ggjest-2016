@@ -53,6 +53,8 @@ define([
                 this.resultText.fill = "#f00";
                 this.score -= 1;
             }
+            
+            this.game.network.userTapped();
             this.scoreText.text = this.score;
             this.lastTap = this.timer._now;
         },
