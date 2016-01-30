@@ -51,6 +51,11 @@ Match.prototype.scoreboard = function() {
     return '<ul><li>' + scoreboard.join('</li><li>') + '</li></ul>';
 };
 
+Match.prototype.playerSummary = function() {
+    var summary = [];
+    return summary.join('\n');
+};
+
 Match.prototype.playersIn = function(team) {
     return _.size(this.teams[team].players);
 }
@@ -152,6 +157,28 @@ Match.prototype.start = function() {
     setTimeout(function () {
         self.emit('game-start');
     }, 3000);
+
+    setTimeout(function () {
+        self.teams.white.addScore(Math.round(Math.random() * 10000));
+        self.teams.black.addScore(Math.round(Math.random() * 10000));
+        self.end();
+    }, 20 * 1000);
+};
+
+Match.prototype.end = function() {
+    debug('match %o is ending, winner is %o', this.id, this.winner());
+    this.emit('match-end', {
+        winner: this.teams[this.winner()].toJSON(),
+        looser: this.teams[this.looser()].toJSON(),
+    });
+};
+
+Match.prototype.winner = function() {
+    return this.teams.white.getScore() > this.teams.black.getScore() ? 'white' : 'black';
+};
+
+Match.prototype.looser = function() {
+    return this.winner() === 'white' ? 'black' : 'white';
 };
 
 Match.prototype.playerTapped = function(player) {

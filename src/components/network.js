@@ -88,6 +88,14 @@ define([
                 var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
                 self.game.state.start('Runes', true, false, glyph);
             });
+
+            self.game.socket.on('match-end', function (event) {
+                self.showEndGame(event.winner, event.looser);
+            });
+        },
+
+        showEndGame: function (winner, looser) {
+            this.game.state.start('Endmatch', true, false, winner, looser);
         },
 
         userGoodGlyphed: function () {
