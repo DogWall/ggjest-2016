@@ -56,3 +56,8 @@ Team.prototype.getScore = function() {
     return this.score;
 };
 
+Team.prototype.playerScored = function(player, score) {
+    this.addScore(score);
+    player.addScore(score);
+};
+

@@ -35,7 +35,7 @@ define([
                 });
             }, 1000);
         });
-        
+
         socket.on('latency', function (timestamp, callback) {
             callback(timestamp);
         });
@@ -59,6 +59,10 @@ define([
 
             self.currentNSP.on('game-start', function () {
                 console.log('start game !!!');
+
+                self.currentNSP.on('team-scores', function (scores) {
+                    console.log('scores are', scores);
+                });
 
                 var glyphs = self.game.cache.getJSON('glyphs');
                 var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];

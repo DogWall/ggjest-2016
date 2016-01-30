@@ -25,7 +25,7 @@ function Match (io) {
       white: new Team(io, { name:'white' }),
       black: new Team(io, { name:'black' }),
     }
-    
+
 };
 
 Match.prototype.toJSON = function() {
@@ -75,11 +75,11 @@ Match.prototype.canBeJoined = function() {
 Match.prototype.join = function(player) {
     var self = this;
     var team = this.smallestTeamWithoutPlayer(player.id);
-    
+
     setTimeout(function () {
         self.sync.latency();
     }, 3000);
-    
+
     if (team) {
         team.players[player.id] = player;
         player.socket.join(this.room);
@@ -124,5 +124,27 @@ Match.prototype.start = function() {
 };
 
 Match.prototype.userTapped = function(player) {
-    var team = this.findTeamOfPlayer(player);
+    var team  = this.findTeamOfPlayer(player);
+    var score = 10;
+
+    team.playerScored(user, score);
+    this.sendScores();
+};
+
+Match.prototype.sendScores = function() {
+    this.nsp.emit('team-scores', this.teamScores());
+};
+
+Match.prototype.teamScores = function() {
+    var scores = {};
+    _.each(this.teams, function (t) {
+        var byTeam = {
+            score: t.getScore(),
+            players: {}
+        };
+        _.each(t.players, function (p) {
+            scores[t.id].players[p.id] = p.getScore();
+        });
+    });
+    return scores;
 };
