@@ -25,9 +25,12 @@ define([
                 game.socket = socket;
                 game.user = user;
                 game.user.name = game.userName;
+                self.game.state.start('Profile');
             });
 
+            // disconnect
             socket.on('disconnect', function () {
+                console.log('disconnect');
                 self.game.state.start('Waiting');
             });
 

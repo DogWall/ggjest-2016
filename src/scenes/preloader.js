@@ -97,6 +97,7 @@ define([
             this.game.lyrics  = new Lyrics(this.game);
         },
         update: function () {
+            //this.game.preloaded = true;
             //	You don't actually need to do this, but I find it gives a much smoother game experience.
             //	Basically it will wait for our audio file to be decoded before proceeding to the MainMenu.
             //	You can jump right into the menu if you want and still play the music, but you'll have a few
@@ -106,9 +107,9 @@ define([
             //	If you don't have any music in your game then put the game.state.start line into the create function and delete
             //	the update function completely.
 
-            //if (this.cache.isSoundDecoded('zik') && this.ready == false)
-            {
-                this.ready = true;
+            //if (this.cache.isSoundDecoded('cri_saucisse_sol') && this.game.connected == true)
+            //if (this.game.connected == true)
+            //{
                 // this.state.start('Menu');
                 /* //test runes
                 var glyphs = this.game.cache.getJSON('glyphs');
@@ -116,8 +117,8 @@ define([
                 console.log(glyph)
                 this.state.start('Runes',true,false,glyph);
                 */
-                this.state.start('Profile');
-            }
+
+            //}
 
         }
     };
