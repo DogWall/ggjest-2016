@@ -119,9 +119,9 @@ Match.prototype.join = function(player, team) {
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
-        player.socket.on('user-tapped', function () {
-            debug('user %o tapped', player.name);
-            self.playerTapped(player);
+        player.socket.on('user-tapped-score', function (score) {
+            debug('user %o tapped a score of %o', player.name, score);
+            self.tappedScore(player, score);
         });
 
         player.socket.on('user-good-glyphed', function () {
@@ -183,13 +183,13 @@ Match.prototype.looser = function() {
     return this.winner() === 'white' ? 'black' : 'white';
 };
 
-Match.prototype.playerTapped = function(player) {
+Match.prototype.tappedScore = function(player, score) {
     var team  = this.findTeamOfPlayer(player);
-    var score = 10;
 
     team.playerScored(player, score);
-    this.sendScores();
+    //this.sendScores();
 };
+
 Match.prototype.glyphSuccess = function(player) {
     var team  = this.findTeamOfPlayer(player);
     console.log(player.name,"glyphed success")

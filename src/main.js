@@ -24,7 +24,7 @@
         var game = new Phaser.Game(SAFE_ZONE_WIDTH / 2, SAFE_ZONE_HEIGHT / 2, Phaser.AUTO, 'game_div');
         game.state.add('Boot', Boot, true);
         game.state.add('Preloader', Preloader, true);
-        game.state.add('Runes', Runes, false);
+        game.state.add('Runes', Tempo, false);
         game.state.add('Tempo', Tempo, false);
         game.state.add('Lobby', Lobby, false);
         game.state.add('Profile', Profile, false);
