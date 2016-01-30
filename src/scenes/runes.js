@@ -45,8 +45,8 @@ define([
         this.invoking = false;
         this.pattern = [];
 
-        this.patternNameText = this.game.add.text(10, this.height - 50, this.patternName, {
-          font: '32px slkscr',
+        this.patternNameText = this.game.add.text(10, this.height - 34 , this.patternName, {
+          font: '24px comicrunes',
           fill: '#fff'
         });
         this.patternToMatchLines = this.drawPattern(this.patternToMatch);
