@@ -108,7 +108,12 @@ define([
             {
                 this.ready = true;
                 // this.state.start('Menu');
-                // this.state.start('Runes');
+                /* //test runes
+                var glyphs = this.game.cache.getJSON('glyphs');
+                var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
+                console.log(glyph)
+                this.state.start('Runes',true,false,glyph);
+                */
                 this.state.start('Profile');
             }
 
