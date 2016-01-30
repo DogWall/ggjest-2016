@@ -11,39 +11,30 @@ define([
 
         this.images = [
             ['dot', 'assets/images/dot.png'],
-            ['logo', 'assets/images/title.png'],
-            ['bg', 'assets/images/fond.png'],
-            ['building', 'assets/images/immeuble-vide.png'],
-            ['rescue', 'assets/images/rescue.png'],
-            ['arbres', 'assets/images/arbres-premierplan.png'],
-            ['nuage1', 'assets/images/nuage1.png'],
-            ['nuage2', 'assets/images/nuage2.png'],
-            ['game-over', 'assets/images/game-over.png'],
-            ['logo-bandeau', 'assets/images/logo-bandeau.png'],
-            ['filter-alpha', 'assets/images/filter-alpha.png'],
-            ['credits-img', 'assets/images/credits.png'],
-            ['credits-txt', 'assets/images/credits-txt.png']
+            ['logo', 'assets/images/logo.png'],
+            ['lobby', 'assets/images/fond-choix.png'],
+            ['hide-white', 'assets/images/hide-white.png'],
+            ['hide-black', 'assets/images/hide-black.png']
         ];
 
         this.sprites = [
-            ['bbq', 'assets/images/bbq-sprites.png', 90, 130, 6],
-            ['splash', 'assets/images/taches.png', 80, 30, 2],
-            ['sausage', 'assets/images/so6.png', 64, 192, 4],
-            ['human', 'assets/images/humans.png', 64, 219, 5],
-            ['window', 'assets/images/fenetres.png', 120, 120, 7],
-            ['play-spritesheet', 'assets/images/play-spritesheet.png', 210,140,2],
-            ['vie-humaine', 'assets/images/icone-mort-humain.png', 50,60,2],
-            ['vie-saucisse', 'assets/images/icone-saucisse-ratee.png', 30,60,2],
+//            ['bbq', 'assets/images/bbq-sprites.png', 90, 130, 6],
         ];
 
         this.scripts = [
-        ]
+        ];
+
+        this.json = [
+            ['glyphs', 'assets/data/glyph.json'],
+            ['lyrics', 'assets/data/lyrics.json'],
+            ['names', 'assets/data/names.json']
+        ];
 
         this.audio = [
-            ['clic', 'assets/sounds/clic_menu_1.wav'],
-            ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
-            ['cri_saucisse', 'assets/sounds/cri_2.wav'],
-            ['cri_saucisse_sol', 'assets/sounds/cri_3.wav'],
+//            ['clic', 'assets/sounds/clic_menu_1.wav'],
+//            ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
+//            ['cri_saucisse', 'assets/sounds/cri_2.wav'],
+//            ['cri_saucisse_sol', 'assets/sounds/cri_3.wav'],
         ];
     }
 
@@ -52,23 +43,23 @@ define([
         preload: function () {
             //	These are the assets we loaded in Boot.js
             //	A nice sparkly background and a loading progress bar
-            this.preloadBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloaderBar');
-            this.preloadBar.anchor.setTo(0.5, 0.5);
-
-            this.game.load.json('glyphs', 'assets/data/glyph.json');
-            this.game.load.json('lyrics', 'assets/data/lyrics.json');
-            this.game.load.json('names', 'assets/data/names.json');
-
+            //this.preloadBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloaderBar');
+            //this.preloadBar.anchor.setTo(0.5, 0.5);
             //	This sets the preloadBar sprite as a loader sprite.
             //	What that does is automatically crop the sprite from 0 to full-width
             //	as the files below are loaded in.
-            this.load.setPreloadSprite(this.preloadBar);
+            //this.load.setPreloadSprite(this.preloadBar);
+
+            this.game.load.binary('woff', 'assets/font/comicrunes.woff');
 
             //	Here we load the rest of the assets our game needs.
             //	As this is just a Project Template I've not provided these assets, swap them for your own.
             for(var key in this.images) {
-              console.log('loading ',key)
                 this.game.load.image(this.images[key][0], this.images[key][1]);
+            }
+
+            for(var key in this.json) {
+                this.game.load.json(this.json[key][0], this.json[key][1]);
             }
 
             for(var key in this.sprites) {
@@ -86,16 +77,21 @@ define([
         },
         create: function () {
             //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
+            /*
             var logo = this.game.add.sprite(0, 10, 'logo-bandeau');
             logo.scale.setTo(0.5, 0.5);
 
             this.preloadBar.cropEnabled = false;
+            */
 
             // Initialize network, search games once connected
             this.game.network = new Network(this.game);
             this.game.network.reconnect();
 
             this.game.lyrics  = new Lyrics(this.game);
+
+            // Force font here.
+            this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
         update: function () {
             //	You don't actually need to do this, but I find it gives a much smoother game experience.
