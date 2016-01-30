@@ -82,16 +82,27 @@ define([
                 self.game.lobby.addPlayer(event.player, event.team);
             });
 
-            self.currentNSP.on('game-start', function (g) {
+            this.game.socket.on('game-start', function (g) {
                 console.log('start game !!!');
 
                 self.currentNSP.on('team-scores', function (scores) {
                     console.log('scores are', scores);
                 });
 
-                var glyphs = self.game.cache.getJSON('glyphs');
-                var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
-                self.game.state.start(g.game, true, false, glyph);
+                self.currentNSP.on('game-end', function () {
+                    self.game.state.start('Score', true, false);
+                    console.log('game end!');
+                });
+
+                if (g.game == 'Runes') {
+                    var glyphs = self.game.cache.getJSON('glyphs');
+                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
+
+                    self.game.state.start(g.game, true, false, glyph);
+                } else {
+                    self.game.state.start(g.game, true, false);
+                }
+
             });
         },
 

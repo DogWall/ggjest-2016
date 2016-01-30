@@ -21,6 +21,8 @@ function Match (io) {
     this.running = false;
     this.sync = new Sync(this);
     this.solist  = 0;
+    this.round   = 0;
+    this.timer   = null;
 
     this.teams = {
       white: new Team(io, { name:'white' }),
@@ -149,9 +151,10 @@ Match.prototype.start = function() {
     this.running = true;
 
     self.setupGames();
-    setInterval(function () {
+    self.timer = setInterval(function () {
         self.setupGames();
-    }, 24000);
+    }, 5000);
+    //}, 24000);
 };
 
 Match.prototype.playerTapped = function(player) {
@@ -190,19 +193,28 @@ Match.prototype.teamScores = function() {
 Match.prototype.setupGames = function() {
     var self = this;
     console.log('setupGames');
-    _.each(this.teams, function(t) {
-        var i = 0;
-        for (var p in t.players) {
-            if (self.solist == i) {
-                console.log('solist', self.solist);
-                self.nsp.emit('game-start',{game: 'Runes'});
-                console.log('game-start: Rune', i);
-            } else {
-                self.nsp.emit('game-start', {game: 'Tempo'});
-                console.log('game-start: Tempo', i);
+    console.log('round:', this.round);
+
+    if (this.round < 6) {
+        _.each(this.teams, function (t) {
+            var i = 0;
+            for (var p in t.players) {
+                if (self.solist == i) {
+                    console.log('solist', self.solist);
+                    t.players[p].socket.emit('game-start', {game: 'Runes'});
+                    console.log('game-start: Rune', i);
+                } else {
+                    t.players[p].socket.emit('game-start', {game: 'Tempo'});
+                    console.log('game-start: Tempo', i);
+                }
+                i++;
             }
-            i++;
-        }
-    });
-    self.solist = (self.solist+ 1 )%TEAM_SIZE;
+        });
+        self.solist = (self.solist + 1 ) % TEAM_SIZE;
+    } else {
+        clearInterval(this.timer);
+        this.nsp.emit('game-end');
+        console.log('game-end');
+    }
+    this.round++;
 }
