@@ -5,11 +5,15 @@
         baseUrl: "src/",
         paths: {
             //  Edit the below path to point to where-ever you have placed the phaser.min.js file
-            phaser: '../node_modules/phaser/dist/phaser.min'
+            phaser: '../node_modules/phaser/dist/phaser.min',
+            blather: '../node_modules/blather/blather-browser'
         },
         shim: {
-            'phaser': {
+            phaser: {
                 exports: 'Phaser'
+            },
+            blather: {
+                exports: 'Blather'
             }
         }
     });

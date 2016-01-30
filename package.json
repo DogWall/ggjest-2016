@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/DogWall/ggjest-2016",
   "dependencies": {
+    "blather": "^1.0.4",
     "debug": "^2.2.0",
     "express": "^4.13.4",
     "lodash": "^4.1.0",

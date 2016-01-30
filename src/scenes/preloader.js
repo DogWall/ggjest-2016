@@ -1,6 +1,6 @@
 define([
-    'phaser', 'components/network'
-], function (Phaser, Network) {
+    'phaser', 'components/network', 'components/lyrics'
+], function (Phaser, Network, Lyrics) {
     'use strict';
 
     function Preloader(game) {
@@ -56,6 +56,7 @@ define([
             this.preloadBar.anchor.setTo(0.5, 0.5);
 
             this.game.load.json('glyphs', 'assets/data/glyph.json');
+            this.game.load.json('lyrics', 'assets/data/lyrics.json');
 
             //	This sets the preloadBar sprite as a loader sprite.
             //	What that does is automatically crop the sprite from 0 to full-width
@@ -91,6 +92,7 @@ define([
 
             // Initialize network, search games once connected
             this.game.network = new Network(this.game);
+            this.game.lyrics  = new Lyrics(this.game);
         },
         update: function () {
             //	You don't actually need to do this, but I find it gives a much smoother game experience.
