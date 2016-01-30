@@ -1,22 +1,49 @@
 [{
   "name": "sun",
-  "pattern": [5, 1, 4, 7, 3]
+  "pattern": [5, 1, 4, 7, 3],
+  "difficulty": 0
 }, {
-  "name": "land",
-  "pattern": [2, 4, 0, 3, 6, 4, 8]
+  "name": "union",
+  "pattern": [6, 4, 2, 5, 8],
+  "difficulty": 0
 }, {
-  "name": "???1",
-  "pattern": [6, 3, 0, 4, 2, 1]
+  "name": "protection",
+  "pattern": [6, 3, 0, 4, 2, 5, 8],
+  "difficulty": 0
 }, {
-  "name": "???2",
-  "pattern": [6,4,7,5,2]
+  "name": "justice",
+  "pattern": [3,4,5,2],
+  "difficulty": 0
 }, {
-  "name": "???3",
-  "pattern": [3,0,4,7,5,2]
+  "name": "destiny",
+  "pattern": [2, 4, 0, 3, 6, 4, 8],
+  "difficulty": 1
 }, {
-  "name": "orox",
-  "pattern": [0,3,6,7,8,4,1]
+  "name": "transformation",
+  "pattern": [6, 4, 7, 5, 2],
+  "difficulty": 1
+}, {
+  "name": "journey",
+  "pattern": [0, 3, 6, 7, 8, 4, 1],
+  "difficulty": 1
 }, {
   "name": "water",
-  "pattern": [0,3,6,7,4,2]
+  "pattern": [0, 3, 6, 7, 4, 2],
+  "difficulty": 1
+}, {
+  "name": "life",
+  "pattern": [0,3,6,4,7,5,2],
+  "difficulty": 2
+}, {
+  "name": "air",
+  "pattern": [3,0,4,7,5,2],
+  "difficulty": 2
+}, {
+  "name": "death",
+  "pattern": [6,3,0,4,2,1],
+  "difficulty": 2
+}, {
+  "name": "fecondity",
+  "pattern": [3,4,0,1,5,8],
+  "difficulty": 2
 }]

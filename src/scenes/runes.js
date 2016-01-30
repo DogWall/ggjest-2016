@@ -15,8 +15,8 @@ define([
           this.patternToMatch = glyph.pattern;
           this.patternName = glyph.name;
         } else {
-          this.patternName = "Land"
-          this.patternToMatch = [2, 4, 0, 3, 6, 4, 8];
+          /*this.patternName = "Land"
+          this.patternToMatch = [2, 4, 0, 3, 6, 4, 8];*/
         }
       },
       create: function() {
@@ -158,6 +158,10 @@ define([
         console.log('pattern is', this.pattern)
         if(this.matchPatterns(this.pattern,this.patternToMatch)){
           this.patternNameText.setText( 'ok');
+          var glyphs = this.game.cache.getJSON('glyphs');
+          var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
+          console.log(glyph)
+          this.state.start('Runes',true,false,glyph);
         } else {
           this.patternNameText.setText('wrong');
         }
