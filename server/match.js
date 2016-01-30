@@ -120,19 +120,16 @@ Match.prototype.join = function(player, team) {
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
-        player.socket.removeAllListeners('user-tapped-score');
         player.socket.on('user-tapped-score', function (score) {
             debug('user %o tapped a score of %o', player.name, score);
             self.tappedScore(player, score);
         });
 
-        player.socket.removeAllListeners('user-good-glyphed');
         player.socket.on('user-good-glyphed', function () {
             debug('user %o glyphed good', player.name);
             self.glyphSuccess(player);
         });
 
-        player.socket.removeAllListeners('user-mis-glyphed');
         player.socket.on('user-mis-glyphed', function () {
             debug('user %o glyphed bad', player.name);
             // self.playerTapped(user);
@@ -189,14 +186,15 @@ Match.prototype.looser = function() {
 
 Match.prototype.tappedScore = function(player, score) {
     var team  = this.findTeamOfPlayer(player);
+
     team.playerScored(player, score);
     //this.sendScores();
 };
 
 Match.prototype.glyphSuccess = function(player) {
-    var team = this.findTeamOfPlayer(player);
+    var team  = this.findTeamOfPlayer(player);
     player.glyph += 1;
-    console.log(player.name, "glyphed success")
+    console.log(player.name,"glyphed success")
     team.playerScored(player, 1500);
     this.sendScores();
 };
@@ -226,6 +224,9 @@ Match.prototype.teamScores = function() {
 
 Match.prototype.setupGames = function() {
     var self = this;
+    // console.log('setupGames');
+    // console.log('round:', this.round);
+
     if (this.round < 6) {
         _.each(this.teams, function (t) {
             var i = 0;

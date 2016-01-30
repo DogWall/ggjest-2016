@@ -31,10 +31,10 @@ module.exports = function (io) {
 
     connection: function (socket) {
 
-      var player = new Player(io, socket);
+      var player = new Player(io, socket.id, socket);
       players[player.id] = player;
 
-      socket.removeAllListeners('search-matchs').on('search-matchs', function (request) {
+      socket.on('search-matchs', function (request) {
         if (! request) return;
         player.setName(request.name);
 
@@ -49,7 +49,7 @@ module.exports = function (io) {
         });
       });
 
-      socket.removeAllListeners('disconnect').on('disconnect', function () {
+      socket.on('disconnect', function () {
           delete players[player.id];
           debug('player %o left', player.id);
       });

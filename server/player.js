@@ -5,9 +5,9 @@ var shortid = require('shortid');
 
 module.exports = Player;
 
-function Player (io, socket) {
+function Player (io, id, socket) {
 
-    this.id     = shortid.generate();
+    this.id     = id;
     this.socket = socket;
     this.name   = 'unknown';
     this.score  = 0;

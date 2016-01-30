@@ -48,7 +48,6 @@ define([
                 this.background.y += 5;
 
             } else if (! this.restart) {
-                this.timer.stop();
                 var btn = this.restart = this.game.add.sprite(0, 30, 'start-' + this.winnerTeam.name);
                 btn.scale.setTo(0.5, 0.5);
                 btn.inputEnabled = true;
