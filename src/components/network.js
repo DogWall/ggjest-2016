@@ -80,18 +80,18 @@ define([
                 self.game.lobby.addPlayer(event.player, event.team);
             });
 
+            self.game.socket.on('team-scores', function (scores) {
+                console.log('scores are', scores);
+            });
+
             this.game.socket.on('game-start', function (g) {
                 console.log('start game !!!');
 
-                self.game.socket.on('team-scores', function (scores) {
-                    console.log('scores are', scores);
-                });
-
                 // FIXME: redondant avec Match-end?
-                self.game.socket.on('game-end', function () {
-                    self.game.state.start('Score', true, false);
-                    console.log('game end!');
-                });
+                // self.game.socket.on('game-end', function () {
+                //     self.game.state.start('Score', true, false);
+                //     console.log('game end!');
+                // });
 
                 if (g.game == 'Runes') {
                     var glyphs = self.game.cache.getJSON('glyphs');

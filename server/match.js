@@ -1,13 +1,13 @@
 'use strict';
 
-var TEAM_SIZE = 2;
+var TEAM_SIZE = process.env.PLAYERS || 1;
 
-var _       = require('lodash');
-var shortid = require('shortid');
-var debug   = require('debug')('ocult:matchmaking')
+var _         = require('lodash');
+var shortid   = require('shortid');
+var debug     = require('debug')('ocult:matchmaking')
 
-var Team    = require('./team');
-var Sync    = require('./sync');
+var Team      = require('./team');
+var Sync      = require('./sync');
 
 module.exports = Match;
 
@@ -159,22 +159,16 @@ Match.prototype.start = function() {
     debug('match %o is starting', this.id);
     this.running = true;
 
-
-    self.setupGames();
-    self.timer = setInterval(function () {
-        self.setupGames();
-    }, 5000);
-    //}, 24000);
-
-
     setTimeout(function () {
-        self.teams.white.addScore(Math.round(Math.random() * 10000));
-        self.teams.black.addScore(Math.round(Math.random() * 10000));
-        self.end();
-    }, 20 * 1000);
+        self.setupGames();
+    }, 3000);
 };
 
 Match.prototype.end = function() {
+
+    // self.teams.white.addScore(Math.round(Math.random() * 10000));
+    // self.teams.black.addScore(Math.round(Math.random() * 10000));
+
     debug('match %o is ending, winner is %o', this.id, this.winner());
     this.emit('match-end', {
         winner: this.teams[this.winner()].toJSON(),
@@ -244,10 +238,15 @@ Match.prototype.setupGames = function() {
             }
         });
         self.solist = (self.solist + 1 ) % TEAM_SIZE;
+
+        setTimeout(function () {
+            self.setupGames();
+        }, 5000);
+        //}, 24000);
+
     } else {
         clearInterval(this.timer);
-        this.emit('game-end');
-        console.log('game-end');
+        self.end();
     }
     this.round++;
 }
