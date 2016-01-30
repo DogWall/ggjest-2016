@@ -15,6 +15,8 @@ define([
 
             var self = this, userName;
 
+            console.log( this.game.lyrics.sentence() );
+
             if (userName = this.savedUserName()) {
 
                 // show a loader here
