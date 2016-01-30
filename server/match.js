@@ -1,6 +1,6 @@
 'use strict';
 
-var TEAM_SIZE = 1;
+var TEAM_SIZE = 2;
 
 var _       = require('lodash');
 var shortid = require('shortid');
@@ -18,6 +18,11 @@ function Match (io) {
     this.io      = io;
     this.room    = '/match-' + this.id;
     this.running = false;
+
+    this.sync = new Sync(this);
+    this.solist  = 0;
+    this.round   = 0;
+    this.timer   = null;
     this.sync    = new Sync(this);
 
     this.teams = {
@@ -154,9 +159,13 @@ Match.prototype.start = function() {
     debug('match %o is starting', this.id);
     this.running = true;
 
-    setTimeout(function () {
-        self.emit('game-start');
-    }, 3000);
+
+    self.setupGames();
+    self.timer = setInterval(function () {
+        self.setupGames();
+    }, 5000);
+    //}, 24000);
+
 
     setTimeout(function () {
         self.teams.white.addScore(Math.round(Math.random() * 10000));
@@ -212,3 +221,33 @@ Match.prototype.teamScores = function() {
     });
     return scores;
 };
+
+
+Match.prototype.setupGames = function() {
+    var self = this;
+    console.log('setupGames');
+    console.log('round:', this.round);
+
+    if (this.round < 6) {
+        _.each(this.teams, function (t) {
+            var i = 0;
+            for (var p in t.players) {
+                if (self.solist == i) {
+                    console.log('solist', self.solist);
+                    t.players[p].socket.emit('game-start', {game: 'Runes'});
+                    console.log('game-start: Rune', i);
+                } else {
+                    t.players[p].socket.emit('game-start', {game: 'Tempo'});
+                    console.log('game-start: Tempo', i);
+                }
+                i++;
+            }
+        });
+        self.solist = (self.solist + 1 ) % TEAM_SIZE;
+    } else {
+        clearInterval(this.timer);
+        this.emit('game-end');
+        console.log('game-end');
+    }
+    this.round++;
+}

@@ -1,4 +1,8 @@
 [{
+  "name": "voice",
+  "pattern": [1, 4, 7],
+  "difficulty": 0
+},{
   "name": "sun",
   "pattern": [5, 1, 4, 7, 3],
   "difficulty": 0
@@ -31,6 +35,10 @@
   "pattern": [0, 3, 6, 7, 4, 2],
   "difficulty": 1
 }, {
+  "name": "pleasure",
+  "pattern": [6,3,0,1,4],
+  "difficulty": 1
+}, {
   "name": "life",
   "pattern": [0,3,6,4,7,5,2],
   "difficulty": 2
@@ -45,5 +53,9 @@
 }, {
   "name": "fecondity",
   "pattern": [3,4,0,1,5,8],
+  "difficulty": 2
+}, {
+  "name": "chaos",
+  "pattern": [6,4,0,1,5,8],
   "difficulty": 2
 }]
