@@ -5,7 +5,9 @@ define([
 
     function Tempo(game) {
         this.bgColor = 0;
-        this.tempo = 80;    // bpm
+        this.tempo = 60;    // bpm
+        this.lastTap = 0;
+        this.score = 0;
     }
 
     Tempo.prototype = {
@@ -16,9 +18,10 @@ define([
             this.setupForeground();
                        
             this.timer = this.game.time.create(this.game);
-            this.timer.loop(Math.floor(60 / this.tempo * 1000), this.blink, this);
+            this.timer.loop(Math.floor(60 / this.tempo * Phaser.Timer.SECOND), this.blink, this);
             this.timer.start();
             this.timer._last = this.timer._now;
+            this.lastTap = this.timer._now;
             
             this.game.input.onDown.add(this.tapControl, this);
             this.resultText = this.game.add.text(10, this.game.height - 46, '', {font: '32px slkscr', fill: '#fff'});
@@ -43,19 +46,27 @@ define([
             else {
                 this.resultText.text = "bad ! " + latency;    
             }
-        },
-        blink: function () {
-            this.bgColor = 255;
-            this.timer._last = this.timer._now;
+            this.lastTap = this.timer._now;
         },
         
+        blink: function () {
+            this.bgColor = 255;
+            if(this.lastTap < this.timer._last){
+                this.resultText.text = "" ;    
+            }
+            this.timer._last = this.timer._now;
+        },
         
         setupBackground: function () {
              this.game.stage.backgroundColor = "#000";
         },
+        
         setupForeground: function () {
         },
+        
         end: function () {
+            // TODO : send score to server
+            // this.game.network
         }
     };
 
