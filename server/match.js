@@ -109,10 +109,22 @@ Match.prototype.join = function(player, team) {
         team.players[player.id] = player;
         player.socket.join(this.room);
 
+        var i = 0;
+        var pos = 0;
+        for (var p in team.players) {
+            if (team.players[p] == player) {
+                pos = i;
+            }
+            i++;
+        }
+
+
         var event = {
             player: player.toJSON(),
             match: this.toJSON(),
-            team: team.toJSON()
+            team: team.toJSON(),
+            nbPlayers: TEAM_SIZE,
+            playerPosition: pos
         };
 
         player.socket.emit('has-joined-match', event);
@@ -227,16 +239,19 @@ Match.prototype.setupGames = function() {
     // console.log('setupGames');
     // console.log('round:', this.round);
 
+
     if (this.round < 6) {
         _.each(this.teams, function (t) {
+            console.log('solist', self.solist);
+
             var i = 0;
             for (var p in t.players) {
+                t.players[p].socket.emit('update-solist', {solist: self.solist});
                 if (self.solist == i) {
-                    // console.log('solist', self.solist);
                     t.players[p].setGame('Runes');
                     // console.log('game-start: Rune', i);
                 } else {
-                    t.players[p].setGame('Runes');
+                    t.players[p].setGame('Tempo');
                     // console.log('game-start: Tempo', i);
                 }
                 i++;

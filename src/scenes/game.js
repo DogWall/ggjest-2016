@@ -24,6 +24,11 @@ define([
 
             this.score = 0;
             this.team = '';
+
+            this.nbPlayers = 1;
+            this.playerPosition = 0;
+            this.solistPosition = 0;
+
             this.scoreText = this.game.add.text(10, this.game.height - 46, 'Score: -', {font: '32px slkscr', fill: '#fff'});
             this.scoreText.text = 'Score: 0';
 
