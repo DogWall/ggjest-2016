@@ -127,6 +127,10 @@ Match.prototype.join = function(player) {
             team.removePlayer(player);
             debug('user %o has left match %o (%o)', player.name, self.id, self.room);
         });
+
+        if (this.isReady()) {
+            this.start();
+        }
     }
 
     return team;
