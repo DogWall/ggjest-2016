@@ -10,6 +10,15 @@ define([
     }
     Runes.prototype = {
       constructor: Runes,
+      init: function(glyph){
+        if(glyph) {
+          this.patternToMatch = glyph.pattern;
+          this.patternName = glyph.name;
+        } else {
+          this.patternName = "Land"
+          this.patternToMatch = [2, 4, 0, 3, 6, 4, 8];
+        }
+      },
       create: function() {
         //  TODO look if another one is better
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -23,8 +32,7 @@ define([
         this.setupBackground();
         this.setupGrid();
 
-        this.patternName = "Land"
-        this.patternToMatch = [2, 4, 0, 3, 6, 4, 8];
+
 
         //this.score = 0;
 
