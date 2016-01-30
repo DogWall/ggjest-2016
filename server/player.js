@@ -42,3 +42,7 @@ Player.prototype.setGame = function(game) {
         this.socket.emit('game-start', {game: game});
     }
 };
+
+Player.prototype.clearGame = function() {
+    this.currentGame = null;
+};

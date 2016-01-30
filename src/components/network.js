@@ -36,10 +36,15 @@ define([
             socket.on('has-joined-match', function (event) {
                 var match = event.match;
                 var team  = event.team;
+                self.game.nbPlayers = event.nbPlayers;
+                self.game.playerPosition = event.playerPosition;
                 var hash  = '#' + match.id + '-' + team.id;
                 console.log('Current player', event.player);
                 console.log('invite friends to', matchUrl);
                 console.log('joining match', match, 'in team', team.id, '=>', hash);
+                console.log('nbPlayers', event.nbPlayers);
+                console.log('playerPosition', event.playerPosition);
+
 
                 var matchUrl = location.toString().replace(/#.*$/, hash);
                 console.log('invite friends to', matchUrl);
@@ -104,6 +109,11 @@ define([
                     self.game.state.start(g.game, true, false);
                 }
 
+            });
+
+            self.game.socket.on('update-solist', function (event) {
+                self.game.solistPosition = event.solist;
+                console.log('solist', event.solist);
             });
 
             self.game.socket.on('match-end', function (event) {

@@ -9,9 +9,9 @@ define([
 
         this.ombreScale = 0.25;
         this.ombre = null;
-        this.playerPosition = 0;
-        this.nbPlayers = 5;
-        this.solistPosition = 0;
+        this.playerPosition = game.playerPosition;
+        this.nbPlayers = game.nbPlayers;
+        this.solistPosition = game.solistPosition;
 
         var team = game.game_state.team;
         var bg = 'fond-jeu-'+team;
@@ -41,6 +41,7 @@ define([
                     //this.sprites.add(window);
 
         var step = 640/2/this.nbPlayers;
+
         // gestion du halo
         var halo = new Phaser.Sprite(this.game, step *this.solistPosition + step/2, 1136/4, 'halo-'+team);
         halo.anchor.x = 0.5;
