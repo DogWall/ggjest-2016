@@ -192,9 +192,10 @@ Match.prototype.tappedScore = function(player, score) {
 
 Match.prototype.glyphSuccess = function(player) {
     var team  = this.findTeamOfPlayer(player);
+    player.glyph += 1;
     console.log(player.name,"glyphed success")
-    //team.playerScored(player, score);
-    //this.sendScores();
+    team.playerScored(player, 1500);
+    this.sendScores();
 };
 
 Match.prototype.sendScores = function() {
@@ -208,9 +209,14 @@ Match.prototype.teamScores = function() {
             score: t.getScore(),
             players: {}
         };
+        scores[t.id] = byTeam;
         _.each(t.players, function (p) {
-            scores[t.id].players[p.id] = p.getScore();
+            byTeam.players[p.id] = {
+                score: p.getScore(),
+                glyph: p.glyph
+            };
         });
+        scores[t.id] = byTeam;
     });
     return scores;
 };
@@ -218,20 +224,20 @@ Match.prototype.teamScores = function() {
 
 Match.prototype.setupGames = function() {
     var self = this;
-    console.log('setupGames');
-    console.log('round:', this.round);
+    // console.log('setupGames');
+    // console.log('round:', this.round);
 
     if (this.round < 6) {
         _.each(this.teams, function (t) {
             var i = 0;
             for (var p in t.players) {
                 if (self.solist == i) {
-                    console.log('solist', self.solist);
+                    // console.log('solist', self.solist);
                     t.players[p].socket.emit('game-start', {game: 'Runes'});
-                    console.log('game-start: Rune', i);
+                    // console.log('game-start: Rune', i);
                 } else {
                     t.players[p].socket.emit('game-start', {game: 'Tempo'});
-                    console.log('game-start: Tempo', i);
+                    // console.log('game-start: Tempo', i);
                 }
                 i++;
             }

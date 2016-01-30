@@ -44,7 +44,7 @@ define([
         this.invoking = false;
         this.pattern = [];
 
-        this.patternNameText = this.game.add.text(10, 10, this.patternName, {
+        this.patternNameText = this.game.add.text(10, this.height - 50, this.patternName, {
           font: '32px slkscr',
           fill: '#fff'
         });
@@ -77,10 +77,10 @@ define([
       setupGrid: function() {
         var _dot = this.game.cache.getImage("dot");
         var xSpacing = (this.width /*- _dot.width*3*/ ) / 4 - _dot.width / 2;
-        var ySpacing = (this.height /* - _dot.height*3*/ ) / 4 - _dot.height / 2;
+        var ySpacing = (this.height /2 /* - _dot.height*3*/ ) / 4 - _dot.height / 2;
         for (var x = 1; x <= 3; x++) {
           for (var y = 1; y <= 3; y++) {
-            var dot = this.game.add.image(x * xSpacing, y * ySpacing, 'dot');
+            var dot = this.game.add.image(x * xSpacing, y * ySpacing + this.height / 2, 'dot');
             dot.inputEnabled = true;
             dot.name = x - 1 + (y - 1) * 3;
             //dot.events.onInputOver.add(this.onDot, this);
@@ -159,14 +159,14 @@ define([
         if (this.matchPatterns(this.pattern,this.patternToMatch)) {
           this.patternSuccess();
           this.patternNameText.setText( 'ok');
-          var glyphs = this.game.cache.getJSON('glyphs');
-          var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
-          console.log(glyph)
-          this.state.start('Runes',true,false,glyph);
         } else {
           this.patternFailed();
           this.patternNameText.setText('wrong');
         }
+        var glyphs = this.game.cache.getJSON('glyphs');
+        var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
+        console.log(glyph)
+        this.state.start('Runes',true,false,glyph);
       },
       patternSuccess: function () {
         this.game.network.userGoodGlyphed();

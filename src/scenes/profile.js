@@ -11,21 +11,8 @@ define([
     Profile.prototype = {
         constructor: Profile,
         create: function () {
-
-            var self = this, userName;
-
-            if (userName = this.savedUserName()) {
-
-                // show a loader here
-
-                return setTimeout(function () {
-                    self.onConfirm(userName);
-                }, 500);
-            }
-
             var bg = this.game.add.sprite(0, 0, 'home');
             bg.scale.setTo(0.5, 0.5);
-
             this.showForm();
         },
 
@@ -43,13 +30,15 @@ define([
 
             var field = this.field   = document.createElement('input');
             field.type               = 'text';
+            field.value              = this.savedUserName();
+            field.style.textAlign    = 'center';
             field.style.position     = 'absolute';
             field.style.top          = 300;
             field.style.left         = 22;
             field.style.width        = 276;
             field.style.border       = 'none';
             field.style.outlineWidth = 0;
-            field.style.fontSize     = '2em';
+            field.style.fontSize     = '1.5em';
             field.addEventListener('keypressed', function (e) {
                 if (e.keyCode === 13) {
                     self.onConfirm(field.value);
@@ -69,8 +58,12 @@ define([
         },
 
         hideForm: function () {
-            if (this.field) {
-                this.body.removeChild(this.field);
+            if (this.field /*&& this.field.parentNode === this.body*/) {
+                try {
+                    this.body.removeChild(this.field);
+                } catch (e) {
+
+                }
             }
         },
 
