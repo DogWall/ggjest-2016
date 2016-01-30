@@ -19,7 +19,6 @@ function Match (io) {
     this.room    = '/match-' + this.id;
     this.running = false;
 
-    this.sync = new Sync(this);
     this.solist  = 0;
     this.round   = 0;
     this.timer   = null;
