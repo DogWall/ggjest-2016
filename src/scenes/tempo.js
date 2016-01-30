@@ -43,29 +43,28 @@ define([
             if( latency < 30) {
                 text = "PERFECT !";
                 color = "#ff0";
-                this.score += 2;
+                this.score += 100;
             }
             else if( latency < 60) {
                 text = "Good !";
                 color = "#fff";
-                this.score += 1;
+                this.score += 100;
             }
             else if( latency < 100) {
                 text = "Ok";
                 color = "#fff";
-                this.score += 1;
+                this.score += 100;
             }
             else {
                 text = "Bad";
                 color = "#f66";
-                this.score -= 1;
+                this.score -= 50;
                 
             }
             
             var wow = new Wow(this.game, this.game.rnd.integerInRange(50, this.game.width - 100), this.game.input.y , text, {font: '32px comicrunes', fill: color, align: 'center'});
             this.texts.add(wow);
             
-            this.game.network.userTapped();
 //            this.scoreText.text = this.score;
             this.lastTap = this.timer._now;
         },
@@ -107,9 +106,9 @@ define([
             this.texts = this.game.add.group();
         },
         
-        end: function () {
-            // TODO : send score to server
-            // this.game.network
+        shutdown: function () {
+            console.log('Sending score ' + this.score)
+            this.game.network.userSendTappedScore(this.score);
         }
     };
 

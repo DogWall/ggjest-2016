@@ -15,6 +15,8 @@ define([
             ['lobby', 'assets/images/fond-choix.png'],
             ['home', 'assets/images/fond-start.png'],
             ['join', 'assets/images/start-button-only.png'],
+            ['start-white', 'assets/images/start-white.png'],
+            ['start-black', 'assets/images/start-black.png'],
             ['hide-white', 'assets/images/hide-white.png'],
             ['hide-black', 'assets/images/hide-black.png'],
             ['tap', 'assets/images/tap.png'],

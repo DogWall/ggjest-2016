@@ -67,6 +67,7 @@ define([
         },
 
         register: function (userName) {
+            this.game.userName = userName;
             this.game.socket.emit('search-matchs', {
                 prefered: location.hash.substr(1),
                 name: userName,
@@ -81,11 +82,9 @@ define([
             self.game.socket.on('user-joined', function (event) {
                 self.game.lobby.addPlayer(event.player, event.team);
             });
-
             self.game.socket.on('team-scores', function (scores) {
                 console.log('scores are', scores);
             });
-
             this.game.socket.on('game-start', function (g) {
                 console.log('start game !!!');
 
@@ -94,6 +93,7 @@ define([
                 //     self.game.state.start('Score', true, false);
                 //     console.log('game end!');
                 // });
+
 
                 if (g.game == 'Runes') {
                     var glyphs = self.game.cache.getJSON('glyphs');
@@ -123,8 +123,8 @@ define([
             this.game.socket.emit('user-mis-glyphed');
         },
 
-        userTapped: function () {
-            this.game.socket.emit('user-tapped');
+        userSendTappedScore: function (score) {
+            this.game.socket.emit('user-tapped-score', score);
         }
 
     };

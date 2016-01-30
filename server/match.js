@@ -100,6 +100,7 @@ Match.prototype.join = function(player, team) {
     var self = this;
     team = (team && this.teams[team]) ? this.teams[team] : this.smallestTeamWithoutPlayer(player.id);
 
+    // Check latency (not usefull yet)
     setTimeout(function () {
         self.sync.latency();
     }, 3000);
@@ -119,9 +120,9 @@ Match.prototype.join = function(player, team) {
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
-        player.socket.on('user-tapped', function () {
-            debug('user %o tapped', player.name);
-            self.playerTapped(player);
+        player.socket.on('user-tapped-score', function (score) {
+            debug('user %o tapped a score of %o', player.name, score);
+            self.tappedScore(player, score);
         });
 
         player.socket.on('user-good-glyphed', function () {
@@ -183,18 +184,19 @@ Match.prototype.looser = function() {
     return this.winner() === 'white' ? 'black' : 'white';
 };
 
-Match.prototype.playerTapped = function(player) {
+Match.prototype.tappedScore = function(player, score) {
     var team  = this.findTeamOfPlayer(player);
-    var score = 10;
 
     team.playerScored(player, score);
-    this.sendScores();
+    //this.sendScores();
 };
+
 Match.prototype.glyphSuccess = function(player) {
     var team  = this.findTeamOfPlayer(player);
+    player.glyph += 1;
     console.log(player.name,"glyphed success")
-    //team.playerScored(player, score);
-    //this.sendScores();
+    team.playerScored(player, 1500);
+    this.sendScores();
 };
 
 Match.prototype.sendScores = function() {
@@ -208,30 +210,34 @@ Match.prototype.teamScores = function() {
             score: t.getScore(),
             players: {}
         };
+        scores[t.id] = byTeam;
         _.each(t.players, function (p) {
-            scores[t.id].players[p.id] = p.getScore();
+            byTeam.players[p.id] = {
+                score: p.getScore(),
+                glyph: p.glyph
+            };
         });
+        scores[t.id] = byTeam;
     });
     return scores;
 };
 
-
 Match.prototype.setupGames = function() {
     var self = this;
-    console.log('setupGames');
-    console.log('round:', this.round);
+    // console.log('setupGames');
+    // console.log('round:', this.round);
 
     if (this.round < 6) {
         _.each(this.teams, function (t) {
             var i = 0;
             for (var p in t.players) {
                 if (self.solist == i) {
-                    console.log('solist', self.solist);
-                    t.players[p].socket.emit('game-start', {game: 'Runes'});
-                    console.log('game-start: Rune', i);
+                    // console.log('solist', self.solist);
+                    t.players[p].setGame('Runes');
+                    // console.log('game-start: Rune', i);
                 } else {
-                    t.players[p].socket.emit('game-start', {game: 'Tempo'});
-                    console.log('game-start: Tempo', i);
+                    t.players[p].setGame('Runes');
+                    // console.log('game-start: Tempo', i);
                 }
                 i++;
             }

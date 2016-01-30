@@ -30,8 +30,18 @@ define([
                 this.scale.setMinMax(480, 260, 1024, 768);
                 this.scale.forceLandscape = true;
                 this.scale.pageAlignHorizontally = true;
-            }
 
+                // this.goFullScreen();
+            }
+        },
+        goFullScreen: function () {
+            this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
+            if (this.game.scale.isFullScreen) {
+                this.game.scale.stopFullScreen();
+            } else {
+                this.game.scale.startFullScreen();
+            }
         },
         preload: function () {
             //this.load.image('preloaderBar', 'assets/images/preloadr_bar.png');

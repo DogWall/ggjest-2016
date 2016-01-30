@@ -43,8 +43,17 @@ define([
             this.timer.start();
         },
         scrollWinner: function () {
+            var self = this;
             if (this.background.y < 0) {
                 this.background.y += 5;
+
+            } else if (! this.restart) {
+                var btn = this.restart = this.game.add.sprite(0, 30, 'start-' + this.winnerTeam.name);
+                btn.scale.setTo(0.5, 0.5);
+                btn.inputEnabled = true;
+                btn.events.onInputDown.add(function (e) {
+                    self.game.network.register(self.game.userName);
+                }, this);
             }
         },
         create: function () {
