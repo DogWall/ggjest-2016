@@ -246,7 +246,7 @@ Match.prototype.setupGames = function() {
         self.solist = (self.solist + 1 ) % TEAM_SIZE;
     } else {
         clearInterval(this.timer);
-        this.nsp.emit('game-end');
+        this.emit('game-end');
         console.log('game-end');
     }
     this.round++;

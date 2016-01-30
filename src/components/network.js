@@ -87,7 +87,8 @@ define([
                     console.log('scores are', scores);
                 });
 
-                self.currentNSP.on('game-end', function () {
+                // FIXME: redondant avec Match-end?
+                self.game.socket.on('game-end', function () {
                     self.game.state.start('Score', true, false);
                     console.log('game end!');
                 });
