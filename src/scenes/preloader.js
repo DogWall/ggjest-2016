@@ -57,6 +57,7 @@ define([
 
             this.game.load.json('glyphs', 'assets/data/glyph.json');
             this.game.load.json('lyrics', 'assets/data/lyrics.json');
+            this.game.load.json('names', 'assets/data/names.json');
 
             //	This sets the preloadBar sprite as a loader sprite.
             //	What that does is automatically crop the sprite from 0 to full-width
