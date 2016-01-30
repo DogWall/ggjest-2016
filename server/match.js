@@ -86,9 +86,9 @@ Match.prototype.canBeJoined = function() {
     return ! this.running;
 };
 
-Match.prototype.join = function(player) {
+Match.prototype.join = function(player, team) {
     var self = this;
-    var team = this.smallestTeamWithoutPlayer(player.id);
+    team = (team && this.teams[team]) ? this.teams[team] : this.smallestTeamWithoutPlayer(player.id);
 
     setTimeout(function () {
         self.sync.latency();

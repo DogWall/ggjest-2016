@@ -36,10 +36,13 @@ define([
 
             socket.on('has-joined-match', function (event) {
                 var match = event.match;
-                console.log('joining match', match);
+                var team  = event.team;
+                var hash  = '#' + match.id + '-' + team.id;
+                console.log('joining match', match, 'in team', team.id, '=>', hash);
 
-                var matchUrl = location.toString().replace(/#.*$/, '#' + match.id);
+                var matchUrl = location.toString().replace(/#.*$/, hash);
                 console.log('invite friends to', matchUrl);
+                location.hash = hash;
 
                 self.currentNSP = game.io(match.room);
                 self.currentMatch = match;
@@ -52,7 +55,7 @@ define([
                             self.game.lobby.addPlayer(p, t);
                         });
                     });
-                }, 1000);
+                }, 2000);
             });
 
             socket.on('latency', function (timestamp, callback) {
