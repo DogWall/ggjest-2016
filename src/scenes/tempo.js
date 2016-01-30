@@ -1,6 +1,6 @@
 define([
-    'phaser', 'sprites/wow'
-], function (Phaser, Wow) {
+    'phaser', 'sprites/wow', 'sprites/status'
+], function (Phaser, Wow, Status) {
     'use strict';
 
     function Tempo(game) {
@@ -14,9 +14,11 @@ define([
         constructor: Tempo,
         create: function () {
 
+            this.status = new Status(this.game);
             this.setupBackground();
             this.setupLocalBackground();
             this.setupForeground();
+
                        
             this.timer = this.game.time.create(this.game);
             this.timer.loop(Math.floor(60 / this.tempo * Phaser.Timer.SECOND), this.blink, this);
