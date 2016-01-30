@@ -13,20 +13,24 @@ define([
         create: function () {
             this.game.stage.backgroundColor = 0x5d5d5d;
 
-            var self = this;
+            var self = this, userName;
 
-            if (localStorage) {
-                var userName = localStorage.getItem('userName');
+            if (userName = this.savedUserName()) {
 
                 // show a loader here
 
-                if (userName) {
-                    return setTimeout(function () {
-                        self.onConfirm(userName);
-                    }, 500);
-                }
+                return setTimeout(function () {
+                    self.onConfirm(userName);
+                }, 500);
             }
 
+            this.showForm();
+        },
+
+        update: function () {
+        },
+
+        showForm: function () {
             this.panel = document.createElement('div');
 
             var text = this.game.add.text(5, 50, 'Your name ?');
@@ -62,13 +66,17 @@ define([
             this.body.appendChild(this.panel);
         },
 
-        update: function () {
-        },
-
-        unload: function () {
+        hideForm: function () {
             if (this.panel) {
                 this.body.removeChild(this.panel);
             }
+        },
+
+        savedUserName: function () {
+            if (localStorage) {
+                return localStorage.getItem('userName');
+            }
+            return null;
         },
 
         onConfirm: function (userName) {
@@ -76,7 +84,7 @@ define([
                 localStorage.setItem('userName', userName);
             }
             this.game.network.register(userName);
-            this.unload();
+            this.hideForm();
         }
     };
 
