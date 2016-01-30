@@ -6,7 +6,8 @@ var debug  = require('debug')('ocult:matchmaking')
 var Match  = require('./match');
 var Player = require('./player');
 
-var matchs  = {};
+var matchs   = {};
+var players  = {};
 
 module.exports = function (io) {
 
@@ -16,9 +17,17 @@ module.exports = function (io) {
 
   return  {
 
+    stats: function () {
+      var stats = [];
+      stats.push(_.size(matchs) + ' matchs');
+      stats.push(_.size(players) + ' players');
+      return stats;
+    },
+
     connection: function (socket) {
 
       var player = new Player(io, socket.id, socket);
+      players[player.id] = player;
 
       socket.on('search-matchs', function (request) {
         if (! request) return;
