@@ -15,8 +15,14 @@ define([
             ['lobby', 'assets/images/fond-choix.png'],
             ['hide-white', 'assets/images/hide-white.png'],
             ['hide-black', 'assets/images/hide-black.png'],
+            ['win-white', 'assets/images/WINNER-whitemagic.png'],
             ['win-black', 'assets/images/WINNER-blackmagic.png'],
-            ['win-white', 'assets/images/WINNER-whitemagic.png']
+            ['vs-bg-white', 'assets/images/vs-fond-white.png'],
+            ['vs-bg-black', 'assets/images/vs-fondblack.png'],
+            ['vs-white-unicorn-bad', 'assets/images/VS-licorne-white-null.png'],
+            ['vs-white-unicorn-good', 'assets/images/VS-licorne-white-ok.png'],
+            ['vs-black-unicorn-bad', 'assets/images/VS-licorne-black-null.png'],
+            ['vs-black-unicorn-good', 'assets/images/VS-licorne-black-ok.png'],
         ];
 
         this.sprites = [

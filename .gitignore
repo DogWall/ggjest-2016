@@ -34,3 +34,5 @@ node_modules
 
 # Webstorm samaman
 .idea/*
+
+.DS_Store
