@@ -46,7 +46,7 @@ define([
         this.pattern = [];
 
         this.patternNameText = this.game.add.text(10, this.height - 50, this.patternName, {
-          font: '32px slkscr',
+          font: '32px Helvetica',
           fill: '#fff'
         });
         this.patternToMatchLines = this.drawPattern(this.patternToMatch);
