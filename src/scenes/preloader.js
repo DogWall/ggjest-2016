@@ -55,6 +55,8 @@ define([
             this.preloadBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloaderBar');
             this.preloadBar.anchor.setTo(0.5, 0.5);
 
+            this.game.load.json('glyphs', 'assets/data/glyph.json');
+
             //	This sets the preloadBar sprite as a loader sprite.
             //	What that does is automatically crop the sprite from 0 to full-width
             //	as the files below are loaded in.
