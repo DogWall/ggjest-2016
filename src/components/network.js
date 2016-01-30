@@ -38,6 +38,8 @@ define([
                 var match = event.match;
                 var team  = event.team;
                 var hash  = '#' + match.id + '-' + team.id;
+                console.log('Current player', event.player);
+                console.log('invite friends to', matchUrl);
                 console.log('joining match', match, 'in team', team.id, '=>', hash);
 
                 var matchUrl = location.toString().replace(/#.*$/, hash);
@@ -50,6 +52,7 @@ define([
 
                 // FIXME: comment attendre que l'ecran Lobby soit bien affiché ?
                 setTimeout(function () {
+                    self.game.lobby.setTeam(team);
                     event.match.teams.forEach(function (t) {
                         t.players.forEach(function (p) {
                             self.game.lobby.addPlayer(p, t);
@@ -93,15 +96,15 @@ define([
         },
 
         userGoodGlyphed: function () {
-            this.currentNSP.emit('user-good-glyphed');
+            this.game.socket.emit('user-good-glyphed');
         },
 
         userMisGlyphed: function () {
-            this.currentNSP.emit('user-mis-glyphed');
+            this.game.socket.emit('user-mis-glyphed');
         },
 
         userTapped: function () {
-            this.currentNSP.emit('user-tapped');
+            this.game.socket.emit('user-tapped');
         }
 
     };

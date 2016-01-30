@@ -8,12 +8,22 @@ define([
 
     Lobby.prototype = {
         constructor: Lobby,
+        
         create: function () {
             this.emptyPlayers();
             this.game.lobby = this;
-            this.game.stage.backgroundColor = 0x5d5d5d;
-            var text = this.game.add.text(5, 50, 'The ritual\nis about to start');
+ 
+            this.backgrounds = this.game.add.group();
+            this.backgrounds.z = 1;
+            
+            // background
+            var bg =  this.game.add.sprite(0, 0, 'lobby');
+            bg.scale.setTo(0.5, 0.5);
+            this.backgrounds.add(bg);
+            
+            this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
+        
         update: function () {
         },
 
@@ -22,7 +32,26 @@ define([
             this.playerOffsets = {};
         },
 
+        setTeam: function (team) {
+            var hide;
+            switch(team.name) {
+                case 'white':
+                    console.log('white');
+                    hide = this.game.add.sprite(0,0, 'hide-black');
+                    break;
+                case 'black':
+                    console.log('black');
+                    hide = this.game.add.sprite(0,0, 'hide-white');
+                    break;
+            }
+            hide.scale.setTo(0.5, 0.5);
+            this.backgrounds.add(hide);
+            this.statusText.text = "Waiting for players";
+            
+        },
+        
         addPlayer: function (player, team) {
+            /*
             var leftOffset;
 
             if (!this.leftTeam || team.id === this.leftTeam) {
@@ -39,6 +68,7 @@ define([
 
             this.game.add.text(leftOffset, 180 + this.playerOffsets[team.id], player.name, { font: '1.2em Arial' });
             this.playerOffsets[team.id] += 13;
+            */
         }
     };
 
