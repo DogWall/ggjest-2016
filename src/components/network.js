@@ -6,9 +6,7 @@ define([
     function Network(game) {
 
         this.game = game;
-
         this.currentMatch = null;
-        this.currentNSP   = null;
     }
 
     Network.prototype = {
@@ -43,11 +41,11 @@ define([
                 console.log('invite friends to', matchUrl);
                 location.hash = hash;
 
-                self.currentNSP = game.io(match.room);
                 self.currentMatch = match;
                 self.showLobby();
 
-                // FIXME: comment attendre que l'ecran Lobby soit bien affiché ?
+                // FIXME: comment attendre que
+                // l'ecran Lobby soit bien affiché ?
                 setTimeout(function () {
                     self.game.lobby.setTeam(team);
                     event.match.teams.forEach(function (t) {
@@ -75,14 +73,14 @@ define([
             console.log('in lobby', this.currentMatch);
             self.game.state.start('Lobby');
 
-            self.currentNSP.on('user-joined', function (event) {
+            self.game.socket.on('user-joined', function (event) {
                 self.game.lobby.addPlayer(event.player, event.team);
             });
 
-            self.currentNSP.on('game-start', function () {
+            self.game.socket.on('game-start', function () {
                 console.log('start game !!!');
 
-                self.currentNSP.on('team-scores', function (scores) {
+                self.game.socket.on('team-scores', function (scores) {
                     console.log('scores are', scores);
                 });
 
@@ -93,15 +91,15 @@ define([
         },
 
         userGoodGlyphed: function () {
-            this.currentNSP.emit('user-good-glyphed');
+            this.game.socket.emit('user-good-glyphed');
         },
 
         userMisGlyphed: function () {
-            this.currentNSP.emit('user-mis-glyphed');
+            this.game.socket.emit('user-mis-glyphed');
         },
 
         userTapped: function () {
-            this.currentNSP.emit('user-tapped');
+            this.game.socket.emit('user-tapped');
         }
 
     };

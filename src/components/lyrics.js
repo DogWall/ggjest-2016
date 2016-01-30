@@ -6,15 +6,19 @@ define([
     function Lyrics(game) {
         this.game   = game;
         this.lyrics = this.game.cache.getJSON('lyrics');
-        // this.blatherer = new Blather();
-        // this.blatherer.addText(lyrics.join(' '));
+        this.names  = this.game.cache.getJSON('names');
     }
 
     Lyrics.prototype = {
         constructor: Lyrics,
+        fullname: function () {
+            return this.name() + ' ' + this.name();
+        },
+        name: function () {
+            return this.lyrics[~~(Math.random() * this.lyrics.length)];
+        },
         sentence: function(start) {
             return this.lyrics[~~(Math.random() * this.lyrics.length)];
-            // return this.blatherer.sentence(start || 'Ὣς');
         }
     };
 

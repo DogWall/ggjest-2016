@@ -88,6 +88,7 @@ define([
         },
 
         onConfirm: function (userName) {
+            userName = userName || this.game.lyrics.fullname();
             if (localStorage) {
                 localStorage.setItem('userName', userName);
             }
