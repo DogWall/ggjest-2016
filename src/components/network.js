@@ -122,8 +122,8 @@ define([
             this.game.socket.emit('user-mis-glyphed');
         },
 
-        userTapped: function () {
-            this.game.socket.emit('user-tapped');
+        userSendTappedScore: function (score) {
+            this.game.socket.emit('user-tapped-score', score);
         }
 
     };
