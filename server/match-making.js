@@ -38,14 +38,14 @@ module.exports = function (io) {
         if (! request) return;
         player.setName(request.name);
 
-        findMatch(player, request.prefered, function (error, match) {
+        findMatch(player, request.prefered, function (error, match, preferedTeam) {
           if (error || ! match) {
             console.error('No matchs available :(');
             return;
           }
 
           debug('found an open match for %o : %o', player.name, match.id);
-          match.join(player);
+          match.join(player, preferedTeam);
         });
       });
 
@@ -67,11 +67,16 @@ module.exports = function (io) {
 
   function findMatch (player, prefered, callback) {
     if (prefered && prefered.length) {
-      debug('player %o ask to join game %o', player.name, prefered);
+      prefered = prefered.split('-');
+      prefered = {
+        match: prefered[0],
+        team:  prefered[1],
+      };
+      debug('player %o ask to join game %o on team %o', player.name, prefered.match, prefered.team);
       var match = matchs[prefered];
       if (match && match.canBeJoined()) {
         debug('honor request to join game %o', match.id);
-        return callback(null, match);
+        return callback(null, match, prefered.team);
       } else {
         debug('cannot honor request to join game %o (match is closed or deleted)', prefered);
       }
