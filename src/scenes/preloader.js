@@ -92,6 +92,8 @@ define([
 
             // Initialize network, search games once connected
             this.game.network = new Network(this.game);
+            this.game.network.reconnect();
+
             this.game.lyrics  = new Lyrics(this.game);
         },
         update: function () {

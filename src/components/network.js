@@ -9,40 +9,47 @@ define([
 
         this.currentMatch = null;
         this.currentNSP   = null;
-
-        var self = this;
-
-        var socket = io.connect();
-        socket.on('connection', function (user) {
-            console.log('hey', user);
-            game.io = io;
-            game.socket = socket;
-            game.user = user;
-            game.user.name = game.userName;
-        });
-
-        socket.on('has-joined-match', function (event) {
-            var match = event.match;
-            console.log('joining match', match);
-            self.currentNSP = game.io(match.room);
-            self.currentMatch = match;
-            self.showLobby();
-            setTimeout(function () {
-                event.match.teams.forEach(function (t) {
-                    t.players.forEach(function (p) {
-                        self.game.lobby.addPlayer(p, t);
-                    });
-                });
-            }, 1000);
-        });
-
-        socket.on('latency', function (timestamp, callback) {
-            callback(timestamp);
-        });
     }
 
     Network.prototype = {
         constructor: Network,
+
+        reconnect: function () {
+            var self = this;
+            var game = this.game;
+
+            var socket = io.connect();
+            socket.on('connection', function (user) {
+                console.log('hey', user);
+                game.io = io;
+                game.socket = socket;
+                game.user = user;
+                game.user.name = game.userName;
+            });
+
+            socket.on('disconnect', function () {
+                self.game.state.start('Waiting');
+            });
+
+            socket.on('has-joined-match', function (event) {
+                var match = event.match;
+                console.log('joining match', match);
+                self.currentNSP = game.io(match.room);
+                self.currentMatch = match;
+                self.showLobby();
+                setTimeout(function () {
+                    event.match.teams.forEach(function (t) {
+                        t.players.forEach(function (p) {
+                            self.game.lobby.addPlayer(p, t);
+                        });
+                    });
+                }, 1000);
+            });
+
+            socket.on('latency', function (timestamp, callback) {
+                callback(timestamp);
+            });
+        },
 
         register: function (userName) {
             this.game.socket.emit('search-matchs', { name:userName });
