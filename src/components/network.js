@@ -87,15 +87,15 @@ define([
         },
 
         userGoodGlyphed: function () {
-            this.currentNSP.emit('user-good-glyphed');
+            this.game.socket.emit('user-good-glyphed');
         },
 
         userMisGlyphed: function () {
-            this.currentNSP.emit('user-mis-glyphed');
+            this.game.socket.emit('user-mis-glyphed');
         },
 
         userTapped: function () {
-            this.currentNSP.emit('user-tapped');
+            this.game.socket.emit('user-tapped');
         }
 
     };

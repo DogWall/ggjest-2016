@@ -108,17 +108,17 @@ Match.prototype.join = function(player) {
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
-        this.nsp.on('user-tapped', function () {
+        player.socket.on('user-tapped', function () {
             debug('user %o tapped', player.name);
             self.playerTapped(player);
         });
 
-        this.nsp.on('user-good-glyphed', function () {
+        player.socket.on('user-good-glyphed', function () {
             debug('user %o glyphed good', player.name);
-            // self.playerTapped(user);
+            self.glyphSuccess(player);
         });
 
-        this.nsp.on('user-mis-glyphed', function () {
+        player.socket.on('user-mis-glyphed', function () {
             debug('user %o glyphed bad', player.name);
             // self.playerTapped(user);
         });
@@ -158,6 +158,12 @@ Match.prototype.playerTapped = function(player) {
 
     team.playerScored(user, score);
     this.sendScores();
+};
+Match.prototype.glyphSuccess = function(player) {
+    var team  = this.findTeamOfPlayer(player);
+    console.log(player.name,"glyphed success")
+    //team.playerScored(player, score);
+    //this.sendScores();
 };
 
 Match.prototype.sendScores = function() {
