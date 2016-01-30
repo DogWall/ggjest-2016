@@ -24,6 +24,7 @@ define([
             this.lastTap = this.timer._now;
             
             this.game.input.onDown.add(this.tapControl, this);
+            this.scoreText = this.game.add.text(10, 10, '', {font: '32px slkscr', fill: '#fff'});
             this.resultText = this.game.add.text(10, this.game.height - 46, '', {font: '32px slkscr', fill: '#fff'});
         },
         
@@ -39,13 +40,19 @@ define([
             
             if( latency < 30) {
                 this.resultText.text = "PERFECT ! " + latency;
+                this.resultText.fill = "#ff0";
+                this.score += 100;
             }
             else if( latency < 100) {
-                this.resultText.text = "Good ! " + latency;            
+                this.resultText.text = "Good ! " + latency;     
+                this.resultText.fill = "#fff";
+                this.score +=100;
             }
             else {
-                this.resultText.text = "bad ! " + latency;    
+                this.resultText.text = "bad ! " + latency;
+                this.resultText.fill = "#f00";
             }
+            this.scoreText.text = this.score;
             this.lastTap = this.timer._now;
         },
         
