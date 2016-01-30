@@ -156,15 +156,23 @@ define([
       stopPattern: function() {
         this.invoking = false;
         console.log('pattern is', this.pattern)
-        if(this.matchPatterns(this.pattern,this.patternToMatch)){
+        if (this.matchPatterns(this.pattern,this.patternToMatch)) {
+          this.patternSuccess();
           this.patternNameText.setText( 'ok');
           var glyphs = this.game.cache.getJSON('glyphs');
           var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
           console.log(glyph)
           this.state.start('Runes',true,false,glyph);
         } else {
+          this.patternFailed();
           this.patternNameText.setText('wrong');
         }
+      },
+      patternSuccess: function () {
+        this.game.network.userGoodGlyphed();
+      },
+      patternFailed: function () {
+        this.game.network.userMisGlyphed();
       }
     };
     return Runes;

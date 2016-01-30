@@ -1,6 +1,6 @@
 'use strict';
 
-var TEAM_SIZE = 2;
+var TEAM_SIZE = 1;
 
 var _       = require('lodash');
 var shortid = require('shortid');
@@ -95,8 +95,19 @@ Match.prototype.join = function(player) {
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
 
-        this.nsp.on('user-tapped', function (user) {
-            self.userTapped(user);
+        this.nsp.on('user-tapped', function () {
+            debug('user %o tapped', player.name);
+            self.playerTapped(player);
+        });
+
+        this.nsp.on('user-good-glyphed', function () {
+            debug('user %o glyphed good', player.name);
+            // self.playerTapped(user);
+        });
+
+        this.nsp.on('user-mis-glyphed', function () {
+            debug('user %o glyphed bad', player.name);
+            // self.playerTapped(user);
         });
 
         player.socket.on('disconnect', function () {
@@ -104,6 +115,7 @@ Match.prototype.join = function(player) {
             debug('user %o has left match %o (%o)', player.name, self.id, self.room);
         });
     }
+
     return team;
 };
 
@@ -123,7 +135,7 @@ Match.prototype.start = function() {
     }, 3000);
 };
 
-Match.prototype.userTapped = function(player) {
+Match.prototype.playerTapped = function(player) {
     var team  = this.findTeamOfPlayer(player);
     var score = 10;
 

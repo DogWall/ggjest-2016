@@ -68,7 +68,20 @@ define([
                 var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
                 self.game.state.start('Runes', true, false, glyph);
             });
+        },
+
+        userGoodGlyphed: function () {
+            this.currentNSP.emit('user-good-glyphed');
+        },
+
+        userMisGlyphed: function () {
+            this.currentNSP.emit('user-mis-glyphed');
+        },
+
+        userTapped: function () {
+            this.currentNSP.emit('user-tapped');
         }
+
     };
 
     return Network;
