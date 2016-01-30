@@ -36,6 +36,19 @@ Match.prototype.toJSON = function() {
     }
 };
 
+Match.prototype.scoreboard = function() {
+    var scoreboard = [];
+    _.each(this.teams, function (t) {
+        scoreboard.push(
+            'Team ' + t.name + ': ' + t.getScore() + ' points' +
+            '<ul>' + _.map(t.players, function (p) {
+                    return '<li>' + p.name + ' (' + p.getScore() + ')</li>';
+                }) +
+            '</ul>');
+    });
+    return '<ul><li>' + scoreboard.join('</li><li>') + '</li></ul>';
+};
+
 Match.prototype.playersIn = function(team) {
     return _.size(this.teams[team].players);
 }

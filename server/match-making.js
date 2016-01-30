@@ -18,9 +18,14 @@ module.exports = function (io) {
   return  {
 
     stats: function () {
-      var stats = [];
-      stats.push(_.size(matchs) + ' matchs');
-      stats.push(_.size(players) + ' players');
+      var stats = [
+        _.size(matchs) + ' matchs',
+        _.size(players) + ' players',
+        ''
+      ];
+      _.each(matchs, function (m) {
+        stats.push('<h1>Match ' + m.id + ' (' + (m.running?'running':'in lobby') + ')</h1>' + m.scoreboard());
+      })
       return stats;
     },
 
@@ -49,6 +54,11 @@ module.exports = function (io) {
             match.start();
           }
         });
+      });
+
+      socket.on('disconnect', function () {
+          delete players[player.id];
+          debug('player %o left', player.id);
       });
 
       socket.emit('connection', { user:socket.id });
