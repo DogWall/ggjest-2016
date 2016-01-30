@@ -35,6 +35,10 @@ define([
                 });
             }, 1000);
         });
+        
+        socket.on('latency', function (timestamp, callback) {
+            callback(timestamp);
+        });
     }
 
     Network.prototype = {
