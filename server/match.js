@@ -162,7 +162,7 @@ Match.prototype.start = function() {
         self.teams.white.addScore(Math.round(Math.random() * 10000));
         self.teams.black.addScore(Math.round(Math.random() * 10000));
         self.end();
-    }, 5000);
+    }, 20 * 1000);
 };
 
 Match.prototype.end = function() {
