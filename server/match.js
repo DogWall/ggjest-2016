@@ -158,7 +158,7 @@ Match.prototype.playerTapped = function(player) {
     var team  = this.findTeamOfPlayer(player);
     var score = 10;
 
-    team.playerScored(user, score);
+    team.playerScored(player, score);
     this.sendScores();
 };
 
