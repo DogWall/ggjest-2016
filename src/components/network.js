@@ -33,10 +33,15 @@ define([
 
             socket.on('has-joined-match', function (event) {
                 var match = event.match;
-                console.log('joining match', match);
-
-                var matchUrl = location.toString().replace(/#.*$/, '#' + match.id);
+                var team  = event.team;
+                var hash  = '#' + match.id + '-' + team.id;
+                console.log('Current player', event.player);
                 console.log('invite friends to', matchUrl);
+                console.log('joining match', match, 'in team', team.id, '=>', hash);
+
+                var matchUrl = location.toString().replace(/#.*$/, hash);
+                console.log('invite friends to', matchUrl);
+                location.hash = hash;
 
                 self.currentNSP = game.io(match.room);
                 self.currentMatch = match;
@@ -44,12 +49,13 @@ define([
 
                 // FIXME: comment attendre que l'ecran Lobby soit bien affiché ?
                 setTimeout(function () {
+                    self.game.lobby.setTeam(team);
                     event.match.teams.forEach(function (t) {
                         t.players.forEach(function (p) {
                             self.game.lobby.addPlayer(p, t);
                         });
                     });
-                }, 1000);
+                }, 2000);
             });
 
             socket.on('latency', function (timestamp, callback) {
