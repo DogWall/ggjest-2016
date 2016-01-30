@@ -5,17 +5,14 @@ define([
 
     function Profile(game) {
         this.body  = null;
-        this.panel = null;
+        this.field = null;
     }
 
     Profile.prototype = {
         constructor: Profile,
         create: function () {
-            this.game.stage.backgroundColor = 0x5d5d5d;
 
             var self = this, userName;
-
-            console.log( this.game.lyrics.sentence() );
 
             if (userName = this.savedUserName()) {
 
@@ -25,6 +22,9 @@ define([
                     self.onConfirm(userName);
                 }, 500);
             }
+
+            var bg = this.game.add.sprite(0, 0, 'home');
+            bg.scale.setTo(0.5, 0.5);
 
             this.showForm();
         },
@@ -36,47 +36,41 @@ define([
 
             var self = this;
 
-            this.panel = document.createElement('div');
+            // this.panel = document.createElement('div');
 
             var totalHeight = this.game.canvas.height;
             var totalWidth  = this.game.canvas.width;
 
-            var text = this.game.add.text(5, 50, 'Your name ?');
-
-            var input = document.createElement('input');
-            input.type           = 'text';
-            input.style.position = 'absolute';
-            input.style.top      = totalHeight * .30;
-            input.style.left     = 5;
-            input.style.width    = totalWidth - 10;
-            input.style.fontSize = '2em';
-            input.addEventListener('keypressed', function (e) {
+            var field = this.field   = document.createElement('input');
+            field.type               = 'text';
+            field.style.position     = 'absolute';
+            field.style.top          = 300;
+            field.style.left         = 22;
+            field.style.width        = 276;
+            field.style.border       = 'none';
+            field.style.outlineWidth = 0;
+            field.style.fontSize     = '2em';
+            field.addEventListener('keypressed', function (e) {
                 if (e.keyCode === 13) {
-                    self.onConfirm(input.value);
+                    self.onConfirm(field.value);
                 }
             });
 
-            var button = document.createElement('button');
-            button.innerHTML      = 'Enter';
-            button.style.position = 'absolute';
-            button.style.top      = totalHeight * .50;
-            button.style.left     = 5;
-            button.style.width    = totalWidth - 10;
-            button.style.fontSize = '2em';
-            button.addEventListener('click', function (e) {
-                self.onConfirm(input.value);
-            });
+            var btn = this.game.add.sprite(0, 450, 'join');
+            btn.scale.setTo(0.5, 0.5);
+            btn.inputEnabled = true;
+            btn.events.onInputDown.add(function (e) {
+                self.onConfirm(field.value);
+            }, this);
 
             this.body = document.getElementsByTagName('body')[0];
-            this.panel.appendChild(input);
-            this.panel.appendChild(button);
 
-            this.body.appendChild(this.panel);
+            this.body.appendChild(this.field);
         },
 
         hideForm: function () {
-            if (this.panel) {
-                this.body.removeChild(this.panel);
+            if (this.field) {
+                this.body.removeChild(this.field);
             }
         },
 

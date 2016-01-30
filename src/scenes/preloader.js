@@ -13,6 +13,8 @@ define([
             ['dot', 'assets/images/dot.png'],
             ['logo', 'assets/images/logo.png'],
             ['lobby', 'assets/images/fond-choix.png'],
+            ['home', 'assets/images/fond-start.png'],
+            ['join', 'assets/images/start-button-only.png'],
             ['hide-white', 'assets/images/hide-white.png'],
             ['hide-black', 'assets/images/hide-black.png'],
             ['win-white', 'assets/images/WINNER-whitemagic.png'],
