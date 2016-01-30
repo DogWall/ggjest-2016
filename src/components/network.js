@@ -51,7 +51,10 @@ define([
 
             self.currentNSP.on('game-start', function () {
                 console.log('start game !!!');
-                self.game.state.start('Runes');
+
+                var glyphs = self.game.cache.getJSON('glyphs');
+                var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
+                self.game.state.start('Runes', true, false, glyph);
             });
         }
     };
