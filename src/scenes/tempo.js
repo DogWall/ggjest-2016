@@ -1,6 +1,6 @@
 define([
-    'phaser', 'controls/controls'
-], function (Phaser, Controls) {
+    'phaser'
+], function (Phaser) {
     'use strict';
 
     function Tempo(game) {
