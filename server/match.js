@@ -1,6 +1,6 @@
 'use strict';
 
-var TEAM_SIZE = 1;
+var TEAM_SIZE = 2;
 
 var _       = require('lodash');
 var shortid = require('shortid');
@@ -20,6 +20,7 @@ function Match (io) {
     this.nsp     = io.of(this.room);
     this.running = false;
     this.sync = new Sync(this);
+    this.solist  = 0;
 
     this.teams = {
       white: new Team(io, { name:'white' }),
@@ -147,9 +148,10 @@ Match.prototype.start = function() {
     debug('match %o is starting', this.id);
     this.running = true;
 
-    setTimeout(function () {
-        self.nsp.emit('game-start');
-    }, 3000);
+    self.setupGames();
+    setInterval(function () {
+        self.setupGames();
+    }, 24000);
 };
 
 Match.prototype.playerTapped = function(player) {
@@ -177,3 +179,23 @@ Match.prototype.teamScores = function() {
     });
     return scores;
 };
+
+Match.prototype.setupGames = function() {
+    var self = this;
+    console.log('setupGames');
+    _.each(this.teams, function(t) {
+        var i = 0;
+        for (var p in t.players) {
+            if (self.solist == i) {
+                console.log('solist', self.solist);
+                self.nsp.emit('game-start',{game: 'Runes'});
+                console.log('game-start: Rune', i);
+            } else {
+                self.nsp.emit('game-start', {game: 'Tempo'});
+                console.log('game-start: Tempo', i);
+            }
+            i++;
+        }
+    });
+    self.solist = (self.solist+ 1 )%TEAM_SIZE;
+}

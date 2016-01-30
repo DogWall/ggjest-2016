@@ -76,7 +76,7 @@ define([
                 self.game.lobby.addPlayer(event.player, event.team);
             });
 
-            self.currentNSP.on('game-start', function () {
+            self.currentNSP.on('game-start', function (g) {
                 console.log('start game !!!');
 
                 self.currentNSP.on('team-scores', function (scores) {
@@ -85,7 +85,7 @@ define([
 
                 var glyphs = self.game.cache.getJSON('glyphs');
                 var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
-                self.game.state.start('Runes', true, false, glyph);
+                self.game.state.start(g.game, true, false, glyph);
             });
         },
 
