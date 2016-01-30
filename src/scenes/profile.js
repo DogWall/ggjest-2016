@@ -15,6 +15,18 @@ define([
 
             var self = this;
 
+            if (localStorage) {
+                var userName = localStorage.getItem('userName');
+
+                // show a loader here
+
+                if (userName) {
+                    return setTimeout(function () {
+                        self.onConfirm(userName);
+                    }, 500);
+                }
+            }
+
             this.panel = document.createElement('div');
 
             var text = this.game.add.text(5, 50, 'Your name ?');
@@ -54,10 +66,15 @@ define([
         },
 
         unload: function () {
-            this.body.removeChild(this.panel);
+            if (this.panel) {
+                this.body.removeChild(this.panel);
+            }
         },
 
         onConfirm: function (userName) {
+            if (localStorage) {
+                localStorage.setItem('userName', userName);
+            }
             this.game.network.register(userName);
             this.unload();
         }
