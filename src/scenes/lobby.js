@@ -60,7 +60,7 @@ define([
             if (!this.leftTeam || team.id === this.leftTeam) {
                 this.leftTeam = team.id;
                 leftOffset = this.game.canvas.width / 4;
-                color = this.ownTeam.name == 'white' ? '#fff' : '#777';
+                color = (this.ownTeam && this.ownTeam.name == 'white') ? '#fff' : '#777';
             } else {
                 leftOffset = this.game.canvas.width / 4 * 3;
                 color = '#222';
