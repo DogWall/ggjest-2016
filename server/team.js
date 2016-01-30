@@ -39,7 +39,7 @@ Team.prototype.toJSON = function() {
         id: this.id,
         name: this.name,
         players: _.map(this.players, function (p) {
-            return { id:p.id }
+            return { id:p.id, name:p.name };
         })
     }
 };
