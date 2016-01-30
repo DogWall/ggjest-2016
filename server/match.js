@@ -7,6 +7,7 @@ var shortid = require('shortid');
 var debug   = require('debug')('ocult:matchmaking')
 
 var Team    = require('./team');
+var Sync    = require('./sync');
 
 module.exports = Match;
 
@@ -18,11 +19,13 @@ function Match (io) {
     this.room    = '/match-' + this.id;
     this.nsp     = io.of(this.room);
     this.running = false;
+    this.sync = new Sync(this);
 
     this.teams = {
       white: new Team(io, { name:'white' }),
       black: new Team(io, { name:'black' }),
     }
+    
 };
 
 Match.prototype.toJSON = function() {
@@ -72,6 +75,11 @@ Match.prototype.canBeJoined = function() {
 Match.prototype.join = function(player) {
     var self = this;
     var team = this.smallestTeamWithoutPlayer(player.id);
+    
+    setTimeout(function () {
+        self.sync.latency();
+    }, 3000);
+    
     if (team) {
         team.players[player.id] = player;
         player.socket.join(this.room);

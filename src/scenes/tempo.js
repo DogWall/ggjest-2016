@@ -41,16 +41,17 @@ define([
             if( latency < 30) {
                 this.resultText.text = "PERFECT ! " + latency;
                 this.resultText.fill = "#ff0";
-                this.score += 100;
+                this.score += 2;
             }
             else if( latency < 100) {
                 this.resultText.text = "Good ! " + latency;     
                 this.resultText.fill = "#fff";
-                this.score +=100;
+                this.score += 1;
             }
             else {
                 this.resultText.text = "bad ! " + latency;
                 this.resultText.fill = "#f00";
+                this.score -= 1;
             }
             this.scoreText.text = this.score;
             this.lastTap = this.timer._now;
@@ -61,7 +62,7 @@ define([
             if(this.lastTap < this.timer._last){
                 this.resultText.text = "" ;    
             }
-            this.timer._last = this.timer._now;
+            this.timer._last = this.timer._now + 10;    // 10ms : Human latency
         },
         
         setupBackground: function () {
