@@ -12,6 +12,7 @@ function Player (io, socket) {
     this.name   = 'unknown';
     this.score  = 0;
     this.glyphs = 0;
+    this.currentGame = null;
 }
 
 Player.prototype.toJSON = function() {
@@ -33,4 +34,11 @@ Player.prototype.addScore = function(increment) {
 
 Player.prototype.getScore = function() {
     return this.score;
+};
+
+Player.prototype.setGame = function(game) {
+    if(this.currentGame !== game) {
+        this.currentGame = game;
+        this.socket.emit('game-start', {game: game});
+    }
 };

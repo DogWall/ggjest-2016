@@ -100,6 +100,7 @@ Match.prototype.join = function(player, team) {
     var self = this;
     team = (team && this.teams[team]) ? this.teams[team] : this.smallestTeamWithoutPlayer(player.id);
 
+    // Check latency (not usefull yet)
     setTimeout(function () {
         self.sync.latency();
     }, 3000);
@@ -231,10 +232,10 @@ Match.prototype.setupGames = function() {
             for (var p in t.players) {
                 if (self.solist == i) {
                     // console.log('solist', self.solist);
-                    t.players[p].socket.emit('game-start', {game: 'Runes'});
+                    t.players[p].setGame('Runes');
                     // console.log('game-start: Rune', i);
                 } else {
-                    t.players[p].socket.emit('game-start', {game: 'Tempo'});
+                    t.players[p].setGame('Runes');
                     // console.log('game-start: Tempo', i);
                 }
                 i++;
