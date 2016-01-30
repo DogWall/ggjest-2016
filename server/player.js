@@ -11,6 +11,7 @@ function Player (io, id, socket) {
     this.socket = socket;
     this.name   = 'unknown';
     this.score  = 0;
+    this.glyphs = 0;
 }
 
 Player.prototype.toJSON = function() {

@@ -192,6 +192,7 @@ Match.prototype.playerTapped = function(player) {
 };
 Match.prototype.glyphSuccess = function(player) {
     var team  = this.findTeamOfPlayer(player);
+    player.glyph += 1;
     console.log(player.name,"glyphed success")
     team.playerScored(player, 1500);
     this.sendScores();
@@ -208,8 +209,12 @@ Match.prototype.teamScores = function() {
             score: t.getScore(),
             players: {}
         };
+        scores[t.id] = byTeam;
         _.each(t.players, function (p) {
-            byTeam.players[p.id] = p.getScore();
+            byTeam.players[p.id] = {
+                score: p.getScore(),
+                glyph: p.glyph
+            };
         });
         scores[t.id] = byTeam;
     });
