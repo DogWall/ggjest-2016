@@ -69,7 +69,7 @@ define([
         },
 
         hideForm: function () {
-            if (this.field) {
+            if (this.field && this.field.parentNode === this.body) {
                 this.body.removeChild(this.field);
             }
         },
