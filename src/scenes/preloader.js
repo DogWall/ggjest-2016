@@ -14,7 +14,9 @@ define([
             ['logo', 'assets/images/logo.png'],
             ['lobby', 'assets/images/fond-choix.png'],
             ['hide-white', 'assets/images/hide-white.png'],
-            ['hide-black', 'assets/images/hide-black.png']
+            ['hide-black', 'assets/images/hide-black.png'],
+            ['win-black', 'assets/images/WINNER-blackmagic.png'],
+            ['win-white', 'assets/images/WINNER-whitemagic.png']
         ];
 
         this.sprites = [
