@@ -1,7 +1,7 @@
 define([
-    'phaser'
+    'phaser', 'sprites/status'
   ],
-  function(Phaser) {
+  function(Phaser, Status) {
     'use strict';
 
     function Runes(runes) {
@@ -31,6 +31,7 @@ define([
         this.lineWork = null;
         this.setupBackground();
         this.setupGrid();
+        this.status = new Status(this.game);
 
 
 
