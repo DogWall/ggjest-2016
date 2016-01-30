@@ -190,6 +190,7 @@ Match.prototype.playerTapped = function(player) {
     team.playerScored(player, score);
     this.sendScores();
 };
+
 Match.prototype.glyphSuccess = function(player) {
     var team  = this.findTeamOfPlayer(player);
     player.glyph += 1;
@@ -220,7 +221,6 @@ Match.prototype.teamScores = function() {
     });
     return scores;
 };
-
 
 Match.prototype.setupGames = function() {
     var self = this;

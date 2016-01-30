@@ -41,7 +41,14 @@ define([
             this.timer = this.game.time.create(this.game);
             this.timer.loop(5, this.scrollWinner, this);
             this.timer.start();
-        },
+
+            var btn = this.game.add.sprite(0, 450, 'start-' + this.winnerTeam.name);
+            btn.scale.setTo(0.5, 0.5);
+            btn.inputEnabled = true;
+            btn.events.onInputDown.add(function (e) {
+                location.reload();
+            }, this);
+       },
         scrollWinner: function () {
             if (this.background.y < 0) {
                 this.background.y += 5;
