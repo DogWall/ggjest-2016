@@ -25,7 +25,9 @@ define([
             logo.scale.setTo(0.5, 0.5);
             this.tops.add(logo);
 
-            this.statusText = this.game.add.text(10, this.game.height - 46, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
+            var banner =  this.game.add.sprite(0, 0, 'empty-banner');
+            banner.scale.setTo(0.5, 0.5);
+            this.statusText = this.game.add.text(10, this.game.height - 86, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
 
         update: function () {
@@ -50,7 +52,7 @@ define([
             }
             hide.scale.setTo(0.5, 0.5);
             this.backgrounds.add(hide);
-            this.statusText.text = "Waiting for players";
+            this.statusText.text = "Waiting for players...";
 
         },
 

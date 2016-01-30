@@ -45,8 +45,8 @@ define([
         this.invoking = false;
         this.pattern = [];
 
-        this.patternNameText = this.game.add.text(10, this.height - 50, this.patternName, {
-          font: '32px slkscr',
+        this.patternNameText = this.game.add.text(10, this.height - 34 , this.patternName, {
+          font: '24px comicrunes',
           fill: '#fff'
         });
         this.patternToMatchLines = this.drawPattern(this.patternToMatch);
@@ -56,7 +56,7 @@ define([
         this.patternToMatchLines.clear();
         for (var i in this.dots) {
           var dot = this.dots[i];
-          dot.visible = true;
+          this.grid.alpha = 1;
           dot.events.onInputOver.add(this.onDot, this);
           dot.events.onInputDown.add(this.startPattern, this);
           dot.events.onInputUp.add(this.stopPattern, this);
@@ -73,21 +73,25 @@ define([
         }
       },
       setupBackground: function() {
-        //TODO
+          this.grid =  this.game.add.sprite(0, 0, 'points');
+          this.grid.scale.setTo(0.5, 0.5);
       },
       setupGrid: function() {
         var _dot = this.game.cache.getImage("dot");
-        var xSpacing = (this.width /*- _dot.width*3*/ ) / 4 - _dot.width / 2;
-        var ySpacing = (this.height /2 /* - _dot.height*3*/ ) / 4 - _dot.height / 2;
-        for (var x = 1; x <= 3; x++) {
-          for (var y = 1; y <= 3; y++) {
-            var dot = this.game.add.image(x * xSpacing, y * ySpacing + this.height / 2, 'dot');
+        var xStart = 61;
+        var yStart = this.height / 2 + 52;
+        var xSpacing = 75;
+        var ySpacing = 75;
+        for (var x = 0; x < 3; x++) {
+          for (var y = 0; y < 3; y++) {
+            var dot = this.game.add.image(xStart + x * xSpacing, yStart + y * ySpacing , 'dot');
             dot.inputEnabled = true;
-            dot.name = x - 1 + (y - 1) * 3;
+            dot.name = x  + y * 3;
             //dot.events.onInputOver.add(this.onDot, this);
             //dot.events.onInputDown.add(this.startPattern, this);
             //dot.events.onInputUp.add(this.stopPattern, this);
-            dot.visible = false;
+            dot.alpha = 0;
+            this.grid.alpha = 0;
             this.dots[dot.name] = dot;
           }
         }

@@ -265,6 +265,11 @@ Match.prototype.setupGames = function() {
         //}, 24000);
 
     } else {
+         _.each(this.teams, function (t) {
+            _.each(t.players, function (p) {
+                p.clearGame();
+            });
+        });
         clearInterval(this.timer);
         self.end();
     }
