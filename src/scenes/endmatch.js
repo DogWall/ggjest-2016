@@ -51,13 +51,8 @@ define([
             this.WhiteImageChampion.add(this.whiteUnicorn);
 
             // add animation in 2 groups of VS
-            this.timer = this.game.time.create(this.game);
-            this.timer.loop(5, this.scrollVsBlack, this);
-            this.timer.start();
-
-            this.timer = this.game.time.create(this.game);
-            this.timer.loop(5, this.scrollVsWhite, this);
-            this.timer.start();
+            this.game.add.tween(this.WhiteImageChampion).to({y: 0} , 4000, "Quad.easeIn", true);
+            this.game.add.tween(this.BlackImageChampion).to({y: 0} , 4000, "Quad.easeIn", true);
 
             var style = {font: '32px comicrunes', fill: '#fff'};
             this.game.add.text(220, 20, this.blackTeam.score, style);
@@ -66,32 +61,10 @@ define([
         showWinner: function () {
             this.background = this.game.add.sprite(0, -this.game.height, 'win-' + this.winnerTeam.name);
             this.background.scale.setTo(0.5, 0.5);
-
-            this.timer = this.game.time.create(this.game);
-            this.timer.loop(5, this.scrollWinner, this);
-            this.timer.start();
+            this.game.add.tween(this.background).to({y: 0} , 4000, "Quad.easeIn", true);
         },
-        scrollVsWhite: function () {
-          var self = this;
-          console.log('white');
-
-          if (this.WhiteImageChampion.y > 0) {
-              this.WhiteImageChampion.y -= 5;
-          }
-        },
-        scrollVsBlack: function () {
-          var self = this;
-
-          if (this.BlackImageChampion.y < 0) {
-              this.BlackImageChampion.y += 5;
-          }
-        },
-        scrollWinner: function () {
-            var self = this;
-            if (this.background.y < 0) {
-                this.background.y += 5;
-
-            } else if (! this.restart) {
+        showContinue: function () {
+            if (! this.restart) {
                 var btn = this.restart = this.game.add.sprite(0, 30, 'start-' + this.winnerTeam.name);
                 btn.scale.setTo(0.5, 0.5);
                 btn.inputEnabled = true;
@@ -106,6 +79,9 @@ define([
             setTimeout(function () {
                 self.showWinner();
             }, 3000);
+            setTimeout(function () {
+                self.showContinue();
+            }, 9000);
         }
     };
 
