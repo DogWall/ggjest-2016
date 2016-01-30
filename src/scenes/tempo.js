@@ -1,6 +1,6 @@
 define([
-    'phaser'
-], function (Phaser) {
+    'phaser', 'sprites/wow'
+], function (Phaser, Wow) {
     'use strict';
 
     function Tempo(game) {
@@ -15,6 +15,7 @@ define([
         create: function () {
 
             this.setupBackground();
+            this.setupLocalBackground();
             this.setupForeground();
                        
             this.timer = this.game.time.create(this.game);
@@ -24,8 +25,8 @@ define([
             this.lastTap = this.timer._now;
             
             this.game.input.onDown.add(this.tapControl, this);
-            this.scoreText = this.game.add.text(10, 10, '', {font: '32px slkscr', fill: '#fff'});
-            this.resultText = this.game.add.text(10, this.game.height - 46, '', {font: '32px slkscr', fill: '#fff'});
+//            this.scoreText = this.game.add.text(10, 10, '', {font: '32px comicrunes', fill: '#fff'});
+//            this.resultText = this.game.add.text(10, this.game.height - 46, '', {font: '32px comicrunes', fill: '#fff'});
         },
         
         update: function () {
@@ -37,41 +38,73 @@ define([
         
         tapControl: function () {
             var latency = Math.min(Math.abs(this.timer._now - this.timer._last), Math.abs(this.timer._now - this.timer.next) );
-            
+            var color;
+            var text;
             if( latency < 30) {
-                this.resultText.text = "PERFECT ! " + latency;
-                this.resultText.fill = "#ff0";
+                text = "PERFECT !";
+                color = "#ff0";
                 this.score += 2;
             }
+            else if( latency < 60) {
+                text = "Good !";
+                color = "#fff";
+                this.score += 1;
+            }
             else if( latency < 100) {
-                this.resultText.text = "Good ! " + latency;     
-                this.resultText.fill = "#fff";
+                text = "Ok";
+                color = "#fff";
                 this.score += 1;
             }
             else {
-                this.resultText.text = "bad ! " + latency;
-                this.resultText.fill = "#f00";
+                text = "Bad";
+                color = "#f66";
                 this.score -= 1;
+                
             }
             
+            var wow = new Wow(this.game, this.game.rnd.integerInRange(50, this.game.width - 100), this.game.input.y , text, {font: '32px comicrunes', fill: color, align: 'center'});
+            this.texts.add(wow);
+            
             this.game.network.userTapped();
-            this.scoreText.text = this.score;
+//            this.scoreText.text = this.score;
             this.lastTap = this.timer._now;
         },
         
         blink: function () {
+            this.tap.alpha = 1;
+            this.game.add.tween(this.tap).to({alpha: 0}, 1000, "Quart.easeOut", true);
+            
             this.bgColor = 255;
-            if(this.lastTap < this.timer._last){
-                this.resultText.text = "" ;    
-            }
+//            if(this.lastTap < this.timer._last){
+//                this.resultText.text = "" ;    
+//            }
             this.timer._last = this.timer._now + 10;    // 10ms : Human latency
         },
         
+        
+        
         setupBackground: function () {
-             this.game.stage.backgroundColor = "#000";
+        },
+        
+        setupLocalBackground: function () {
+            switch(this.game.game_state.getTeam()) {
+                case 'white':             
+                    var zone =  this.game.add.sprite(0, 0, 'zone-jeu-white');
+                    zone.scale.setTo(0.5, 0.5);
+                    break;
+                case 'black':             
+                    var zone =  this.game.add.sprite(0, 0, 'zone-jeu-black');
+                    zone.scale.setTo(0.5, 0.5);
+                    break;
+            }
         },
         
         setupForeground: function () {
+            this.tap =  this.game.add.sprite(0, 0, 'tap');
+            this.tap.scale.setTo(0.5, 0.5);
+            this.tap.alpha = 0;
+            
+            this.texts = this.game.add.group();
         },
         
         end: function () {

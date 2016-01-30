@@ -1,6 +1,6 @@
 define([
-    'phaser', 'components/network', 'components/lyrics'
-], function (Phaser, Network, Lyrics) {
+    'phaser', 'components/state', 'components/network', 'components/lyrics'
+], function (Phaser, State, Network, Lyrics) {
     'use strict';
 
     function Preloader(game) {
@@ -17,6 +17,9 @@ define([
             ['join', 'assets/images/start-button-only.png'],
             ['hide-white', 'assets/images/hide-white.png'],
             ['hide-black', 'assets/images/hide-black.png'],
+            ['tap', 'assets/images/tap.png'],
+            ['zone-jeu-black', 'assets/images/zone-jeu-black.png'],
+            ['zone-jeu-white', 'assets/images/zone-jeu-white.png'],
             ['win-white', 'assets/images/WINNER-whitemagic.png'],
             ['win-black', 'assets/images/WINNER-blackmagic.png'],
             ['vs-bg-white', 'assets/images/vs-fond-white.png'],
@@ -24,7 +27,7 @@ define([
             ['vs-white-unicorn-bad', 'assets/images/VS-licorne-white-null.png'],
             ['vs-white-unicorn-good', 'assets/images/VS-licorne-white-ok.png'],
             ['vs-black-unicorn-bad', 'assets/images/VS-licorne-black-null.png'],
-            ['vs-black-unicorn-good', 'assets/images/VS-licorne-black-ok.png'],
+            ['vs-black-unicorn-good', 'assets/images/VS-licorne-black-ok.png']
         ];
 
         this.sprites = [
@@ -95,6 +98,7 @@ define([
             */
 
             // Initialize network, search games once connected
+            this.game.game_state = new State(this.game);
             this.game.network = new Network(this.game);
             this.game.network.reconnect();
 
