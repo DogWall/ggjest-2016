@@ -236,7 +236,7 @@ Match.prototype.setupGames = function() {
                     t.players[p].setGame('Runes');
                     // console.log('game-start: Rune', i);
                 } else {
-                    t.players[p].setGame('Runes');
+                    t.players[p].setGame('Tempo');
                     // console.log('game-start: Tempo', i);
                 }
                 i++;
@@ -250,6 +250,11 @@ Match.prototype.setupGames = function() {
         //}, 24000);
 
     } else {
+         _.each(this.teams, function (t) {
+            _.each(t.players, function (p) {
+                p.clearGame();
+            });
+        });
         clearInterval(this.timer);
         self.end();
     }
