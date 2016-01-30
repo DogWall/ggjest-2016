@@ -58,8 +58,12 @@ define([
         },
 
         hideForm: function () {
-            if (this.field && this.field.parentNode === this.body) {
-                this.body.removeChild(this.field);
+            if (this.field /*&& this.field.parentNode === this.body*/) {
+                try {
+                    this.body.removeChild(this.field);
+                } catch (e) {
+
+                }
             }
         },
 
