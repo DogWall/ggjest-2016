@@ -15,7 +15,7 @@ define([
             return this.name() + ' ' + this.name();
         },
         name: function () {
-            return this.lyrics[~~(Math.random() * this.lyrics.length)];
+            return this.names[~~(Math.random() * this.names.length)];
         },
         sentence: function(start) {
             return this.lyrics[~~(Math.random() * this.lyrics.length)];

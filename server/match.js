@@ -51,6 +51,11 @@ Match.prototype.scoreboard = function() {
     return '<ul><li>' + scoreboard.join('</li><li>') + '</li></ul>';
 };
 
+Match.prototype.playerSummary = function() {
+    var summary = [];
+    return summary.join('\n');
+};
+
 Match.prototype.playersIn = function(team) {
     return _.size(this.teams[team].players);
 }

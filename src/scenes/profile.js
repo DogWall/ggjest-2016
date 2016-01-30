@@ -52,7 +52,7 @@ define([
             input.style.fontSize = '2em';
             input.addEventListener('keypressed', function (e) {
                 if (e.keyCode === 13) {
-                    self.onConfirm();
+                    self.onConfirm(input.value);
                 }
             });
 
