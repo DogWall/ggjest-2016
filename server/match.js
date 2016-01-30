@@ -57,7 +57,13 @@ Match.prototype.smallestTeamWithoutPlayer = function(playerId) {
         }
     });
     return team;
-}
+};
+
+Match.prototype.findTeamOfPlayer = function(player) {
+    return _.find(this.teams, function (t) {
+        return t.hasPlayer(player);
+    });
+};
 
 Match.prototype.canBeJoined = function() {
     return ! this.running;
@@ -71,7 +77,7 @@ Match.prototype.join = function(player) {
         player.socket.join(this.room);
 
         var event = {
-            player: { id:player.id, name:player.name },
+            player: player.toJSON(),
             match: this.toJSON(),
             team: team.toJSON()
         };
@@ -80,6 +86,10 @@ Match.prototype.join = function(player) {
         this.nsp.emit('user-joined', event);
 
         debug('user %o has joined match %o (%o)', player.name, self.id, self.room);
+
+        this.nsp.on('user-tapped', function (user) {
+            self.userTapped(user);
+        });
 
         player.socket.on('disconnect', function () {
             team.removePlayer(player);
@@ -103,4 +113,8 @@ Match.prototype.start = function() {
     setTimeout(function () {
         self.nsp.emit('game-start');
     }, 3000);
+};
+
+Match.prototype.userTapped = function(player) {
+    var team = this.findTeamOfPlayer(player);
 };

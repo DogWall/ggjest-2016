@@ -1,11 +1,12 @@
 'use strict';
 
-var _     = require('lodash');
-var debug = require('debug')('ocult:matchmaking')
+var _      = require('lodash');
+var debug  = require('debug')('ocult:matchmaking')
 
-var Match = require('./match');
+var Match  = require('./match');
+var Player = require('./player');
 
-var matchs = {};
+var matchs  = {};
 
 module.exports = function (io) {
 
@@ -17,14 +18,14 @@ module.exports = function (io) {
 
     connection: function (socket) {
 
-      var user = { id:socket.id, socket:socket };
+      var player = new Player(io, socket.id, socket);
 
-      socket.on('search-matchs', function (clientUser) {
-        if (! clientUser) return;
+      socket.on('search-matchs', function (request) {
+        if (! request) return;
 
-        user.name = clientUser.name;
+        player.setName(request.name);
 
-        debug('find an open match for %o', user.name);
+        debug('find an open match for %o', player.name);
 
         findJoinableMatch(function (error, match) {
           if (error || ! match) {
@@ -32,8 +33,8 @@ module.exports = function (io) {
             return;
           }
 
-          debug('found an open match for %o : %o', user.name, match.id);
-          match.join(user);
+          debug('found an open match for %o : %o', player.name, match.id);
+          match.join(player);
 
           if (match.isReady()) {
             match.start();
