@@ -56,6 +56,7 @@ define([
         ];
 
         this.audio = [
+            ['main-soundtrack', 'assets/sounds/OCult_Main.mp3']
 //            ['clic', 'assets/sounds/clic_menu_1.wav'],
 //            ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
 //            ['cri_saucisse', 'assets/sounds/cri_2.wav'],
