@@ -55,7 +55,9 @@ define([
             ['vs-black-chouette-bad', 'assets/images/VS-chouette-black-null.png'],
             ['vs-black-chouette-good', 'assets/images/VS-chouette-black-ok.png'],
             ['credit-img', 'assets/images/credits.png'],
-            ['start-screen', 'assets/images/start-screen.png']
+            ['bouton-credit', 'assets/images/bouton-credit.png'],
+            ['bouton-play', 'assets/images/bouton-play.png'],
+            ['bouton-titre', 'assets/images/bouton-titre.png']
         ];
 
         this.sprites = [
