@@ -21,6 +21,7 @@ define([
             return this.winnerTeam.name === 'black';
         },
         showVersus: function () {
+            this.monster = this.game.game_state.getMonster();
 
             //black magic champion
             this.BlackImageChampion = this.game.add.group();
@@ -30,11 +31,12 @@ define([
             this.blackBackgnd = this.game.add.sprite(0, 0, 'vs-bg-black');
             this.blackBackgnd.scale.setTo(0.5, 0.5);
 
-            this.blackUnicorn = this.game.add.sprite(-80, 0, 'vs-black-unicorn-' + (this.isBlackWinning() ? 'good' : 'bad'));
-            this.blackUnicorn.scale.setTo(0.5, 0.5);
+            // Fix Me : get other team monster
+            this.blackMonster = this.game.add.sprite(-80, 0, 'vs-black-' + this.monster + '-' + (this.isBlackWinning() ? 'good' : 'bad'));
+            this.blackMonster.scale.setTo(0.5, 0.5);
 
             this.BlackImageChampion.add(this.blackBackgnd);
-            this.BlackImageChampion.add(this.blackUnicorn);
+            this.BlackImageChampion.add(this.blackMonster);
 
             // white magic champion
             this.WhiteImageChampion = this.game.add.group();
@@ -44,11 +46,12 @@ define([
             this.whiteBackgnd = this.game.add.sprite(0, 0, 'vs-bg-white');
             this.whiteBackgnd.scale.setTo(0.5, 0.5);
 
-            this.whiteUnicorn = this.game.add.sprite(80, 200, 'vs-white-unicorn-' + (this.isWhiteWinning() ? 'good' : 'bad'));
-            this.whiteUnicorn.scale.setTo(0.5, 0.5);
+            // Fix Me : get other team monster
+            this.whiteMonster = this.game.add.sprite(80, 200, 'vs-white-' + this.monster + '-' + (this.isWhiteWinning() ? 'good' : 'bad'));
+            this.whiteMonster.scale.setTo(0.5, 0.5);
 
             this.WhiteImageChampion.add(this.whiteBackgnd);
-            this.WhiteImageChampion.add(this.whiteUnicorn);
+            this.WhiteImageChampion.add(this.whiteMonster);
 
             // add animation in 2 groups of VS
             this.game.add.tween(this.WhiteImageChampion).to({y: 0} , 1300, "Quad.easeIn", true);

@@ -36,8 +36,9 @@ define([
             socket.on('has-joined-match', function (event) {
                 var match = event.match;
                 var team  = event.team;
-                self.game.nbPlayers = event.nbPlayers;
-                self.game.playerPosition = event.playerPosition;
+                self.game.game_state.nbPlayers = event.nbPlayers;
+                self.game.game_state.playerPosition = event.playerPosition;
+                self.game.game_state.monster = event.monster;
                 var hash  = '#' + match.id + '-' + team.id;
                 console.log('Current player', event.player);
                 console.log('invite friends to', matchUrl);

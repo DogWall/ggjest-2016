@@ -118,13 +118,15 @@ Match.prototype.join = function(player, team) {
             i++;
         }
 
+        var monster = Math.floor(Math.random() * 3);
 
         var event = {
             player: player.toJSON(),
             match: this.toJSON(),
             team: team.toJSON(),
             nbPlayers: TEAM_SIZE,
-            playerPosition: pos
+            playerPosition: pos,
+            monster: monster
         };
 
         player.socket.emit('has-joined-match', event);

@@ -52,6 +52,13 @@ define([
                 self.onConfirm(field.value);
             }, this);
 
+            var fsText = this.game.add.text(this.game.width/2, 535, 'fullscreen', {font: '16px comicrunes', fill: '#fff'});
+            fsText.anchor.setTo(0.5, 0.5);
+            fsText.inputEnabled = true;
+            fsText.events.onInputDown.add(function (e) {
+                self.scale.startFullScreen(false);
+            }, this);
+
             this.body = document.getElementsByTagName('body')[0];
 
             this.body.appendChild(this.field);
@@ -59,6 +66,7 @@ define([
 
         hideForm: function () {
             if (this.field /*&& this.field.parentNode === this.body*/) {
+                this.field.display = 'none';
                 try {
                     this.body.removeChild(this.field);
                 } catch (e) {
