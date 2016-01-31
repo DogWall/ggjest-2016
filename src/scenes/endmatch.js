@@ -74,6 +74,18 @@ define([
             this.game.add.text(10, this.game.height - 46, this.whiteTeam.score, style);
         },
         showWinner: function () {
+
+            if(this.winnerTeam.name == 'white') {
+              this.game.add.tween(this[this.winnerTeam.name + 'Backgnd']).to({x: 0, y:0}, 500, "Quad.easeIn", true);
+              this.game.add.tween(this[this.looserTeam.name + 'Monster']).to({x: -this.game.width - 180, y:0} , 500, "Quad.easeIn", true);
+              this.game.add.tween(this[this.winnerTeam.name + 'Monster']).to({x: 0, y:0} , 500, "Quad.easeIn", true);
+            }else {
+              this.game.add.tween(this[this.looserTeam.name + 'Backgnd']).to({x: 0, y:this.game.height}, 500, "Quad.easeIn", true);
+              this.game.add.tween(this[this.looserTeam.name + 'Monster']).to({x: this.game.width + 180, y:0} , 500, "Quad.easeIn", true);
+            }
+
+            this.game.add.tween(this[this.winnerTeam.name + 'Monster'].scale).to({x: 0.6, y:0.6} , 500, "Quad.easeIn", true);
+
             this.background = this.game.add.sprite(0, -this.game.height, 'win-' + this.winnerTeam.name);
             this.background.scale.setTo(0.5, 0.5);
             this.game.add.tween(this.background).to({y: 0} , 1700, "Quad.easeIn", true);
