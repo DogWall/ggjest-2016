@@ -12,6 +12,7 @@ define([
         this.playerPosition = game.playerPosition;
         this.nbPlayers = game.nbPlayers;
         this.solistPosition = game.solistPosition;
+        this.monster = game.monster;
 
         var team = game.game_state.getTeam();
         this.ombreScale = 0.25 + 0.75/6*game.glyphedScore;
@@ -34,8 +35,12 @@ define([
         var scale = this.ombreScale;
         var shiftx = Math.ceil((640 - 459 * scale) /4);
         console.log(shiftx);
+        console.log(scale);
 
-        this.ombre = new Phaser.Sprite(this.game, shiftx, 1136 / 4 * (1 - scale), 'ombre-licorne-'+team.name);
+        var monsters = ['licorne', 'dino', 'chouette'];
+
+        console.log('monster', monsters[this.monster] );
+        this.ombre = new Phaser.Sprite(this.game, shiftx, 1136 / 4 * (1 - scale), 'ombre-'+monsters[this.monster]+'-'+team.name);
         this.ombre.scale.setTo(scale * 0.5, scale * 0.5);
         this.sprites.add(this.ombre);
                     //var window = new Window(this.game, 97 + j * 60, 200 + i * 60, wType[i][j]);

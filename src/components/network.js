@@ -38,6 +38,7 @@ define([
                 var team  = event.team;
                 self.game.nbPlayers = event.nbPlayers;
                 self.game.playerPosition = event.playerPosition;
+                self.game.monster = event.monster;
                 var hash  = '#' + match.id + '-' + team.id;
                 console.log('Current player', event.player);
                 console.log('invite friends to', matchUrl);

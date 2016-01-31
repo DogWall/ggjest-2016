@@ -28,6 +28,10 @@ define([
             ['fond-jeu-white', 'assets/images/fond-jeu-white.png'],
             ['ombre-licorne-black', 'assets/images/ombre-licorne-black.png'],
             ['ombre-licorne-white', 'assets/images/ombre-licorne-white.png'],
+            ['ombre-dino-black', 'assets/images/ombre-dino-black.png'],
+            ['ombre-dino-white', 'assets/images/ombre-dino-white.png'],
+            ['ombre-chouette-black', 'assets/images/ombre-chouette-black.png'],
+            ['ombre-chouette-white', 'assets/images/ombre-chouette-white.png'],
             ['halo-black', 'assets/images/halo-black.png'],
             ['halo-white', 'assets/images/halo-white.png'],
             ['moine-black', 'assets/images/moine-black.png'],
@@ -39,7 +43,15 @@ define([
             ['vs-white-unicorn-bad', 'assets/images/VS-licorne-white-null.png'],
             ['vs-white-unicorn-good', 'assets/images/VS-licorne-white-ok.png'],
             ['vs-black-unicorn-bad', 'assets/images/VS-licorne-black-null.png'],
-            ['vs-black-unicorn-good', 'assets/images/VS-licorne-black-ok.png']
+            ['vs-black-unicorn-good', 'assets/images/VS-licorne-black-ok.png'],
+            ['vs-white-dino-bad', 'assets/images/VS-dino-white-null.png'],
+            ['vs-white-dino-good', 'assets/images/VS-dino-white-ok.png'],
+            ['vs-black-dino-bad', 'assets/images/VS-dino-black-null.png'],
+            ['vs-black-dino-good', 'assets/images/VS-dino-black-ok.png'],
+            ['vs-white-chouette-bad', 'assets/images/VS-chouette-white-null.png'],
+            ['vs-white-chouette-good', 'assets/images/VS-chouette-white-ok.png'],
+            ['vs-black-chouette-bad', 'assets/images/VS-chouette-black-null.png'],
+            ['vs-black-chouette-good', 'assets/images/VS-chouette-black-ok.png']
         ];
 
         this.sprites = [
