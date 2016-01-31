@@ -36,6 +36,7 @@ Team.prototype.addPlayer = function(player) {
         debug('user %o joined team %o', player.name, this.name);
     }
     this.nsp.emit('user-joined', player.toJSON());
+    this.nsp.emit('update-team', this.toJSON());
 };
 
 Team.prototype.removePlayer = function(player) {
@@ -43,6 +44,7 @@ Team.prototype.removePlayer = function(player) {
         var json = player.toJSON();
         debug('user %o left team %o', json.name, this.name);
         this.nsp.emit('user-left', json);
+        this.nsp.emit('update-team', this.toJSON());
         delete this.players[json.id];
     }
 };
