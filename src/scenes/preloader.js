@@ -68,8 +68,18 @@ define([
         ];
 
         this.audio = [
-            ['main-soundtrack', 'assets/sounds/OCult_Main.mp3']
-//            ['clic', 'assets/sounds/clic_menu_1.wav'],
+            ['main-soundtrack', 'assets/sounds/OCult_Main_Master.mp3'],
+            ['home-soundtrack', 'assets/sounds/OCult_Acceuil_Master.mp3'],
+            ['sfx-bougie-ok', 'assets/sounds/SFX_Bougie_Reussie.mp3'],
+            ['sfx-bougie-fail', 'assets/sounds/SFX_Bougie_Ratee.mp3'],
+            ['sfx-white', 'assets/sounds/SFX_Camp_White.mp3'],
+            ['sfx-black', 'assets/sounds/SFX_Camp_Black.mp3'],
+            ['sfx-lose', 'assets/sounds/SFX_Defaite.mp3'],
+            ['sfx-win', 'assets/sounds/SFX_Victoire.mp3'],
+            ['sfx-halo', 'assets/sounds/SFX_Hallo.mp3'],
+            ['sfx-monster', 'assets/sounds/SFX_Monstre_Croissance.mp3'],
+            ['sfx-rune-fail', 'assets/sounds/SFX_Rune_Ratee.mp3'],
+            ['sfx-rune-ok', 'assets/sounds/SFX_Rune_Reussie.mp3']
 //            ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
 //            ['cri_saucisse', 'assets/sounds/cri_2.wav'],
 //            ['cri_saucisse_sol', 'assets/sounds/cri_3.wav'],
@@ -129,8 +139,9 @@ define([
 
         },
         update: function () {
-            if (this.cache.isSoundDecoded('main-soundtrack') && this.ready == false) {
+            if (this.cache.isSoundDecoded('home-soundtrack') && this.ready == false) {
                 this.ready = true;
+                this.game.game_state.playMusic('home-soundtrack');            
                 this.game.network.reconnect();
             }
 

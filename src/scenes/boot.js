@@ -5,6 +5,7 @@ define([
 
     function Boot(game) {
         this.game = game;
+        this.game.music = null;
     }
 
     Boot.prototype = {
