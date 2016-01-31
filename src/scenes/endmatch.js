@@ -13,8 +13,8 @@ define([
             this.looserTeam = looserTeam;
             this.whiteTeam  = winnerTeam.name === 'white' ? winnerTeam : looserTeam;
             this.blackTeam  = winnerTeam.name === 'black' ? winnerTeam : looserTeam;
-            var team = this.game.game_state.getTeam();
-            if(team.name == winnerTeam.name) {
+            this.team = this.game.game_state.getTeam();
+            if(this.team.name == winnerTeam.name) {
                 this.game.game_state.playMusic('sfx-win', false);
             }
             else {
