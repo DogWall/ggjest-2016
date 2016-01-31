@@ -1,9 +1,12 @@
-var express = require('express');
+var express      = require('express');
+var compression  = require('compression');
+var cacheControl = require('./server/cache-control');
+
 var app     = express();
 var server  = require('http').Server(app);
 
-// expose le répertoire public/ sur le serveur web
-app.use(express.static('./'));
+app.use(compression());
+app.use(express.static('./', { setHeaders: cacheControl }));
 
 // lance le serveur web
 // écoute les connexions de type http

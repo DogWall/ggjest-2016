@@ -11,13 +11,11 @@ define([
     Runes.prototype = {
       constructor: Runes,
       init: function(glyph){
-        if(glyph) {
-          this.patternToMatch = glyph.pattern;
-          this.patternName = glyph.name;
-        } else {
-          /*this.patternName = "Land"
-          this.patternToMatch = [2, 4, 0, 3, 6, 4, 8];*/
+        if (! glyph) {
+          glyph = this.randomGlyph();
         }
+        this.patternToMatch = glyph.pattern;
+        this.patternName = glyph.name;
       },
       create: function() {
         //  TODO look if another one is better
@@ -207,7 +205,12 @@ define([
       },
       patternFailed: function () {
         this.game.network.userMisGlyphed();
-
+        this.hideGrid()
+        this.drawPattern(this.pattern,{color:0xff2222,lineWidth:5});
+      },
+      randomGlyph: function () {
+        var glyphs = self.game.cache.getJSON('glyphs');
+        return glyphs[~~(Math.random() * this.glyphs.length)];
       }
     };
     return Runes;

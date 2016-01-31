@@ -26,8 +26,6 @@ define([
             this.lastTap = this.timer._now;
 
             this.game.input.onDown.add(this.tapControl, this);
-//            this.scoreText = this.game.add.text(10, 10, '', {font: '32px comicrunes', fill: '#fff'});
-//            this.resultText = this.game.add.text(10, this.game.height - 46, '', {font: '32px comicrunes', fill: '#fff'});
         },
 
         update: function () {

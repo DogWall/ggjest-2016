@@ -156,7 +156,7 @@ Match.prototype.join = function(player, team) {
 
         player.socket.on('user-mis-glyphed', function () {
             debug('user %o glyphed bad', player.name);
-            // self.playerTapped(user);
+            self.glyphMiss(player);
         });
 
         player.socket.on('disconnect', function () {
@@ -217,12 +217,16 @@ Match.prototype.tappedScore = function(player, score) {
 };
 
 Match.prototype.glyphSuccess = function(player) {
-    var team  = this.findTeamOfPlayer(player);
-    player.glyph += 1;
-    console.log(player.name,"glyphed success");
-    team.glyphedScore++;
-    this.emit('glyphed-score', {score:team.glyphedScore});
-    team.playerScored(player, 1500);
+    this.emit('glyphed-score', {
+        score: this.findTeamOfPlayer(player).glyphSuccess(player)
+    });
+    this.sendScores();
+};
+
+Match.prototype.glyphMiss = function(player) {
+    this.emit('glyphed-score', {
+        score: this.findTeamOfPlayer(player).glyphMiss(player)
+    });
     this.sendScores();
 };
 
