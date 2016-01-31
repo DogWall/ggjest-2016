@@ -24,38 +24,29 @@ define([
             this.monster = this.game.game_state.getMonster();
 
             //black magic champion
-            this.BlackImageChampion = this.game.add.group();
-            this.BlackImageChampion.x = 0;
-            this.BlackImageChampion.y = -this.game.height;
-
-            this.blackBackgnd = this.game.add.sprite(0, 0, 'vs-bg-black');
+            this.blackBackgnd = this.game.add.sprite(0, -this.game.height, 'vs-bg-black');
             this.blackBackgnd.scale.setTo(0.5, 0.5);
 
             // Fix Me : get other team monster
-            this.blackMonster = this.game.add.sprite(-80, 0, 'vs-black-' + this.monster + '-' + (this.isBlackWinning() ? 'good' : 'bad'));
+            this.blackMonster = this.game.add.sprite(-this.game.width - 180 , 0, 'vs-black-' + this.monster + '-' + (this.isBlackWinning() ? 'good' : 'bad'));
             this.blackMonster.scale.setTo(0.4, 0.4);
 
-            this.BlackImageChampion.add(this.blackBackgnd);
-            this.BlackImageChampion.add(this.blackMonster);
-
             // white magic champion
-            this.WhiteImageChampion = this.game.add.group();
-            this.WhiteImageChampion.x = 0;
-            this.WhiteImageChampion.y = this.game.height;
-
-            this.whiteBackgnd = this.game.add.sprite(0, 0, 'vs-bg-white');
+            this.whiteBackgnd = this.game.add.sprite(0, this.game.height, 'vs-bg-white');
             this.whiteBackgnd.scale.setTo(0.5, 0.5);
 
             // Fix Me : get other team monster
-            this.whiteMonster = this.game.add.sprite(140, 240, 'vs-white-' + this.monster + '-' + (this.isWhiteWinning() ? 'good' : 'bad'));
+            this.whiteMonster = this.game.add.sprite(this.game.width + 180, 240, 'vs-white-' + this.monster + '-' + (this.isWhiteWinning() ? 'good' : 'bad'));
             this.whiteMonster.scale.setTo(0.4, 0.4);
 
-            this.WhiteImageChampion.add(this.whiteBackgnd);
-            this.WhiteImageChampion.add(this.whiteMonster);
-
             // add animation in 2 groups of VS
-            this.game.add.tween(this.WhiteImageChampion).to({y: 0} , 1300, "Quad.easeIn", true);
-            this.game.add.tween(this.BlackImageChampion).to({y: 0} , 1300, "Quad.easeIn", true);
+           var  anim1 = this.game.add.tween(this.blackBackgnd).to({y: 0} , 600, "Quad.easeIn", true);
+           var  anim2 = this.game.add.tween(this.whiteBackgnd).to({y: 0} , 900, "Quad.easeIn", true);
+           // .chain does not seem to works so add more delay on second animation.
+
+           var  animMonster1 = this.game.add.tween(this.blackMonster).to({x: -80} , 1100, "Quad.easeIn", true);
+           var  animMonster2 = this.game.add.tween(this.whiteMonster).to({x: 140} , 1300, "Quad.easeIn", true);
+           // .chain does not seem to works so add more delay on third animation
 
             var style = {font: '32px comicrunes', fill: '#fff'};
             this.game.add.text(220, 20, this.blackTeam.score, style);
