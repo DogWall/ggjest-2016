@@ -4,6 +4,8 @@ define([
 
     function State(game) {
         this.team = null;
+        this.ombreScale = 0;
+        this.glyphedScore = 0;
         this.game = game;
     }
 

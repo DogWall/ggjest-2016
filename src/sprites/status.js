@@ -14,7 +14,7 @@ define([
         this.solistPosition = game.solistPosition;
 
         var team = game.game_state.getTeam();
-        this.ombreScale = 0.25 + 0.75/6*game.glyphedScore;
+        this.ombreScale = 0.25 + 0.75/6 * game.game_state.glyphedScore;
         var bg = 'fond-jeu-'+team.name;
 
         Phaser.Sprite.call(this, game, 0, 0, bg);
@@ -31,16 +31,19 @@ define([
         this.sprites = this.game.add.group();
         var team = this.game.game_state.getTeam();
 
-        var scale = this.ombreScale;
-        var shiftx = Math.ceil((640 - 459 * scale) /4);
-        console.log(shiftx);
+        var scale = this.game.game_state.ombreScale ? this.game.game_state.ombreScale : this.ombreScale;
+        
 
-        this.ombre = new Phaser.Sprite(this.game, shiftx, 1136 / 4 * (1 - scale), 'ombre-licorne-'+team.name);
+        this.ombre = new Phaser.Sprite(this.game, this.game.width /2, this.game.height / 2, 'ombre-licorne-' + team.name);
         this.ombre.scale.setTo(scale * 0.5, scale * 0.5);
+        this.ombre.anchor.setTo(0.5, 0.8);
         this.sprites.add(this.ombre);
-                    //var window = new Window(this.game, 97 + j * 60, 200 + i * 60, wType[i][j]);
-                    //this.sprites.add(window);
-
+        
+        if(this.ombreScale != scale) {
+            this.game.add.tween(this.ombre.scale).to({x: this.ombreScale * 0.5, y: this.ombreScale * 0.5}, 1000, "Cubic.easeInOut", true);
+        }
+        this.game.game_state.ombreScale = this.ombreScale;
+        
         var step = 640/2/this.nbPlayers;
 
         // gestion du halo
@@ -64,15 +67,12 @@ define([
 
             this.sprites.add(dauphin);
         }
-
-
     }
 
     Status.prototype.updateOmbreScale = function(newScale) {
+        // Fix me : not used ?
         this.ombreScale = newScale;
-
     }
-
 
     Status.prototype.update = function () {
     };

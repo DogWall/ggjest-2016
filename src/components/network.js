@@ -117,7 +117,7 @@ define([
             });
 
             self.game.socket.on('glyphed-score', function (event) {
-                self.game.glyphedScore = event.score;
+                self.game.game_state.glyphedScore = event.score;
             });
 
 
