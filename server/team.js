@@ -2,6 +2,7 @@
 
 var _       = require('lodash');
 var shortid = require('shortid');
+var debug   = require('debug')('ocult:teams')
 
 module.exports = Team;
 
@@ -25,14 +26,17 @@ Team.prototype.hasPlayer = function(player) {
 Team.prototype.addPlayer = function(player) {
     if (! this.hasPlayer(player.id)) {
         this.players[player.id] = player;
+        debug('user %o joined team %o', player.name, this.name);
     }
     this.nsp.emit('user-joined', player.toJSON());
 };
 
 Team.prototype.removePlayer = function(player) {
     if (! this.hasPlayer(player.id)) {
-        delete this.players[player.id];
-        this.nsp.emit('user-left', player.toJSON());
+        var json = player.toJSON();
+        debug('user %o left team %o', json.name, this.name);
+        this.nsp.emit('user-left', json);
+        delete this.players[json.id];
     }
 };
 
@@ -61,5 +65,19 @@ Team.prototype.getScore = function() {
 Team.prototype.playerScored = function(player, score) {
     this.addScore(score);
     player.addScore(score);
+};
+
+Team.prototype.glyphSuccess = function(player) {
+    player.glyph += 1;
+    this.glyphedScore += 1;
+    this.playerScored(player, 1500);
+    return this.glyphedScore;
+};
+
+Team.prototype.glyphMiss = function(player) {
+    player.glyph -= 1;
+    this.glyphedScore -= 1;
+    this.playerScored(player, -500);
+    return this.glyphedScore;
 };
 
