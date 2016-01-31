@@ -13,7 +13,9 @@ define([
         this.playerPosition = 0;
         this.currentMusic = null;
         this.solistPosition = 0;
+        this.solistCallback = function() {};
         this.game = game;
+
     }
 
     State.prototype = {
@@ -47,6 +49,11 @@ define([
                 this.game.music.play();
                 this.game.music.volume = 0.75;
             }
+        },
+
+        updateSolistPos: function(pos) {
+          this.solistPosition = pos;
+            this.solistCallback(pos);
         }
     };
 

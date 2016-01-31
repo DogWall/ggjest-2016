@@ -15,9 +15,9 @@ define([
         this.monster = game.game_state.getMonster(game.game_state.myMonster);
         this.monsterSound = this.game.add.audio('sfx-monster');
 
-        var team = game.game_state.getTeam();
+        this.team = game.game_state.getTeam();
         this.ombreScale = 0.25 + 0.25/6 * game.game_state.glyphedScore;
-        var bg = 'fond-jeu-'+team.name;
+        var bg = 'fond-jeu-'+this.team.name;
 
         Phaser.Sprite.call(this, game, 0, 0, bg);
         this.scale.setTo(0.5, 0.5);
@@ -29,14 +29,26 @@ define([
 
     Status.prototype = Object.create(Phaser.Sprite.prototype);
     Status.prototype.constructor = Status;
+
+    Status.prototype.updateHalo = function(pos) {
+
+        var step = 640/2/this.nbPlayers;
+
+        // gestion du halo
+        var halo = new Phaser.Sprite(this.game, step *pos + step/2, 1136/4, 'halo-'+this.team.name);
+        halo.anchor.x = 0.5;
+        halo.anchor.y = 0.8;
+        halo.scale.setTo(0.5);
+        this.sprites.add(halo);
+    };
+
     Status.prototype.constructStatus = function () {
         this.sprites = this.game.add.group();
-        var team = this.game.game_state.getTeam();
 
         var scale = this.game.game_state.ombreScale ? this.game.game_state.ombreScale : this.ombreScale;
 
         
-        this.ombre = new Phaser.Sprite(this.game, this.game.width /2, this.game.height / 2, 'ombre-' + this.monster + '-' + team.name);
+        this.ombre = new Phaser.Sprite(this.game, this.game.width /2, this.game.height / 2, 'ombre-' + this.monster + '-' + this.team.name);
         this.ombre.scale.setTo(scale * 0.5, scale * 0.5);
         this.ombre.anchor.setTo(0.5, 0.8);
         this.sprites.add(this.ombre);
@@ -46,20 +58,16 @@ define([
             this.monsterSound.play();
         }
         this.game.game_state.ombreScale = this.ombreScale;
-        
-        var step = 640/2/this.nbPlayers;
 
-        // gestion du halo
-        var halo = new Phaser.Sprite(this.game, step *this.solistPosition + step/2, 1136/4, 'halo-'+team.name);
-        halo.anchor.x = 0.5;
-        halo.anchor.y = 0.8;
-        halo.scale.setTo(0.5);
-        this.sprites.add(halo);
+        this.updateHalo(this.solistPosition);
+        this.updateHalo.bind(this);
+        this.game.game_state.solistCallback = this.updateHalo.bind(this);
+        var step = 640/2/this.nbPlayers;
 
         // gestion des moines
         for (var i=0; i<this.nbPlayers; i++) {
 
-            var dauphin = new Phaser.Sprite(this.game, step *i + step/2, 1136/4, 'moine-'+team.name);
+            var dauphin = new Phaser.Sprite(this.game, step *i + step/2, 1136/4, 'moine-'+this.team.name);
             dauphin.anchor.x = 0.5;
             dauphin.anchor.y = 0.7;
             if (this.playerPosition == i) {
@@ -75,7 +83,19 @@ define([
     Status.prototype.updateOmbreScale = function(newScale) {
         // Fix me : not used ?
         this.ombreScale = newScale;
-    }
+    };
+
+    Status.prototype.updateHalo = function(pos) {
+
+        var step = 640/2/this.nbPlayers;
+
+        // gestion du halo
+        var halo = new Phaser.Sprite(this.game, step *pos + step/2, 1136/4, 'halo-'+this.team.name);
+        halo.anchor.x = 0.5;
+        halo.anchor.y = 0.8;
+        halo.scale.setTo(0.5);
+        this.sprites.add(halo);
+    };
 
     Status.prototype.update = function () {
     };
