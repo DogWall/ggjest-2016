@@ -51,8 +51,8 @@ define([
             this.WhiteImageChampion.add(this.whiteUnicorn);
 
             // add animation in 2 groups of VS
-            this.game.add.tween(this.WhiteImageChampion).to({y: 0} , 4000, "Quad.easeIn", true);
-            this.game.add.tween(this.BlackImageChampion).to({y: 0} , 4000, "Quad.easeIn", true);
+            this.game.add.tween(this.WhiteImageChampion).to({y: 0} , 2000, "Quad.easeIn", true);
+            this.game.add.tween(this.BlackImageChampion).to({y: 0} , 2000, "Quad.easeIn", true);
 
             var style = {font: '32px comicrunes', fill: '#fff'};
             this.game.add.text(220, 20, this.blackTeam.score, style);
@@ -61,7 +61,7 @@ define([
         showWinner: function () {
             this.background = this.game.add.sprite(0, -this.game.height, 'win-' + this.winnerTeam.name);
             this.background.scale.setTo(0.5, 0.5);
-            this.game.add.tween(this.background).to({y: 0} , 4000, "Quad.easeIn", true);
+            this.game.add.tween(this.background).to({y: 0} , 3000, "Quad.easeIn", true);
         },
         showContinue: function () {
             if (! this.restart) {

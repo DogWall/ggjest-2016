@@ -29,9 +29,12 @@ define([
         this.dotHeight = _dot.height;
         this.dots = {};
         this.lineWork = null;
-        this.setupBackground();
-        this.setupGrid();
+
         this.status = new Status(this.game);
+        this.setupLocalBackground();
+          this.setupBackground();
+        this.setupGrid();
+
 
 
 
@@ -52,6 +55,19 @@ define([
         this.patternToMatchLines = this.drawPattern(this.patternToMatch);
         this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.onGameplayStart, this);
       },
+
+        setupLocalBackground: function () {
+            switch(this.game.game_state.getTeam()) {
+                case 'white':
+                    var zone =  this.game.add.sprite(0, 0, 'zone-jeu-white');
+                    zone.scale.setTo(0.5, 0.5);
+                    break;
+                case 'black':
+                    var zone =  this.game.add.sprite(0, 0, 'zone-jeu-black');
+                    zone.scale.setTo(0.5, 0.5);
+                    break;
+            }
+        },
       onGameplayStart: function() {
         this.patternToMatchLines.clear();
         for (var i in this.dots) {
