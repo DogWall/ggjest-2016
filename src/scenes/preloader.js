@@ -81,12 +81,15 @@ define([
         preload: function () {
             //	These are the assets we loaded in Boot.js
             //	A nice sparkly background and a loading progress bar
-            //this.preloadBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloaderBar');
-            //this.preloadBar.anchor.setTo(0.5, 0.5);
+            var logo = this.game.add.sprite(0, 10, 'preload-logo');
+            logo.scale.setTo(0.5, 0.5);
+
+            this.preloadBar = this.game.add.sprite(0, this.game.world.centerY, 'preload-bar');
+            this.preloadBar.anchor.setTo(0, 0.5);
             //	This sets the preloadBar sprite as a loader sprite.
             //	What that does is automatically crop the sprite from 0 to full-width
             //	as the files below are loaded in.
-            //this.load.setPreloadSprite(this.preloadBar);
+            this.load.setPreloadSprite(this.preloadBar);
 
             this.game.load.binary('woff', 'assets/font/comicrunes.woff');
 
@@ -115,20 +118,15 @@ define([
         },
         create: function () {
             //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
-            /*
-            var logo = this.game.add.sprite(0, 10, 'logo-bandeau');
-            logo.scale.setTo(0.5, 0.5);
-
+            
             this.preloadBar.cropEnabled = false;
-            */
+            
 
             // Initialize network, search games once connected
             this.game.game_state = new State(this.game);
             this.game.network = new Network(this.game);
             this.game.lyrics  = new Lyrics(this.game);
 
-            // Force font here.
-            this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
         update: function () {
             if (this.cache.isSoundDecoded('main-soundtrack') && this.ready == false) {
