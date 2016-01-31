@@ -98,10 +98,7 @@ define([
             }
         },
         shutdown: function() {
-            this.music = this.game.add.audio('main-soundtrack');
-            this.music.loop = true;
-            this.music.play();
-            this.music.volume = 1.0;
+            this.game.game_state.playMusic('main-soundtrack');
         }
     };
 

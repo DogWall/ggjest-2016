@@ -29,7 +29,6 @@ define([
             if(this.currentMusic != music) {
                 this.currentMusic = music;
                 if(this.game.music != null) {
-                    console.log('stoping music');
                     this.game.music.stop();
                 }
                 this.game.music = this.game.add.audio(music);
