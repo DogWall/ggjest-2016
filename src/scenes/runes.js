@@ -215,7 +215,7 @@ define([
       },
       randomGlyph: function () {
         var glyphs = this.game.cache.getJSON('glyphs');
-        return glyphs[~~(Math.random() * (this.glyphs.length - 1))];
+        return glyphs[~~(Math.random() * (glyphs.length - 1))];
       }
     };
     return Runes;

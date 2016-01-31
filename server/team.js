@@ -19,7 +19,10 @@ function Team (io, options) {
 
     this.score   = 0;
     this.players = {};
+
     this.glyphedScore = 0;
+    this.tapScoreByRound = {};
+    this.previousRoundTapsAccuracy = 0;
     this.monster = -1;
 };
 
@@ -50,7 +53,9 @@ Team.prototype.toJSON = function() {
         name: this.name,
         score: this.score,
         monster: this.monster,
-        players: _.invokeMap(this.players, 'toJSON')
+        tapScoreByRound: this.tapScoreByRound,
+        players: _.invokeMap(this.players, 'toJSON'),
+        previousRoundTapsAccuracy: this.previousRoundTapsAccuracy,
     };
 };
 
@@ -72,6 +77,9 @@ Team.prototype.playerScored = function(player, score) {
     player.addScore(score);
 };
 
+Team.prototype.tapSuccess = function(player, score) {
+    this.playerScored(player, score);
+};
 
 Team.prototype.getMonster = function() {
     if (this.monster == -1) {
@@ -94,4 +102,21 @@ Team.prototype.glyphMiss = function(player) {
     return this.glyphedScore;
 };
 
+Team.prototype.getTapAccuracyForRound = function(round) {
+    var acc, score = this.tapScoreByRound[round] = this.getTapScoreOfRound(round);
+
+    if (score <= 800)
+        acc = this.previousRoundTapsAccuracy = 1;
+    else if (score <= 1600)
+        acc = this.previousRoundTapsAccuracy = 2;
+    else
+        acc = this.previousRoundTapsAccuracy = 3;
+
+    return acc;
+};
+
+Team.prototype.getTapScoreOfRound = function(round) {
+    var sum = _.sum(_.invokeMap(this.players, 'getTapScoreOfRound', round));
+    return Math.min(2400, Math.max(0, Math.round(sum / this.size())));
+};
 
