@@ -12,6 +12,8 @@ define([
         create: function () {
             this.emptyPlayers();
             this.game.lobby = this;
+            this.whiteTeamSound = this.game.add.audio('sfx-white');
+            this.blackTeamSound = this.game.add.audio('sfx-black');
 
             this.backgrounds = this.game.add.group();
             this.tops = this.game.add.group();
@@ -34,7 +36,7 @@ define([
             }
 
             // FIXME: soundtrack not starting here...
-           this.game.game_state.playMusic('home-soundtrack');
+            this.game.game_state.playMusic('home-soundtrack');
         },
 
         update: function () {
@@ -46,28 +48,35 @@ define([
         },
 
         setTeam: function (team) {
-            var hide;
+            var hide, self = this;
             this.ownTeam = team;
             switch (team.name) {
                 case 'white':
                     hide = this.game.add.sprite(0,0, 'hide-black');
+                    this.whiteTeamSound.play();
                     break;
                 case 'black':
                     hide = this.game.add.sprite(0,0, 'hide-white');
+                    this.blackTeamSound.play();
                     break;
             }
             hide.scale.setTo(0.5, 0.5);
             this.backgrounds.add(hide);
             this.statusText.text = "Waiting for players...";
+
+            this.game.game_state.getTeams().forEach(function (t) {
+                t.players.forEach(function (p) {
+                    self.addPlayer(p, t);
+                });
+            });
         },
 
         addPlayer: function (player, team) {
             var leftOffset, color;
 
-            if (!this.leftTeam || team.id === this.leftTeam) {
-                this.leftTeam = team.id;
+            if (team.name == 'black') {
                 leftOffset = this.game.canvas.width / 4;
-                color = (this.ownTeam && this.ownTeam.name == 'white') ? '#fff' : '#777';
+                color = (this.ownTeam && this.ownTeam.name == 'black') ? '#fff' : '#777';
             } else {
                 leftOffset = this.game.canvas.width / 4 * 3;
                 color = '#222';

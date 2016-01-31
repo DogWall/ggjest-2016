@@ -40,6 +40,9 @@ define([
                 self.game.game_state.playerPosition = event.playerPosition;
                 self.game.game_state.myMonster = event.myMonster;
                 self.game.game_state.theOtherMonster = event.theOtherMonster;
+                self.game.game_state.setTeam(team);
+                self.game.game_state.setTeams(match.teams);
+
                 var hash  = '#' + match.id + '-' + team.id;
                 console.log('Current player', event.player);
                 console.log('invite friends to', matchUrl);
@@ -57,16 +60,6 @@ define([
 
                 self.currentMatch = match;
                 self.showLobby();
-
-                // FIXME: comment attendre que
-                // l'ecran Lobby soit bien affiché ?
-                self.game.game_state.setTeam(team);
-                self.game.lobby && self.game.lobby.setTeam(team);
-                event.match.teams.forEach(function (t) {
-                    t.players.forEach(function (p) {
-                        self.game.lobby && self.game.lobby.addPlayer(p, t);
-                    });
-                });
             });
 
             socket.on('latency', function (timestamp, callback) {
@@ -117,7 +110,7 @@ define([
                         console.log('filter glyphs of difficulty', gameDifficulty, '(', glyphs.length, ')');
                     }
 
-                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
+                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length - 1)];
 
                     self.game.state.start(event.game, true, false, glyph);
                 } else {

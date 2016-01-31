@@ -286,8 +286,7 @@ Match.prototype.setupGames = function() {
 
         setTimeout(function () {
             self.setupGames();
-        }, 5000);
-        //}, 24000);
+        }, process.env.CYCLE_TIME || 24000 );
 
     } else {
          _.each(this.teams, function (t) {
