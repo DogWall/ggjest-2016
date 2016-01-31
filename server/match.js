@@ -170,10 +170,11 @@ Match.prototype.start = function() {
     var self = this;
     debug('match %o is starting', this.id);
     this.running = true;
+    this.emit('start-countdown', 3);
 
     setTimeout(function () {
         self.setupGames();
-    }, 3000);
+    }, 3500);
 };
 
 Match.prototype.end = function() {

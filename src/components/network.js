@@ -48,22 +48,20 @@ define([
 
                 var matchUrl = location.toString().replace(/#.*$/, hash);
                 console.log('invite friends to', matchUrl);
-                location.hash = hash;
+                // location.hash = hash;
 
                 self.currentMatch = match;
                 self.showLobby();
 
                 // FIXME: comment attendre que
                 // l'ecran Lobby soit bien affiché ?
-                setTimeout(function () {
-                    self.game.game_state.setTeam(team);
-                    self.game.lobby.setTeam(team);
-                    event.match.teams.forEach(function (t) {
-                        t.players.forEach(function (p) {
-                            self.game.lobby.addPlayer(p, t);
-                        });
+                self.game.game_state.setTeam(team);
+                self.game.lobby && self.game.lobby.setTeam(team);
+                event.match.teams.forEach(function (t) {
+                    t.players.forEach(function (p) {
+                        self.game.lobby && self.game.lobby.addPlayer(p, t);
                     });
-                }, 2000);
+                });
             });
 
             socket.on('latency', function (timestamp, callback) {
@@ -84,6 +82,9 @@ define([
             console.log('in lobby', this.currentMatch);
             self.game.state.start('Lobby');
 
+            self.game.socket.on('start-countdown', function (counter) {
+                self.game.lobby && self.game.lobby.startCountdown(counter);
+            });
             self.game.socket.on('user-joined', function (event) {
                 self.game.lobby.addPlayer(event.player, event.team);
             });
@@ -98,7 +99,6 @@ define([
                 //     self.game.state.start('Score', true, false);
                 //     console.log('game end!');
                 // });
-
 
                 if (g.game == 'Runes') {
                     var glyphs = self.game.cache.getJSON('glyphs');

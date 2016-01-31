@@ -40,41 +40,55 @@ define([
 
         setTeam: function (team) {
             var hide;
-            switch(team.name) {
+            this.ownTeam = team;
+            switch (team.name) {
                 case 'white':
-                    console.log('white');
-                    hide = this.game.add.sprite(0,0, 'hide-black');
+                    hide = this.game.add.sprite(0,0, 'hide-white');
                     break;
                 case 'black':
-                    console.log('black');
-                    hide = this.game.add.sprite(0,0, 'hide-white');
+                    hide = this.game.add.sprite(0,0, 'hide-black');
                     break;
             }
             hide.scale.setTo(0.5, 0.5);
             this.backgrounds.add(hide);
             this.statusText.text = "Waiting for players...";
-
         },
 
         addPlayer: function (player, team) {
-            /*
-            var leftOffset;
+            var leftOffset, color;
 
             if (!this.leftTeam || team.id === this.leftTeam) {
                 this.leftTeam = team.id;
-                leftOffset = 5;
+                leftOffset = this.game.canvas.width / 4;
+                color = (this.ownTeam && this.ownTeam.name == 'white') ? '#fff' : '#777';
             } else {
-                leftOffset = this.game.canvas.width / 2;
+                leftOffset = this.game.canvas.width / 4 * 3;
+                color = '#222';
             }
 
             if (! this.playerOffsets[team.id]) {
-                this.playerOffsets[team.id] = 2;
-                this.game.add.text(leftOffset, 150, 'Secte ' + team.name, { font: '1.2em Arial' });
+                this.playerOffsets[team.id] = 0;
             }
 
-            this.game.add.text(leftOffset, 180 + this.playerOffsets[team.id], player.name, { font: '1.2em Arial' });
+            var text = this.game.add.text(leftOffset, 380 + this.playerOffsets[team.id], player.name, { font: '1.1em Helvetica', fill: color });
+            text.anchor.setTo(0.5, 0.5);
+
             this.playerOffsets[team.id] += 13;
-            */
+        },
+
+        startCountdown: function () {
+            this.statusText.text = this.statusText.counter = 3;
+            this.timer = this.game.time.create(this.game);
+            this.timer.loop(1000, this.countdown, this);
+            this.timer.start();
+        },
+        countdown: function () {
+            if (this.statusText.counter > 0) {
+                this.statusText.counter--;
+                this.statusText.text = this.statusText.text.concat('..', this.statusText.counter);
+            } else {
+                this.timer.stop();
+            }
         }
     };
 
