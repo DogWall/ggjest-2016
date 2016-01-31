@@ -81,7 +81,7 @@ define([
             }, 3000);
             setTimeout(function () {
                 self.showContinue();
-            }, 9000);
+            }, 5000);
         }
     };
 
