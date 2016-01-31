@@ -28,6 +28,10 @@ define([
             var banner =  this.game.add.sprite(0, 0, 'empty-banner');
             banner.scale.setTo(0.5, 0.5);
             this.statusText = this.game.add.text(10, this.game.height - 86, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
+            
+            if(this.game.game_state.getTeam()) {
+                this.setTeam(this.game.game_state.getTeam());
+            }
         },
 
         update: function () {
@@ -43,10 +47,10 @@ define([
             this.ownTeam = team;
             switch (team.name) {
                 case 'white':
-                    hide = this.game.add.sprite(0,0, 'hide-white');
+                    hide = this.game.add.sprite(0,0, 'hide-black');
                     break;
                 case 'black':
-                    hide = this.game.add.sprite(0,0, 'hide-black');
+                    hide = this.game.add.sprite(0,0, 'hide-white');
                     break;
             }
             hide.scale.setTo(0.5, 0.5);

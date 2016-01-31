@@ -10,7 +10,7 @@ define([
     State.prototype = {
         constructor: State,
         setTeam: function (team) {
-            this.team = team.name;
+            this.team = team;
         },
         getTeam: function () {
             return this.team;
