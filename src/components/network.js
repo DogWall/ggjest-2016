@@ -107,7 +107,7 @@ define([
 
                 if (g.game == 'Runes') {
                     var glyphs = self.game.cache.getJSON('glyphs');
-                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
+                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length - 1)];
 
                     self.game.state.start(g.game, true, false, glyph);
                 } else {

@@ -26,7 +26,6 @@ define([
         getMonster: function (monster) {
             var monsters = ['licorne', 'dino', 'chouette'];
             return monsters[monster];
-
         },
         playMusic: function (music, loop) {
             loop = typeof loop !== 'undefined' ? loop : true;
@@ -39,7 +38,7 @@ define([
                 
                 this.game.music.loop = loop;
                 this.game.music.play();
-                this.game.music.volume = 1.0;
+                this.game.music.volume = 0.75;
             }
         }
     };
