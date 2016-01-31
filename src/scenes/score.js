@@ -1,6 +1,6 @@
 define([
-    'phaser','sprites/window'
-], function (Phaser, Window) {
+    'phaser'
+], function (Phaser) {
     'use strict';
 
     function Score(game) {

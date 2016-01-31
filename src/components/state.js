@@ -5,7 +5,7 @@ define([
     function State(game) {
         this.team = null;
         this.teams = null;
-        this.ombreScale = 0;
+        this.ombreScale = 0.25;
         this.glyphedScore = 0;
         this.myMonster = null;
         this.theOtherMonster = null;
