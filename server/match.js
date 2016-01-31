@@ -15,14 +15,15 @@ function Match (io) {
 
     this.id = shortid.generate(),
 
-    this.io      = io;
-    this.room    = '/match-' + this.id;
-    this.running = false;
+    this.io         = io;
+    this.room       = '/match-' + this.id;
+    this.running    = false;
 
-    this.solist  = 0;
-    this.round   = 0;
-    this.timer   = null;
-    this.sync    = new Sync(this);
+    this.solist     = 0;
+    this.round      = 0;
+    this.startTimer = null;
+    this.roundTimer = null;
+    this.sync       = new Sync(this);
 
     this.teams = {
       white: new Team(io, { name:'white' }),
@@ -104,7 +105,6 @@ Match.prototype.join = function(player, team) {
     console.log('team', initTeam);
     console.log('theOtherTeam', theOtherTeam);
 
-
     // Check latency (not usefull yet)
     setTimeout(function () {
         self.sync.latency();
@@ -164,12 +164,21 @@ Match.prototype.join = function(player, team) {
             debug('user %o has left match %o (%o)', player.name, self.id, self.room);
         });
 
-        if (this.isReady()) {
-            this.start();
-        }
+        self.reloadStartTimer();
     }
 
     return team;
+};
+
+Match.prototype.reloadStartTimer = function() {
+    clearTimeout(this.startTimer);
+    this.startTimer = setTimeout(this.startIfPossible.bind(this), 10 * 1000);
+};
+
+Match.prototype.startIfPossible = function() {
+    if (this.isReady() || this.size() > 1) {
+        this.start();
+    }
 };
 
 Match.prototype.isReady = function() {
@@ -294,7 +303,7 @@ Match.prototype.setupGames = function() {
                 p.clearGame();
             });
         });
-        clearInterval(this.timer);
+        clearInterval(this.roundTimer);
         self.end();
     }
     this.round++;
