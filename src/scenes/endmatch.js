@@ -69,7 +69,7 @@ define([
                 btn.scale.setTo(0.5, 0.5);
                 btn.inputEnabled = true;
                 btn.events.onInputDown.add(function (e) {
-                    this.game.network.register(self.game.userName);
+                    this.game.network.register(this.game.userName);
                 }, this);
             }
         },
