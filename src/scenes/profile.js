@@ -38,8 +38,10 @@ define([
             field.style.top          = -262;
             field.style.left         = '50%';
             field.style.width        = 276;
+            field.style.padding      = 5;
             field.style.marginLeft   = -138;
             field.style.border       = 'none';
+            field.style.borderRadius = 5;
             field.style.outlineWidth = 0;
             field.style.font     = '32px comicrunes';
             field.addEventListener('keypressed', function (e) {
