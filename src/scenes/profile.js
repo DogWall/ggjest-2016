@@ -14,8 +14,8 @@ define([
             var bg = this.game.add.sprite(0, 0, 'home');
             bg.scale.setTo(0.5, 0.5);
             this.showForm();
-            
-            this.game.game_state.playMusic('home-soundtrack');            
+
+            this.game.game_state.playMusic('home-soundtrack');
         },
 
         update: function () {
@@ -32,7 +32,7 @@ define([
 
             var field = this.field   = document.createElement('input');
             field.type               = 'text';
-            field.value              = this.savedUserName();
+            field.value              = this.savedUserName() || this.game.lyrics.fullname();
             field.style.textAlign    = 'center';
             field.style.position     = 'relative';
             field.style.top          = -262;
@@ -75,7 +75,7 @@ define([
         },
 
         hideForm: function () {
-            if (this.field /*&& this.field.parentNode === this.body*/) {
+            if (this.field) {
                 this.field.style.display = 'none';
                 try {
                     this.container.removeChild(this.field);

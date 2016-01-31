@@ -1,7 +1,11 @@
 'use strict';
 
+var NR_MONSTERS = 3;
+
 var _       = require('lodash');
 var shortid = require('shortid');
+var debug   = require('debug')('ocult:teams')
+
 
 module.exports = Team;
 
@@ -16,6 +20,7 @@ function Team (io, options) {
     this.score   = 0;
     this.players = {};
     this.glyphedScore = 0;
+    this.monster = -1;
 };
 
 Team.prototype.hasPlayer = function(player) {
@@ -25,14 +30,17 @@ Team.prototype.hasPlayer = function(player) {
 Team.prototype.addPlayer = function(player) {
     if (! this.hasPlayer(player.id)) {
         this.players[player.id] = player;
+        debug('user %o joined team %o', player.name, this.name);
     }
     this.nsp.emit('user-joined', player.toJSON());
 };
 
 Team.prototype.removePlayer = function(player) {
     if (! this.hasPlayer(player.id)) {
-        delete this.players[player.id];
-        this.nsp.emit('user-left', player.toJSON());
+        var json = player.toJSON();
+        debug('user %o left team %o', json.name, this.name);
+        this.nsp.emit('user-left', json);
+        delete this.players[json.id];
     }
 };
 
@@ -41,6 +49,7 @@ Team.prototype.toJSON = function() {
         id: this.id,
         name: this.name,
         score: this.score,
+        monster: this.monster,
         players: _.invokeMap(this.players, 'toJSON')
     };
 };
@@ -62,4 +71,27 @@ Team.prototype.playerScored = function(player, score) {
     this.addScore(score);
     player.addScore(score);
 };
+
+
+Team.prototype.getMonster = function() {
+    if (this.monster == -1) {
+        this.monster = Math.floor(Math.random() * NR_MONSTERS);
+    }
+    return this.monster;
+};
+
+Team.prototype.glyphSuccess = function(player) {
+    player.glyph += 1;
+    this.glyphedScore += 1;
+    this.playerScored(player, 1500);
+    return this.glyphedScore;
+};
+
+Team.prototype.glyphMiss = function(player) {
+    player.glyph -= 1;
+    this.glyphedScore -= 1;
+    this.playerScored(player, -500);
+    return this.glyphedScore;
+};
+
 

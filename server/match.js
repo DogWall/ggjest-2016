@@ -69,10 +69,9 @@ Match.prototype.smallestTeam = function() {
     _.each(this.teams, function (t) {
         if (t.size() < smallest) {
             smallest = t;
-            team = t;
         }
     });
-    return team;
+    return smallest;
 }
 
 Match.prototype.smallestTeamWithoutPlayer = function(playerId) {
@@ -98,7 +97,13 @@ Match.prototype.canBeJoined = function() {
 
 Match.prototype.join = function(player, team) {
     var self = this;
+
     team = (team && this.teams[team]) ? this.teams[team] : this.smallestTeamWithoutPlayer(player.id);
+    var theOtherTeam = (team.name == 'white') ? 'black': 'white';
+    var initTeam = team.name;
+    console.log('team', initTeam);
+    console.log('theOtherTeam', theOtherTeam);
+
 
     // Check latency (not usefull yet)
     setTimeout(function () {
@@ -118,7 +123,8 @@ Match.prototype.join = function(player, team) {
             i++;
         }
 
-        var monster = Math.floor(Math.random() * 3);
+
+
 
         var event = {
             player: player.toJSON(),
@@ -126,8 +132,12 @@ Match.prototype.join = function(player, team) {
             team: team.toJSON(),
             nbPlayers: TEAM_SIZE,
             playerPosition: pos,
-            monster: monster
+            myMonster: team.getMonster(),
+            theOtherMonster: this.teams[theOtherTeam].getMonster()
         };
+
+        console.log('myMonster', team.getMonster());
+        console.log('theOtherMonster', this.teams[theOtherTeam].getMonster());
 
         player.socket.emit('has-joined-match', event);
         player.socket.broadcast.emit('user-joined', event);
@@ -146,7 +156,7 @@ Match.prototype.join = function(player, team) {
 
         player.socket.on('user-mis-glyphed', function () {
             debug('user %o glyphed bad', player.name);
-            // self.playerTapped(user);
+            self.glyphMiss(player);
         });
 
         player.socket.on('disconnect', function () {
@@ -207,12 +217,16 @@ Match.prototype.tappedScore = function(player, score) {
 };
 
 Match.prototype.glyphSuccess = function(player) {
-    var team  = this.findTeamOfPlayer(player);
-    player.glyph += 1;
-    console.log(player.name,"glyphed success");
-    team.glyphedScore++;
-    this.emit('glyphed-score', {score:team.glyphedScore});
-    team.playerScored(player, 1500);
+    this.emit('glyphed-score', {
+        score: this.findTeamOfPlayer(player).glyphSuccess(player)
+    });
+    this.sendScores();
+};
+
+Match.prototype.glyphMiss = function(player) {
+    this.emit('glyphed-score', {
+        score: this.findTeamOfPlayer(player).glyphMiss(player)
+    });
     this.sendScores();
 };
 
