@@ -80,9 +80,6 @@ define([
             ['sfx-monster', 'assets/sounds/SFX_Monstre_Croissance.mp3'],
             ['sfx-rune-fail', 'assets/sounds/SFX_Rune_Ratee.mp3'],
             ['sfx-rune-ok', 'assets/sounds/SFX_Rune_Reussie.mp3']
-//            ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
-//            ['cri_saucisse', 'assets/sounds/cri_2.wav'],
-//            ['cri_saucisse_sol', 'assets/sounds/cri_3.wav'],
         ];
     }
 
@@ -128,9 +125,9 @@ define([
         },
         create: function () {
             //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
-            
+
             this.preloadBar.cropEnabled = false;
-            
+
 
             // Initialize network, search games once connected
             this.game.game_state = new State(this.game);
@@ -141,7 +138,7 @@ define([
         update: function () {
             if (this.cache.isSoundDecoded('home-soundtrack') && this.ready == false) {
                 this.ready = true;
-                this.game.game_state.playMusic('home-soundtrack');            
+                this.game.game_state.playMusic('home-soundtrack');
                 this.game.network.reconnect();
             }
 
