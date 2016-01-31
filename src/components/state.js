@@ -25,14 +25,16 @@ define([
             var monsters = ['licorne', 'dino', 'chouette'];
             return monsters[this.monster];
         },
-        playMusic: function (music) {
+        playMusic: function (music, loop) {
+            loop = typeof loop !== 'undefined' ? loop : true;
             if(this.currentMusic != music) {
                 this.currentMusic = music;
-                if(this.game.music != null) {
+                if(this.game.music) {
                     this.game.music.stop();
                 }
                 this.game.music = this.game.add.audio(music);
-                this.game.music.loop = true;
+                
+                this.game.music.loop = loop;
                 this.game.music.play();
                 this.game.music.volume = 1.0;
             }

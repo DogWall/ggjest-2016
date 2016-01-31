@@ -205,6 +205,8 @@ define([
       },
       patternFailed: function () {
         this.game.network.userMisGlyphed();
+        this.hideGrid()
+        this.drawPattern(this.pattern,{color:0xff2222,lineWidth:5});
       },
       randomGlyph: function () {
         var glyphs = self.game.cache.getJSON('glyphs');
