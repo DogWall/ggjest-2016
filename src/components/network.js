@@ -96,7 +96,7 @@ define([
             self.game.socket.on('team-scores', function (scores) {
                 console.log('scores are', scores);
             });
-            this.game.socket.on('game-start', function (g) {
+            this.game.socket.on('game-start', function (event) {
                 console.log('start game !!!');
 
                 // FIXME: redondant avec Match-end?
@@ -105,13 +105,23 @@ define([
                 //     console.log('game end!');
                 // });
 
-                if (g.game == 'Runes') {
+                if (event.game == 'Runes') {
                     var glyphs = self.game.cache.getJSON('glyphs');
+
+                    // filter by difficulty
+                    if (typeof event.lastTapAccuracy != 'undefined' && event.mates > 1) {
+                        var gameDifficulty = (3 - event.lastTapAccuracy);
+                        glyphs = glyphs.filter(function (g) {
+                            return g.difficulty === gameDifficulty;
+                        });
+                        console.log('filter glyphs of difficulty', gameDifficulty, '(', glyphs.length, ')');
+                    }
+
                     var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
 
-                    self.game.state.start(g.game, true, false, glyph);
+                    self.game.state.start(event.game, true, false, glyph);
                 } else {
-                    self.game.state.start(g.game, true, false);
+                    self.game.state.start(event.game, true, false);
                 }
 
             });
