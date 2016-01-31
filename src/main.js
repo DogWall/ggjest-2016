@@ -31,11 +31,5 @@
         game.state.add('Waiting', Waiting, false);
         game.state.add('Score', Score, false);
         game.state.add('Endmatch', Endmatch, false);
-        /*
-        game.state.add('Preloader', Preloader, false);
-        game.state.add('Menu', Menu, false);
-        game.state.add('Credit', Credit, false);
-        game.state.add('Game', Game, false);
-        */
     });
 }());
