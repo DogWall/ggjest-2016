@@ -200,10 +200,8 @@ Match.prototype.looser = function() {
 };
 
 Match.prototype.tappedScore = function(player, score) {
-    var team  = this.findTeamOfPlayer(player);
-
-    team.playerScored(player, score);
-    //this.sendScores();
+    this.findTeamOfPlayer(player).tapSuccess(player, score, this.round);
+    // this.sendScores();
 };
 
 Match.prototype.glyphSuccess = function(player) {
@@ -253,14 +251,22 @@ Match.prototype.setupGames = function() {
         _.each(this.teams, function (t) {
             console.log('solist', self.solist);
 
+            var lastTapAccuracy = self.round ? t.getTapAccuracyForRound(self.round - 1) : 3;
+
             var i = 0;
             for (var p in t.players) {
                 t.players[p].socket.emit('update-solist', {solist: self.solist});
                 if (self.solist == i) {
-                    t.players[p].setGame('Runes');
+                    t.players[p].setGame('Runes', {
+                        lastTapAccuracy: lastTapAccuracy,
+                        mates: t.size()
+                    });
                     // console.log('game-start: Rune', i);
                 } else {
-                    t.players[p].setGame('Tempo');
+                    t.players[p].setGame('Tempo', {
+                        lastTapAccuracy: lastTapAccuracy,
+                        mates: t.size()
+                    });
                     // console.log('game-start: Tempo', i);
                 }
                 i++;
