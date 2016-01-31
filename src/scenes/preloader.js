@@ -113,36 +113,16 @@ define([
             // Initialize network, search games once connected
             this.game.game_state = new State(this.game);
             this.game.network = new Network(this.game);
-            this.game.network.reconnect();
-
             this.game.lyrics  = new Lyrics(this.game);
 
             // Force font here.
             this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
         update: function () {
-            //this.game.preloaded = true;
-            //	You don't actually need to do this, but I find it gives a much smoother game experience.
-            //	Basically it will wait for our audio file to be decoded before proceeding to the MainMenu.
-            //	You can jump right into the menu if you want and still play the music, but you'll have a few
-            //	seconds of delay while the mp3 decodes - so if you need your music to be in-sync with your menu
-            //	it's best to wait for it to decode here first, then carry on.
-
-            //	If you don't have any music in your game then put the game.state.start line into the create function and delete
-            //	the update function completely.
-
-            //if (this.cache.isSoundDecoded('cri_saucisse_sol') && this.game.connected == true)
-            //if (this.game.connected == true)
-            //{
-                // this.state.start('Menu');
-                /* //test runes
-                var glyphs = this.game.cache.getJSON('glyphs');
-                var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
-                console.log(glyph)
-                this.state.start('Runes',true,false,glyph);
-                */
-
-            //}
+            if (this.cache.isSoundDecoded('main-soundtrack') && this.ready == false) {
+                this.ready = true;
+                this.game.network.reconnect();
+            }
 
         }
     };
