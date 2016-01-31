@@ -13,9 +13,9 @@ define([
         this.nbPlayers = game.nbPlayers;
         this.solistPosition = game.solistPosition;
 
-        var team = game.game_state.team;
+        var team = game.game_state.getTeam();
         this.ombreScale = 0.25 + 0.75/6*game.glyphedScore;
-        var bg = 'fond-jeu-'+team;
+        var bg = 'fond-jeu-'+team.name;
 
         Phaser.Sprite.call(this, game, 0, 0, bg);
         this.scale.setTo(0.5, 0.5);
@@ -29,13 +29,13 @@ define([
     Status.prototype.constructor = Status;
     Status.prototype.constructStatus = function () {
         this.sprites = this.game.add.group();
-        var team = this.game.game_state.team;
+        var team = this.game.game_state.getTeam();
 
         var scale = this.ombreScale;
         var shiftx = Math.ceil((640 - 459 * scale) /4);
         console.log(shiftx);
 
-        this.ombre = new Phaser.Sprite(this.game, shiftx, 1136 / 4 * (1 - scale), 'ombre-licorne-'+team);
+        this.ombre = new Phaser.Sprite(this.game, shiftx, 1136 / 4 * (1 - scale), 'ombre-licorne-'+team.name);
         this.ombre.scale.setTo(scale * 0.5, scale * 0.5);
         this.sprites.add(this.ombre);
                     //var window = new Window(this.game, 97 + j * 60, 200 + i * 60, wType[i][j]);
@@ -44,7 +44,7 @@ define([
         var step = 640/2/this.nbPlayers;
 
         // gestion du halo
-        var halo = new Phaser.Sprite(this.game, step *this.solistPosition + step/2, 1136/4, 'halo-'+team);
+        var halo = new Phaser.Sprite(this.game, step *this.solistPosition + step/2, 1136/4, 'halo-'+team.name);
         halo.anchor.x = 0.5;
         halo.anchor.y = 0.8;
         halo.scale.setTo(0.5);
@@ -53,7 +53,7 @@ define([
         // gestion des moines
         for (var i=0; i<this.nbPlayers; i++) {
 
-            var dauphin = new Phaser.Sprite(this.game, step *i + step/2, 1136/4, 'moine-'+team);
+            var dauphin = new Phaser.Sprite(this.game, step *i + step/2, 1136/4, 'moine-'+team.name);
             dauphin.anchor.x = 0.5;
             dauphin.anchor.y = 0.7;
             if (this.playerPosition == i) {

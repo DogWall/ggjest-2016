@@ -57,7 +57,8 @@ define([
       },
 
         setupLocalBackground: function () {
-            switch(this.game.game_state.getTeam()) {
+            var team = this.game.game_state.getTeam();
+            switch(team.name) {
                 case 'white':
                     var zone =  this.game.add.sprite(0, 0, 'zone-jeu-white');
                     zone.scale.setTo(0.5, 0.5);
