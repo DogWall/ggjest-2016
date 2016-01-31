@@ -6,7 +6,8 @@ define([
         this.team = null;
         this.ombreScale = 0;
         this.glyphedScore = 0;
-        this.monster = null;
+        this.myMonster = null;
+        this.theOtherMonster = null;
         this.nbPlayers = 0;
         this.playerPosition = 0;
         this.game = game;
@@ -20,9 +21,9 @@ define([
         getTeam: function () {
             return this.team;
         },
-        getMonster: function () {
+        getMonster: function (monster) {
             var monsters = ['licorne', 'dino', 'chouette'];
-            return monsters[this.monster];
+            return monsters[monster];
         }
     };
     

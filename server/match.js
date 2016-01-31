@@ -69,10 +69,9 @@ Match.prototype.smallestTeam = function() {
     _.each(this.teams, function (t) {
         if (t.size() < smallest) {
             smallest = t;
-            team = t;
         }
     });
-    return team;
+    return smallest;
 }
 
 Match.prototype.smallestTeamWithoutPlayer = function(playerId) {
@@ -98,7 +97,10 @@ Match.prototype.canBeJoined = function() {
 
 Match.prototype.join = function(player, team) {
     var self = this;
+    var initTeam = team;
     team = (team && this.teams[team]) ? this.teams[team] : this.smallestTeamWithoutPlayer(player.id);
+    var theOtherTeam = initTeam == 'white' ? 'black': 'white';
+
 
     // Check latency (not usefull yet)
     setTimeout(function () {
@@ -118,7 +120,7 @@ Match.prototype.join = function(player, team) {
             i++;
         }
 
-        var monster = Math.floor(Math.random() * 3);
+
 
         var event = {
             player: player.toJSON(),
@@ -126,7 +128,8 @@ Match.prototype.join = function(player, team) {
             team: team.toJSON(),
             nbPlayers: TEAM_SIZE,
             playerPosition: pos,
-            monster: monster
+            myMonster: team.monster,
+            theOtherMonster: this.teams[theOtherTeam].monster
         };
 
         player.socket.emit('has-joined-match', event);

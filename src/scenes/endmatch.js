@@ -21,7 +21,19 @@ define([
             return this.winnerTeam.name === 'black';
         },
         showVersus: function () {
-            this.monster = this.game.game_state.getMonster();
+            console.log('team', this.team);
+
+            this.myMonster = this.game.game_state.getMonster(this.game.game_state.myMonster);
+            this.theOtherMonster = this.game.game_state.getMonster(this.game.game_state.theOtherMonster);
+
+
+            if (this.team == 'black') {
+                this.blackMonsterId = this.myMonster;
+                this.whiteMonsterId = this.theOtherMonster;
+            } else {
+                this.blackMonsterId = this.theOtherMonster;
+                this.whiteMonsterId = this.myMonster;
+            }
 
             //black magic champion
             this.BlackImageChampion = this.game.add.group();
@@ -32,7 +44,7 @@ define([
             this.blackBackgnd.scale.setTo(0.5, 0.5);
 
             // Fix Me : get other team monster
-            this.blackMonster = this.game.add.sprite(-80, 0, 'vs-black-' + this.monster + '-' + (this.isBlackWinning() ? 'good' : 'bad'));
+            this.blackMonster = this.game.add.sprite(-80, 0, 'vs-black-' + this.blackMonsterId + '-' + (this.isBlackWinning() ? 'good' : 'bad'));
             this.blackMonster.scale.setTo(0.4, 0.4);
 
             this.BlackImageChampion.add(this.blackBackgnd);
@@ -47,7 +59,7 @@ define([
             this.whiteBackgnd.scale.setTo(0.5, 0.5);
 
             // Fix Me : get other team monster
-            this.whiteMonster = this.game.add.sprite(140, 240, 'vs-white-' + this.monster + '-' + (this.isWhiteWinning() ? 'good' : 'bad'));
+            this.whiteMonster = this.game.add.sprite(140, 240, 'vs-white-' + this.whiteMonsterId + '-' + (this.isWhiteWinning() ? 'good' : 'bad'));
             this.whiteMonster.scale.setTo(0.4, 0.4);
 
             this.WhiteImageChampion.add(this.whiteBackgnd);

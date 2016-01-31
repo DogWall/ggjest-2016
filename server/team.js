@@ -1,7 +1,10 @@
 'use strict';
 
+var NR_MONSTERS = 3;
+
 var _       = require('lodash');
 var shortid = require('shortid');
+
 
 module.exports = Team;
 
@@ -16,6 +19,7 @@ function Team (io, options) {
     this.score   = 0;
     this.players = {};
     this.glyphedScore = 0;
+    this.monster = -1;
 };
 
 Team.prototype.hasPlayer = function(player) {
@@ -41,6 +45,7 @@ Team.prototype.toJSON = function() {
         id: this.id,
         name: this.name,
         score: this.score,
+        monster: this.monster,
         players: _.invokeMap(this.players, 'toJSON')
     };
 };
@@ -63,3 +68,9 @@ Team.prototype.playerScored = function(player, score) {
     player.addScore(score);
 };
 
+Team.prototype.getMonster = function() {
+    if (this.monster == -1) {
+        this.monster = Math.floor(Math.random() * NR_MONSTERS);
+    }
+    return this.monster;
+};
