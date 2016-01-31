@@ -68,8 +68,18 @@ define([
         ];
 
         this.audio = [
-            ['main-soundtrack', 'assets/sounds/OCult_Main.mp3']
-//            ['clic', 'assets/sounds/clic_menu_1.wav'],
+            ['main-soundtrack', 'assets/sounds/OCult_Main_Master.mp3'],
+            ['home-soundtrack', 'assets/sounds/OCult_Acceuil_Master.mp3'],
+            ['sfx-bougie-ok', 'assets/sounds/SFX_Bougie_Reussie.mp3'],
+            ['sfx-bougie-fail', 'assets/sounds/SFX_Bougie_Ratee.mp3'],
+            ['sfx-white', 'assets/sounds/SFX_Camp_White.mp3'],
+            ['sfx-black', 'assets/sounds/SFX_Camp_Black.mp3'],
+            ['sfx-lose', 'assets/sounds/SFX_Defaite.mp3'],
+            ['sfx-win', 'assets/sounds/SFX_Victoire.mp3'],
+            ['sfx-halo', 'assets/sounds/SFX_Hallo.mp3'],
+            ['sfx-monster', 'assets/sounds/SFX_Monstre_Croissance.mp3'],
+            ['sfx-rune-fail', 'assets/sounds/SFX_Rune_Ratee.mp3'],
+            ['sfx-rune-ok', 'assets/sounds/SFX_Rune_Reussie.mp3']
 //            ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
 //            ['cri_saucisse', 'assets/sounds/cri_2.wav'],
 //            ['cri_saucisse_sol', 'assets/sounds/cri_3.wav'],
@@ -81,12 +91,15 @@ define([
         preload: function () {
             //	These are the assets we loaded in Boot.js
             //	A nice sparkly background and a loading progress bar
-            //this.preloadBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloaderBar');
-            //this.preloadBar.anchor.setTo(0.5, 0.5);
+            var logo = this.game.add.sprite(0, 10, 'preload-logo');
+            logo.scale.setTo(0.5, 0.5);
+
+            this.preloadBar = this.game.add.sprite(0, this.game.world.centerY, 'preload-bar');
+            this.preloadBar.anchor.setTo(0, 0.5);
             //	This sets the preloadBar sprite as a loader sprite.
             //	What that does is automatically crop the sprite from 0 to full-width
             //	as the files below are loaded in.
-            //this.load.setPreloadSprite(this.preloadBar);
+            this.load.setPreloadSprite(this.preloadBar);
 
             this.game.load.binary('woff', 'assets/font/comicrunes.woff');
 
@@ -115,24 +128,20 @@ define([
         },
         create: function () {
             //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
-            /*
-            var logo = this.game.add.sprite(0, 10, 'logo-bandeau');
-            logo.scale.setTo(0.5, 0.5);
-
+            
             this.preloadBar.cropEnabled = false;
-            */
+            
 
             // Initialize network, search games once connected
             this.game.game_state = new State(this.game);
             this.game.network = new Network(this.game);
             this.game.lyrics  = new Lyrics(this.game);
 
-            // Force font here.
-            this.statusText = this.game.add.text(10, 10, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
         },
         update: function () {
-            if (this.cache.isSoundDecoded('main-soundtrack') && this.ready == false) {
+            if (this.cache.isSoundDecoded('home-soundtrack') && this.ready == false) {
                 this.ready = true;
+                this.game.game_state.playMusic('home-soundtrack');            
                 this.game.network.reconnect();
             }
 

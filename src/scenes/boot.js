@@ -5,6 +5,7 @@ define([
 
     function Boot(game) {
         this.game = game;
+        this.game.music = null;
     }
 
     Boot.prototype = {
@@ -44,12 +45,14 @@ define([
             }
         },
         preload: function () {
-            //this.load.image('preloaderBar', 'assets/images/preloadr_bar.png');
-            //this.load.image('logo-bandeau', 'assets/images/logo-bandeau.png');
-            //this.load.image('dot', 'assets/images/dot.png');
+            this.game.load.image('preload-logo', 'assets/images/logo.png');
+            this.game.load.image('preload-bar', 'assets/images/preload-bar.png');
+            console.log("preloading");
+            // Force font here.
+            this.statusText = this.game.add.text(10, 10, ' ', {font: '32px comicrunes', fill: '#fff'});
         },
         create: function () {
-            this.state.start('Game');
+            this.state.start('Preloader');
         }
     };
 

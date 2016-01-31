@@ -18,6 +18,8 @@ define([
             var banner =  this.game.add.sprite(0, 0, 'empty-banner');
             banner.scale.setTo(0.5, 0.5);
             this.game.add.text(10, this.game.height - 86, 'Waiting for network', {font: '32px comicrunes', fill: '#fff'});
+            
+            this.game.game_state.playMusic('home-soundtrack');
         }
     };
 

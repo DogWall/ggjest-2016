@@ -10,6 +10,7 @@ define([
         this.theOtherMonster = null;
         this.nbPlayers = 0;
         this.playerPosition = 0;
+        this.currentMusic = null;
         this.game = game;
     }
 
@@ -24,6 +25,20 @@ define([
         getMonster: function (monster) {
             var monsters = ['licorne', 'dino', 'chouette'];
             return monsters[monster];
+
+        },
+        playMusic: function (music) {
+            if(this.currentMusic != music) {
+                this.currentMusic = music;
+                if(this.game.music != null) {
+                    console.log('stoping music');
+                    this.game.music.stop();
+                }
+                this.game.music = this.game.add.audio(music);
+                this.game.music.loop = true;
+                this.game.music.play();
+                this.game.music.volume = 1.0;
+            }
         }
     };
     
