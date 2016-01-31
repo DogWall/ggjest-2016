@@ -3,6 +3,7 @@ define([
     'use strict';
 
     function State(game) {
+        this.match = null;
         this.team = null;
         this.teams = null;
         this.ombreScale = 0;
@@ -18,6 +19,12 @@ define([
 
     State.prototype = {
         constructor: State,
+        setMatch: function (match) {
+            this.match = match;
+        },
+        getMatch: function () {
+            return this.match;
+        },
         setTeam: function (team) {
             this.team = team;
         },

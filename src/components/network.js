@@ -36,10 +36,12 @@ define([
             socket.on('has-joined-match', function (event) {
                 var match = event.match;
                 var team  = event.team;
+
                 self.game.game_state.nbPlayers = event.nbPlayers;
                 self.game.game_state.playerPosition = event.playerPosition;
                 self.game.game_state.myMonster = event.myMonster;
                 self.game.game_state.theOtherMonster = event.theOtherMonster;
+                self.game.game_state.setMatch(match);
                 self.game.game_state.setTeam(team);
                 self.game.game_state.setTeams(match.teams);
 
