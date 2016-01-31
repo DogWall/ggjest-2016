@@ -209,7 +209,7 @@ define([
         this.drawPattern(this.pattern,{color:0xff2222,lineWidth:5});
       },
       randomGlyph: function () {
-        var glyphs = self.game.cache.getJSON('glyphs');
+        var glyphs = this.game.cache.getJSON('glyphs');
         return glyphs[~~(Math.random() * this.glyphs.length)];
       }
     };

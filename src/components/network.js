@@ -117,7 +117,7 @@ define([
             });
 
             self.game.socket.on('update-solist', function (event) {
-                self.game.solistPosition = event.solist;
+                self.game.game_state.solistPosition = event.solist;
                 console.log('solist', event.solist);
             });
 

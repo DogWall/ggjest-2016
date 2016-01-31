@@ -11,6 +11,7 @@ define([
         this.nbPlayers = 0;
         this.playerPosition = 0;
         this.currentMusic = null;
+        this.solistPosition = 0;
         this.game = game;
     }
 
