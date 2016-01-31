@@ -46,6 +46,9 @@ define([
                 console.log('joining match', match, 'in team', team.id, '=>', hash);
                 console.log('nbPlayers', event.nbPlayers);
                 console.log('playerPosition', event.playerPosition);
+                console.log('myMonster', event.myMonster);
+                console.log('theOtherMonster', event.theOtherMonster);
+
 
 
                 var matchUrl = location.toString().replace(/#.*$/, hash);

@@ -27,6 +27,7 @@ define([
             this.theOtherMonster = this.game.game_state.getMonster(this.game.game_state.theOtherMonster);
 
 
+
             if (this.team == 'black') {
                 this.blackMonsterId = this.myMonster;
                 this.whiteMonsterId = this.theOtherMonster;

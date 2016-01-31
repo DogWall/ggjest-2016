@@ -97,9 +97,12 @@ Match.prototype.canBeJoined = function() {
 
 Match.prototype.join = function(player, team) {
     var self = this;
-    var initTeam = team;
+
     team = (team && this.teams[team]) ? this.teams[team] : this.smallestTeamWithoutPlayer(player.id);
-    var theOtherTeam = initTeam == 'white' ? 'black': 'white';
+    var theOtherTeam = (team.name == 'white') ? 'black': 'white';
+    var initTeam = team.name;
+    console.log('team', initTeam);
+    console.log('theOtherTeam', theOtherTeam);
 
 
     // Check latency (not usefull yet)
@@ -122,15 +125,19 @@ Match.prototype.join = function(player, team) {
 
 
 
+
         var event = {
             player: player.toJSON(),
             match: this.toJSON(),
             team: team.toJSON(),
             nbPlayers: TEAM_SIZE,
             playerPosition: pos,
-            myMonster: team.monster,
-            theOtherMonster: this.teams[theOtherTeam].monster
+            myMonster: team.getMonster(),
+            theOtherMonster: this.teams[theOtherTeam].getMonster()
         };
+
+        console.log('myMonster', team.getMonster());
+        console.log('theOtherMonster', this.teams[theOtherTeam].getMonster());
 
         player.socket.emit('has-joined-match', event);
         player.socket.broadcast.emit('user-joined', event);
