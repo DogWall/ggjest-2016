@@ -33,7 +33,7 @@ define([
 
             // Fix Me : get other team monster
             this.blackMonster = this.game.add.sprite(-80, 0, 'vs-black-' + this.monster + '-' + (this.isBlackWinning() ? 'good' : 'bad'));
-            this.blackMonster.scale.setTo(0.5, 0.5);
+            this.blackMonster.scale.setTo(0.4, 0.4);
 
             this.BlackImageChampion.add(this.blackBackgnd);
             this.BlackImageChampion.add(this.blackMonster);
@@ -47,8 +47,8 @@ define([
             this.whiteBackgnd.scale.setTo(0.5, 0.5);
 
             // Fix Me : get other team monster
-            this.whiteMonster = this.game.add.sprite(80, 200, 'vs-white-' + this.monster + '-' + (this.isWhiteWinning() ? 'good' : 'bad'));
-            this.whiteMonster.scale.setTo(0.5, 0.5);
+            this.whiteMonster = this.game.add.sprite(140, 240, 'vs-white-' + this.monster + '-' + (this.isWhiteWinning() ? 'good' : 'bad'));
+            this.whiteMonster.scale.setTo(0.4, 0.4);
 
             this.WhiteImageChampion.add(this.whiteBackgnd);
             this.WhiteImageChampion.add(this.whiteMonster);
