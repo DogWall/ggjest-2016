@@ -100,7 +100,12 @@ define([
             }
             this.game.network.register(userName);
             this.hideForm();
+        },
+        
+        shutdown: function () {
+            this.hideForm();
         }
+                
     };
 
     return Profile;
