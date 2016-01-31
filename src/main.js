@@ -31,6 +31,8 @@
         game.state.add('Waiting', Waiting, false);
         game.state.add('Score', Score, false);
         game.state.add('Endmatch', Endmatch, false);
+        game.state.add('Credit', Credit, false);
+        game.state.add('Menu', Menu, false);
 
         // disable URL bar on iOS
         setTimeout(function () {   window.scrollTo(0, 1); }, 1000);

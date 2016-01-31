@@ -24,7 +24,7 @@ define([
                 game.socket = socket;
                 game.user = user;
                 game.user.name = game.userName;
-                self.game.state.start('Profile');
+                self.game.state.start('Menu');
             });
 
             // disconnect
