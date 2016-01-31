@@ -17,6 +17,8 @@ define([
 
             this.backgrounds = this.game.add.group();
             this.tops = this.game.add.group();
+            this.teamWhite = this.game.add.group();
+            this.teamBlack = this.game.add.group();
 
             // background
             var bg =  this.game.add.sprite(0, 0, 'lobby');
@@ -96,6 +98,11 @@ define([
             text.anchor.setTo(0.5, 0.5);
 
             this.playerOffsets[team.id] += 13;
+        },
+        
+        updateTeam: function(team) {
+            //var container = team.name == 'white' ? this.teamWhite : this.teamBlack;
+            console.log('update team !', team);
         },
 
         startCountdown: function () {

@@ -85,6 +85,11 @@ define([
             var onCountdown = function (counter) {
                 self.game.lobby && self.game.lobby.startCountdown(counter);
             };
+            
+            var onUpdateTeam = function (event) {
+                console.log('update team ?', event);
+                self.game.lobby.updateTeam(event.team);
+            };
 
             var onUserJoined = function (event) {
                 self.game.lobby.addPlayer(event.player, event.team);
@@ -115,6 +120,7 @@ define([
                 socket.on('update-solist', onUpdateSolist);
                 socket.on('glyphed-score', onGlyphScore);
                 socket.on('match-end', onGameEnd);
+                socket.on('update-team', onUpdateTeam);                
             };
 
             var onGameStart = function (event) {
