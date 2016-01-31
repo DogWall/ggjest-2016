@@ -14,6 +14,8 @@ define([
             var bg = this.game.add.sprite(0, 0, 'home');
             bg.scale.setTo(0.5, 0.5);
             this.showForm();
+            
+            this.game.game_state.playMusic('home-soundtrack');            
         },
 
         update: function () {
