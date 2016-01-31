@@ -207,7 +207,9 @@ Match.prototype.tappedScore = function(player, score) {
 Match.prototype.glyphSuccess = function(player) {
     var team  = this.findTeamOfPlayer(player);
     player.glyph += 1;
-    console.log(player.name,"glyphed success")
+    console.log(player.name,"glyphed success");
+    team.glyphedScore++;
+    this.emit('glyphed-score', {score:team.glyphedScore});
     team.playerScored(player, 1500);
     this.sendScores();
 };
