@@ -172,7 +172,7 @@ Match.prototype.join = function(player, team) {
 
 Match.prototype.reloadStartTimer = function() {
     clearTimeout(this.startTimer);
-    this.startTimer = setTimeout(this.startIfPossible.bind(this), 10 * 1000);
+    this.startTimer = setTimeout(this.startIfPossible.bind(this), 20 * 1000);
 };
 
 Match.prototype.startIfPossible = function() {

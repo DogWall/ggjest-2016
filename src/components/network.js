@@ -34,6 +34,7 @@ define([
             });
 
             socket.on('has-joined-match', function (event) {
+                self.game.game_state.clearData();
                 var match = event.match;
                 var team  = event.team;
 

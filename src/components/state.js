@@ -3,20 +3,8 @@ define([
     'use strict';
 
     function State(game) {
-        this.match = null;
-        this.team = null;
-        this.teams = null;
-        this.ombreScale = 0.25;
-        this.glyphedScore = 0;
-        this.myMonster = null;
-        this.theOtherMonster = null;
-        this.nbPlayers = 0;
-        this.playerPosition = 0;
-        this.currentMusic = null;
-        this.solistPosition = 0;
-        this.solistCallback = function() {};
+        this.clearData();
         this.game = game;
-
     }
 
     State.prototype = {
@@ -61,7 +49,23 @@ define([
         updateSolistPos: function(pos) {
           this.solistPosition = pos;
             this.solistCallback(pos);
+        },
+        
+        clearData: function() {
+            this.match = null;
+            this.team = null;
+            this.teams = null;
+            this.ombreScale = 0.25;
+            this.glyphedScore = 0;
+            this.myMonster = null;
+            this.theOtherMonster = null;
+            this.nbPlayers = 0;
+            this.playerPosition = 0;
+            this.currentMusic = null;
+            this.solistPosition = 0;
+            this.solistCallback = function() {};
         }
+        
     };
 
     return State;
