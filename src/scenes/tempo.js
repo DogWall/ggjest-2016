@@ -26,8 +26,6 @@ define([
             this.lastTap = this.timer._now;
 
             this.game.input.onDown.add(this.tapControl, this);
-//            this.scoreText = this.game.add.text(10, 10, '', {font: '32px comicrunes', fill: '#fff'});
-//            this.resultText = this.game.add.text(10, this.game.height - 46, '', {font: '32px comicrunes', fill: '#fff'});
         },
 
         update: function () {
@@ -92,10 +90,15 @@ define([
                 case 'white':
                     var zone =  this.game.add.sprite(0, 0, 'zone-jeu-white');
                     zone.scale.setTo(0.5, 0.5);
+                    var tap =  this.game.add.sprite(0, 0, 'tap-bleu');
+                    tap.scale.setTo(0.5, 0.5);
+
                     break;
                 case 'black':
                     var zone =  this.game.add.sprite(0, 0, 'zone-jeu-black');
                     zone.scale.setTo(0.5, 0.5);
+                    var tap =  this.game.add.sprite(0, 0, 'tap-rouge');
+                    tap.scale.setTo(0.5, 0.5);
                     break;
             }
         },

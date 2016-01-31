@@ -32,6 +32,8 @@ define([
             ['ombre-dino-white', 'assets/images/ombre-dino-white.png'],
             ['ombre-chouette-black', 'assets/images/ombre-chouette-black.png'],
             ['ombre-chouette-white', 'assets/images/ombre-chouette-white.png'],
+            ['tap-bleu', 'assets/images/tap-bleu.png'],
+            ['tap-rouge', 'assets/images/tap-rouge.png'],
             ['halo-black', 'assets/images/halo-black.png'],
             ['halo-white', 'assets/images/halo-white.png'],
             ['moine-black', 'assets/images/moine-black.png'],
@@ -51,7 +53,11 @@ define([
             ['vs-white-chouette-bad', 'assets/images/VS-chouette-white-null.png'],
             ['vs-white-chouette-good', 'assets/images/VS-chouette-white-ok.png'],
             ['vs-black-chouette-bad', 'assets/images/VS-chouette-black-null.png'],
-            ['vs-black-chouette-good', 'assets/images/VS-chouette-black-ok.png']
+            ['vs-black-chouette-good', 'assets/images/VS-chouette-black-ok.png'],
+            ['credit-img', 'assets/images/credits.png'],
+            ['bouton-credit', 'assets/images/bouton-credit.png'],
+            ['bouton-play', 'assets/images/bouton-play.png'],
+            ['bouton-titre', 'assets/images/bouton-titre.png']
         ];
 
         this.sprites = [
@@ -80,9 +86,6 @@ define([
             ['sfx-monster', 'assets/sounds/SFX_Monstre_Croissance.mp3'],
             ['sfx-rune-fail', 'assets/sounds/SFX_Rune_Ratee.mp3'],
             ['sfx-rune-ok', 'assets/sounds/SFX_Rune_Reussie.mp3']
-//            ['cri_wilhelm', 'assets/sounds/cri_wilhelm.wav'],
-//            ['cri_saucisse', 'assets/sounds/cri_2.wav'],
-//            ['cri_saucisse_sol', 'assets/sounds/cri_3.wav'],
         ];
     }
 
@@ -128,9 +131,9 @@ define([
         },
         create: function () {
             //	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
-            
+
             this.preloadBar.cropEnabled = false;
-            
+
 
             // Initialize network, search games once connected
             this.game.game_state = new State(this.game);
@@ -141,7 +144,7 @@ define([
         update: function () {
             if (this.cache.isSoundDecoded('home-soundtrack') && this.ready == false) {
                 this.ready = true;
-                this.game.game_state.playMusic('home-soundtrack');            
+                this.game.game_state.playMusic('home-soundtrack');
                 this.game.network.reconnect();
             }
 

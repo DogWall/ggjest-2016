@@ -24,7 +24,7 @@ define([
                 game.socket = socket;
                 game.user = user;
                 game.user.name = game.userName;
-                self.game.state.start('Profile');
+                self.game.state.start('Menu');
             });
 
             // disconnect
@@ -38,13 +38,20 @@ define([
                 var team  = event.team;
                 self.game.game_state.nbPlayers = event.nbPlayers;
                 self.game.game_state.playerPosition = event.playerPosition;
-                self.game.game_state.monster = event.monster;
+                self.game.game_state.myMonster = event.myMonster;
+                self.game.game_state.theOtherMonster = event.theOtherMonster;
+                self.game.game_state.setTeam(team);
+                self.game.game_state.setTeams(match.teams);
+
                 var hash  = '#' + match.id + '-' + team.id;
                 console.log('Current player', event.player);
                 console.log('invite friends to', matchUrl);
                 console.log('joining match', match, 'in team', team.id, '=>', hash);
                 console.log('nbPlayers', event.nbPlayers);
                 console.log('playerPosition', event.playerPosition);
+                console.log('myMonster', event.myMonster);
+                console.log('theOtherMonster', event.theOtherMonster);
+
 
 
                 var matchUrl = location.toString().replace(/#.*$/, hash);
@@ -53,16 +60,6 @@ define([
 
                 self.currentMatch = match;
                 self.showLobby();
-
-                // FIXME: comment attendre que
-                // l'ecran Lobby soit bien affiché ?
-                self.game.game_state.setTeam(team);
-                self.game.lobby && self.game.lobby.setTeam(team);
-                event.match.teams.forEach(function (t) {
-                    t.players.forEach(function (p) {
-                        self.game.lobby && self.game.lobby.addPlayer(p, t);
-                    });
-                });
             });
 
             socket.on('latency', function (timestamp, callback) {
@@ -92,7 +89,7 @@ define([
             self.game.socket.on('team-scores', function (scores) {
                 console.log('scores are', scores);
             });
-            this.game.socket.on('game-start', function (g) {
+            this.game.socket.on('game-start', function (event) {
                 console.log('start game !!!');
 
                 // FIXME: redondant avec Match-end?
@@ -101,19 +98,29 @@ define([
                 //     console.log('game end!');
                 // });
 
-                if (g.game == 'Runes') {
+                if (event.game == 'Runes') {
                     var glyphs = self.game.cache.getJSON('glyphs');
-                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
 
-                    self.game.state.start(g.game, true, false, glyph);
+                    // filter by difficulty
+                    if (typeof event.lastTapAccuracy != 'undefined' && event.mates > 1) {
+                        var gameDifficulty = (3 - event.lastTapAccuracy);
+                        glyphs = glyphs.filter(function (g) {
+                            return g.difficulty === gameDifficulty;
+                        });
+                        console.log('filter glyphs of difficulty', gameDifficulty, '(', glyphs.length, ')');
+                    }
+
+                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length - 1)];
+
+                    self.game.state.start(event.game, true, false, glyph);
                 } else {
-                    self.game.state.start(g.game, true, false);
+                    self.game.state.start(event.game, true, false);
                 }
 
             });
 
             self.game.socket.on('update-solist', function (event) {
-                self.game.solistPosition = event.solist;
+                self.game.game_state.solistPosition = event.solist;
                 console.log('solist', event.solist);
             });
 

@@ -14,8 +14,8 @@ define([
             var bg = this.game.add.sprite(0, 0, 'home');
             bg.scale.setTo(0.5, 0.5);
             this.showForm();
-            
-            this.game.game_state.playMusic('home-soundtrack');            
+
+            this.game.game_state.playMusic('home-soundtrack');
         },
 
         update: function () {
@@ -32,14 +32,16 @@ define([
 
             var field = this.field   = document.createElement('input');
             field.type               = 'text';
-            field.value              = this.savedUserName();
+            field.value              = this.savedUserName() || this.game.lyrics.fullname();
             field.style.textAlign    = 'center';
-            field.style.position     = 'absolute';
-            field.style.top          = 307;
+            field.style.position     = 'relative';
+            field.style.top          = -262;
             field.style.left         = '50%';
             field.style.width        = 276;
+            field.style.padding      = 5;
             field.style.marginLeft   = -138;
             field.style.border       = 'none';
+            field.style.borderRadius = 5;
             field.style.outlineWidth = 0;
             field.style.font     = '32px comicrunes';
             field.addEventListener('keypressed', function (e) {
@@ -58,6 +60,13 @@ define([
             var fsText = this.game.add.text(this.game.width/2, 535, 'fullscreen', {font: '16px comicrunes', fill: '#fff'});
             fsText.anchor.setTo(0.5, 0.5);
             fsText.inputEnabled = true;
+            
+            self.game.scale.onFullScreenChange.add( function() {
+                var canvas = document.getElementsByTagName('canvas');
+                canvas[0].parentNode.appendChild(self.field);
+                self.field.style.marginTop = canvas[0].style.marginTop;
+            });
+            
             fsText.events.onInputDown.add(function (e) {
                 self.scale.startFullScreen(false);
             }, this);
@@ -68,7 +77,7 @@ define([
         },
 
         hideForm: function () {
-            if (this.field /*&& this.field.parentNode === this.body*/) {
+            if (this.field) {
                 this.field.style.display = 'none';
                 try {
                     this.container.removeChild(this.field);

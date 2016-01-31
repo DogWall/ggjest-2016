@@ -5,23 +5,24 @@ define([
     'use strict';
 
     function Runes(runes) {
-      var bg;
-      var width, height;
+        var bg;
+        var width, height;
     }
     Runes.prototype = {
       constructor: Runes,
       init: function(glyph){
-        if(glyph) {
-          this.patternToMatch = glyph.pattern;
-          this.patternName = glyph.name;
-        } else {
-          /*this.patternName = "Land"
-          this.patternToMatch = [2, 4, 0, 3, 6, 4, 8];*/
+        if (! glyph) {
+          glyph = this.randomGlyph();
         }
+        this.patternToMatch = glyph.pattern;
+        this.patternName = glyph.name;
       },
       create: function() {
         //  TODO look if another one is better
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.runeOk = this.game.add.audio('sfx-rune-ok');
+        this.runeFail = this.game.add.audio('sfx-rune-fail');
+
         this.width = this.game.width;
         this.height = this.game.height;
         var _dot = this.game.cache.getImage("dot");
@@ -193,7 +194,7 @@ define([
           this.patternNameText.setText('wrong');
         }
         var glyphs = this.game.cache.getJSON('glyphs');
-        var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
+        var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length - 1)];
         console.log(glyph)
         this.game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {
           this.state.start('Runes',true,false,glyph);
@@ -201,13 +202,20 @@ define([
 
       },
       patternSuccess: function () {
+        this.runeOk.play();
         this.game.network.userGoodGlyphed();
         this.hideGrid()
         this.drawPattern(this.pattern,{color:0xffff66,lineWidth:5});
       },
       patternFailed: function () {
+        this.runeFail.play();
         this.game.network.userMisGlyphed();
-
+        this.hideGrid()
+        this.drawPattern(this.pattern,{color:0xff2222,lineWidth:5});
+      },
+      randomGlyph: function () {
+        var glyphs = this.game.cache.getJSON('glyphs');
+        return glyphs[~~(Math.random() * (glyphs.length - 1))];
       }
     };
     return Runes;

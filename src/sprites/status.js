@@ -12,10 +12,11 @@ define([
         this.playerPosition = game.game_state.playerPosition;
         this.nbPlayers = game.game_state.nbPlayers;
         this.solistPosition = game.game_state.solistPosition;
-        this.monster = game.game_state.getMonster();
+        this.monster = game.game_state.getMonster(game.game_state.myMonster);
+        this.monsterSound = this.game.add.audio('sfx-monster');
 
         var team = game.game_state.getTeam();
-        this.ombreScale = 0.25 + 0.75/6 * game.game_state.glyphedScore;
+        this.ombreScale = 0.25 + 0.25/6 * game.game_state.glyphedScore;
         var bg = 'fond-jeu-'+team.name;
 
         Phaser.Sprite.call(this, game, 0, 0, bg);
@@ -42,6 +43,7 @@ define([
         
         if(this.ombreScale != scale) {
             this.game.add.tween(this.ombre.scale).to({x: this.ombreScale * 0.5, y: this.ombreScale * 0.5}, 1000, "Cubic.easeInOut", true);
+            this.monsterSound.play();
         }
         this.game.game_state.ombreScale = this.ombreScale;
         

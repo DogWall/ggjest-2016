@@ -4,12 +4,15 @@ define([
 
     function State(game) {
         this.team = null;
+        this.teams = null;
         this.ombreScale = 0;
         this.glyphedScore = 0;
-        this.monster = null;
+        this.myMonster = null;
+        this.theOtherMonster = null;
         this.nbPlayers = 0;
         this.playerPosition = 0;
         this.currentMusic = null;
+        this.solistPosition = 0;
         this.game = game;
     }
 
@@ -21,24 +24,31 @@ define([
         getTeam: function () {
             return this.team;
         },
-        getMonster: function () {
-            var monsters = ['licorne', 'dino', 'chouette'];
-            return monsters[this.monster];
+        setTeams: function (teams) {
+            this.teams = teams;
         },
-        playMusic: function (music) {
+        getTeams: function () {
+            return this.teams;
+        },
+        getMonster: function (monster) {
+            var monsters = ['licorne', 'dino', 'chouette'];
+            return monsters[monster];
+        },
+        playMusic: function (music, loop) {
+            loop = typeof loop !== 'undefined' ? loop : true;
             if(this.currentMusic != music) {
                 this.currentMusic = music;
-                if(this.game.music != null) {
-                    console.log('stoping music');
+                if(this.game.music) {
                     this.game.music.stop();
                 }
                 this.game.music = this.game.add.audio(music);
-                this.game.music.loop = true;
+
+                this.game.music.loop = loop;
                 this.game.music.play();
-                this.game.music.volume = 1.0;
+                this.game.music.volume = 0.75;
             }
         }
     };
-    
+
     return State;
 });
