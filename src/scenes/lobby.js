@@ -12,6 +12,8 @@ define([
         create: function () {
             this.emptyPlayers();
             this.game.lobby = this;
+            this.whiteTeamSound = this.game.add.audio('sfx-white');
+            this.blackTeamSound = this.game.add.audio('sfx-black');
 
             this.backgrounds = this.game.add.group();
             this.tops = this.game.add.group();
@@ -53,9 +55,11 @@ define([
             switch (team.name) {
                 case 'white':
                     hide = this.game.add.sprite(0,0, 'hide-black');
+                    this.whiteTeamSound.play();
                     break;
                 case 'black':
                     hide = this.game.add.sprite(0,0, 'hide-white');
+                    this.blackTeamSound.play();
                     break;
             }
             hide.scale.setTo(0.5, 0.5);

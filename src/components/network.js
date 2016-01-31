@@ -132,7 +132,7 @@ define([
                         console.log('filter glyphs of difficulty', gameDifficulty, '(', glyphs.length, ')');
                     }
 
-                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length)];
+                    var glyph = glyphs[self.game.rnd.integerInRange(0, glyphs.length - 1)];
 
                     self.game.state.start(event.game, true, false, glyph);
                 } else {
