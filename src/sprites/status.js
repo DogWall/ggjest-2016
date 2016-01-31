@@ -7,13 +7,14 @@ define([
         this.sprites = null;
         this.game = game;
 
-        this.ombreScale = 0.25;
+
         this.ombre = null;
         this.playerPosition = game.playerPosition;
         this.nbPlayers = game.nbPlayers;
         this.solistPosition = game.solistPosition;
 
         var team = game.game_state.getTeam();
+        this.ombreScale = 0.25 + 0.75/6*game.glyphedScore;
         var bg = 'fond-jeu-'+team.name;
 
         Phaser.Sprite.call(this, game, 0, 0, bg);
