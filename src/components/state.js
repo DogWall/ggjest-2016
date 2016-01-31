@@ -3,9 +3,10 @@ define([
     'use strict';
 
     function State(game) {
+        this.match = null;
         this.team = null;
         this.teams = null;
-        this.ombreScale = 0;
+        this.ombreScale = 0.25;
         this.glyphedScore = 0;
         this.myMonster = null;
         this.theOtherMonster = null;
@@ -18,6 +19,12 @@ define([
 
     State.prototype = {
         constructor: State,
+        setMatch: function (match) {
+            this.match = match;
+        },
+        getMatch: function () {
+            return this.match;
+        },
         setTeam: function (team) {
             this.team = team;
         },
@@ -31,7 +38,7 @@ define([
             return this.teams;
         },
         getMonster: function (monster) {
-            var monsters = ['licorne', 'dino', 'chouette'];
+            var monsters = ['licorne', 'dino', 'chouette', 'belier'];
             return monsters[monster];
         },
         playMusic: function (music, loop) {

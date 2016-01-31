@@ -54,10 +54,15 @@ define([
             ['vs-white-chouette-good', 'assets/images/VS-chouette-white-ok.png'],
             ['vs-black-chouette-bad', 'assets/images/VS-chouette-black-null.png'],
             ['vs-black-chouette-good', 'assets/images/VS-chouette-black-ok.png'],
+            ['vs-white-belier-bad', 'assets/images/VS-belier-white-null.png'],
+            ['vs-white-belier-good', 'assets/images/VS-belier-white-ok.png'],
+            ['vs-black-belier-bad', 'assets/images/VS-belier-black-null.png'],
+            ['vs-black-belier-good', 'assets/images/VS-belier-black-ok.png'],
             ['credit-img', 'assets/images/credits.png'],
             ['bouton-credit', 'assets/images/bouton-credit.png'],
             ['bouton-play', 'assets/images/bouton-play.png'],
-            ['bouton-titre', 'assets/images/bouton-titre.png']
+            ['bouton-titre', 'assets/images/bouton-titre.png'],
+            ['bouton-fullscreen', 'assets/images/bouton-fullscreen.png']
         ];
 
         this.sprites = [
