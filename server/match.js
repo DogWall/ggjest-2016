@@ -176,7 +176,7 @@ Match.prototype.reloadStartTimer = function() {
 };
 
 Match.prototype.startIfPossible = function() {
-    if (this.isReady() || this.size() > 1) {
+    if (this.size() > 1) {
         this.start();
     }
 };
@@ -185,6 +185,10 @@ Match.prototype.isReady = function() {
     return _.every(this.teams, function (t) {
         return t.size() >= TEAM_SIZE;
     })
+};
+
+Match.prototype.size = function() {
+    return _.sum(_.invokeMap(this.teams, 'size'));
 };
 
 Match.prototype.start = function() {
