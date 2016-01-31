@@ -105,7 +105,7 @@ define([
             };
 
             var onGlyphScore = function (event) {
-                self.game.game_state.glyphedScore = event.score;
+                self.game.game_state.glyphedScore = Math.max(0, event.score);
             };
 
             var onGameEnd = function (event) {

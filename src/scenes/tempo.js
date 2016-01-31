@@ -49,7 +49,7 @@ define([
                 color = "#fff";
                 this.score += 100;
             }
-            else if( latency < 100) {
+            else if( latency < 150) {
                 text = "Ok";
                 color = "#fff";
                 this.score += 100;
