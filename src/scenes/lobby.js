@@ -28,10 +28,16 @@ define([
             var banner =  this.game.add.sprite(0, 0, 'empty-banner');
             banner.scale.setTo(0.5, 0.5);
             this.statusText = this.game.add.text(10, this.game.height - 86, 'Loading...', {font: '32px comicrunes', fill: '#fff'});
-            
+
             if(this.game.game_state.getTeam()) {
                 this.setTeam(this.game.game_state.getTeam());
             }
+
+            // FIXME: soundtrack not starting here...
+            this.music = this.game.add.audio('main-soundtrack');
+            this.music.loop = true;
+            this.music.play();
+            this.music.volume = 1.0;
         },
 
         update: function () {
