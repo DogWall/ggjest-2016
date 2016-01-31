@@ -34,8 +34,8 @@ define([
             field.type               = 'text';
             field.value              = this.savedUserName();
             field.style.textAlign    = 'center';
-            field.style.position     = 'absolute';
-            field.style.top          = 307;
+            field.style.position     = 'relative';
+            field.style.top          = -262;
             field.style.left         = '50%';
             field.style.width        = 276;
             field.style.marginLeft   = -138;
@@ -58,6 +58,13 @@ define([
             var fsText = this.game.add.text(this.game.width/2, 535, 'fullscreen', {font: '16px comicrunes', fill: '#fff'});
             fsText.anchor.setTo(0.5, 0.5);
             fsText.inputEnabled = true;
+            
+            self.game.scale.onFullScreenChange.add( function() {
+                var canvas = document.getElementsByTagName('canvas');
+                canvas[0].parentNode.appendChild(self.field);
+                self.field.style.marginTop = canvas[0].style.marginTop;
+            });
+            
             fsText.events.onInputDown.add(function (e) {
                 self.scale.startFullScreen(false);
             }, this);
