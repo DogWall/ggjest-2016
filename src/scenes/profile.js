@@ -34,8 +34,9 @@ define([
             field.style.textAlign    = 'center';
             field.style.position     = 'absolute';
             field.style.top          = 307;
-            field.style.left         = 22;
+            field.style.left         = '50%';
             field.style.width        = 276;
+            field.style.marginLeft   = -138;
             field.style.border       = 'none';
             field.style.outlineWidth = 0;
             field.style.font     = '32px comicrunes';
@@ -59,19 +60,17 @@ define([
                 self.scale.startFullScreen(false);
             }, this);
 
-            this.body = document.getElementsByTagName('body')[0];
+            this.container = document.getElementById(this.game.parent);
 
-            this.body.appendChild(this.field);
+            this.container.appendChild(this.field);
         },
 
         hideForm: function () {
             if (this.field /*&& this.field.parentNode === this.body*/) {
-                this.field.display = 'none';
+                this.field.style.display = 'none';
                 try {
-                    this.body.removeChild(this.field);
-                } catch (e) {
-
-                }
+                    this.container.removeChild(this.field);
+                } catch (e) { }
             }
         },
 
