@@ -116,6 +116,11 @@ define([
                 console.log('solist', event.solist);
             });
 
+            self.game.socket.on('glyphed-score', function (event) {
+                self.game.glyphedScore = event.score;
+            });
+
+
             self.game.socket.on('match-end', function (event) {
                 self.showEndGame(event.winner, event.looser);
             });

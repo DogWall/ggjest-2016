@@ -15,6 +15,7 @@ function Team (io, options) {
 
     this.score   = 0;
     this.players = {};
+    this.glyphedScore = 0;
 };
 
 Team.prototype.hasPlayer = function(player) {
