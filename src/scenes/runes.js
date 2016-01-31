@@ -34,14 +34,8 @@ define([
 
         this.status = new Status(this.game);
         this.setupLocalBackground();
-          this.setupBackground();
+        this.setupBackground();
         this.setupGrid();
-
-
-
-
-        //this.score = 0;
-
 
 
         if (this.game.device.desktop) {
