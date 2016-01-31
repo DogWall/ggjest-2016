@@ -44,6 +44,8 @@ define([
 
         emptyPlayers: function () {
             this.leftTeam = null;
+            this.started = false;
+            this.playerIds = {};
             this.playerOffsets = {};
         },
 
@@ -72,6 +74,10 @@ define([
         },
 
         addPlayer: function (player, team) {
+            if (this.started) return;
+            if (this.playerIds[player.id]) return;
+
+            this.playerIds[player.id] = true;
             var leftOffset, color;
 
             if (team.name == 'black') {
@@ -93,6 +99,7 @@ define([
         },
 
         startCountdown: function () {
+            this.started = true;
             this.statusText.text = this.statusText.counter = 3;
             this.timer = this.game.time.create(this.game);
             this.timer.loop(1000, this.countdown, this);
