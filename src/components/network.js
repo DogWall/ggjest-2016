@@ -38,13 +38,17 @@ define([
                 var team  = event.team;
                 self.game.game_state.nbPlayers = event.nbPlayers;
                 self.game.game_state.playerPosition = event.playerPosition;
-                self.game.game_state.monster = event.monster;
+                self.game.game_state.myMonster = event.myMonster;
+                self.game.game_state.theOtherMonster = event.theOtherMonster;
                 var hash  = '#' + match.id + '-' + team.id;
                 console.log('Current player', event.player);
                 console.log('invite friends to', matchUrl);
                 console.log('joining match', match, 'in team', team.id, '=>', hash);
                 console.log('nbPlayers', event.nbPlayers);
                 console.log('playerPosition', event.playerPosition);
+                console.log('myMonster', event.myMonster);
+                console.log('theOtherMonster', event.theOtherMonster);
+
 
 
                 var matchUrl = location.toString().replace(/#.*$/, hash);
@@ -123,7 +127,7 @@ define([
             });
 
             self.game.socket.on('update-solist', function (event) {
-                self.game.solistPosition = event.solist;
+                self.game.game_state.solistPosition = event.solist;
                 console.log('solist', event.solist);
             });
 

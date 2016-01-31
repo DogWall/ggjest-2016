@@ -90,10 +90,15 @@ define([
                 case 'white':
                     var zone =  this.game.add.sprite(0, 0, 'zone-jeu-white');
                     zone.scale.setTo(0.5, 0.5);
+                    var tap =  this.game.add.sprite(0, 0, 'tap-bleu');
+                    tap.scale.setTo(0.5, 0.5);
+
                     break;
                 case 'black':
                     var zone =  this.game.add.sprite(0, 0, 'zone-jeu-black');
                     zone.scale.setTo(0.5, 0.5);
+                    var tap =  this.game.add.sprite(0, 0, 'tap-rouge');
+                    tap.scale.setTo(0.5, 0.5);
                     break;
             }
         },

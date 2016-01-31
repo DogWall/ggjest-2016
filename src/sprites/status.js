@@ -12,7 +12,7 @@ define([
         this.playerPosition = game.game_state.playerPosition;
         this.nbPlayers = game.game_state.nbPlayers;
         this.solistPosition = game.game_state.solistPosition;
-        this.monster = game.game_state.getMonster();
+        this.monster = game.game_state.getMonster(game.game_state.myMonster);
 
         var team = game.game_state.getTeam();
         this.ombreScale = 0.25 + 0.75/6 * game.game_state.glyphedScore;

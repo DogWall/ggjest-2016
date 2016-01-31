@@ -1,8 +1,11 @@
 'use strict';
 
+var NR_MONSTERS = 3;
+
 var _       = require('lodash');
 var shortid = require('shortid');
 var debug   = require('debug')('ocult:teams')
+
 
 module.exports = Team;
 
@@ -20,6 +23,7 @@ function Team (io, options) {
     this.glyphedScore = 0;
     this.tapScoreByRound = {};
     this.previousRoundTapsAccuracy = 0;
+    this.monster = -1;
 };
 
 Team.prototype.hasPlayer = function(player) {
@@ -48,6 +52,7 @@ Team.prototype.toJSON = function() {
         id: this.id,
         name: this.name,
         score: this.score,
+        monster: this.monster,
         tapScoreByRound: this.tapScoreByRound,
         players: _.invokeMap(this.players, 'toJSON'),
         previousRoundTapsAccuracy: this.previousRoundTapsAccuracy,
@@ -74,6 +79,13 @@ Team.prototype.playerScored = function(player, score) {
 
 Team.prototype.tapSuccess = function(player, score) {
     this.playerScored(player, score);
+};
+
+Team.prototype.getMonster = function() {
+    if (this.monster == -1) {
+        this.monster = Math.floor(Math.random() * NR_MONSTERS);
+    }
+    return this.monster;
 };
 
 Team.prototype.glyphSuccess = function(player) {
