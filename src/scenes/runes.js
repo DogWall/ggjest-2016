@@ -1,7 +1,7 @@
 define([
-    'phaser', 'sprites/status'
+    'phaser', 'sprites/status','sprites/wow',
   ],
-  function(Phaser, Status) {
+  function(Phaser, Status, Wow) {
     'use strict';
 
     function Runes(runes) {
@@ -29,6 +29,7 @@ define([
         this.dotHeight = _dot.height;
         this.dots = {};
         this.lineWork = null;
+        this.texts = this.game.add.group();
 
         this.status = new Status(this.game);
         this.setupLocalBackground();
@@ -92,6 +93,12 @@ define([
       setupBackground: function() {
           this.grid =  this.game.add.sprite(0, 0, 'points');
           this.grid.scale.setTo(0.5, 0.5);
+      },
+      hideGrid: function () {
+        for (var i in this.dots) {
+          var dot = this.dots[i];
+          this.grid.alpha = 0;
+        }
       },
       setupGrid: function() {
         var _dot = this.game.cache.getImage("dot");
@@ -188,13 +195,19 @@ define([
         var glyphs = this.game.cache.getJSON('glyphs');
         var glyph = glyphs[this.game.rnd.integerInRange(0, glyphs.length)];
         console.log(glyph)
-        this.state.start('Runes',true,false,glyph);
+        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {
+          this.state.start('Runes',true,false,glyph);
+        }, this);
+
       },
       patternSuccess: function () {
         this.game.network.userGoodGlyphed();
+        this.hideGrid()
+        this.drawPattern(this.pattern,{color:0xffff66,lineWidth:5});
       },
       patternFailed: function () {
         this.game.network.userMisGlyphed();
+
       }
     };
     return Runes;
