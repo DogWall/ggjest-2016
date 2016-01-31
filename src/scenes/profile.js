@@ -48,16 +48,19 @@ define([
                 }
             });
 
-            var btn = this.game.add.sprite(0, 450, 'join');
+            var btn = this.game.add.sprite(0, 410, 'join');
             btn.scale.setTo(0.5, 0.5);
             btn.inputEnabled = true;
             btn.events.onInputDown.add(function (e) {
                 self.onConfirm(field.value);
             }, this);
 
-            var fsText = this.game.add.text(this.game.width/2, 535, 'fullscreen', {font: '16px comicrunes', fill: '#fff'});
-            fsText.anchor.setTo(0.5, 0.5);
-            fsText.inputEnabled = true;
+            var btn2 = this.game.add.sprite(0, 420 + 133/2, 'bouton-fullscreen');
+            btn2.scale.setTo(0.5, 0.5);
+            btn2.inputEnabled = true;
+            btn2.events.onInputDown.add(function (e) {
+                self.scale.startFullScreen(false);
+            }, this);
             
             self.game.scale.onFullScreenChange.add( function() {
                 var canvas = document.getElementsByTagName('canvas');
@@ -65,9 +68,6 @@ define([
                 self.field.style.marginTop = canvas[0].style.marginTop;
             });
             
-            fsText.events.onInputDown.add(function (e) {
-                self.scale.startFullScreen(false);
-            }, this);
 
             this.container = document.getElementById(this.game.parent);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var NR_MONSTERS = 3;
+var NR_MONSTERS = 4;
 
 var _       = require('lodash');
 var shortid = require('shortid');

@@ -24,7 +24,7 @@ define([
             return this.team;
         },
         getMonster: function (monster) {
-            var monsters = ['licorne', 'dino', 'chouette'];
+            var monsters = ['licorne', 'dino', 'chouette', 'belier'];
             return monsters[monster];
 
         },
