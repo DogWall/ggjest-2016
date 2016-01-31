@@ -32,6 +32,8 @@ define([
             ['ombre-dino-white', 'assets/images/ombre-dino-white.png'],
             ['ombre-chouette-black', 'assets/images/ombre-chouette-black.png'],
             ['ombre-chouette-white', 'assets/images/ombre-chouette-white.png'],
+            ['tap-bleu', 'assets/images/tap-bleu.png'],
+            ['tap-rouge', 'assets/images/tap-rouge.png'],
             ['halo-black', 'assets/images/halo-black.png'],
             ['halo-white', 'assets/images/halo-white.png'],
             ['moine-black', 'assets/images/moine-black.png'],
