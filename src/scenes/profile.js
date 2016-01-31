@@ -8,7 +8,7 @@ define([
         this.field = null;
     }
 
-    
+
     Profile.prototype = {
         constructor: Profile,
         create: function () {

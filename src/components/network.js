@@ -146,8 +146,8 @@ define([
                 } else {
                     self.game.state.start(event.game, true, false);
                 }
-            };
 
+            };
             self.game.socket.on('start-countdown', onCountdown);
             self.game.socket.on('user-joined', onUserJoined);
             self.game.socket.on('team-scores', onTeamScores);
