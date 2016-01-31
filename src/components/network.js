@@ -80,23 +80,45 @@ define([
             console.log('in lobby', this.currentMatch);
             self.game.state.start('Lobby');
 
-            self.game.socket.on('start-countdown', function (counter) {
+            var onCountdown = function (counter) {
                 self.game.lobby && self.game.lobby.startCountdown(counter);
-            });
-            self.game.socket.on('user-joined', function (event) {
+            };
+
+            var onUserJoined = function (event) {
                 self.game.lobby.addPlayer(event.player, event.team);
-            });
-            self.game.socket.on('team-scores', function (scores) {
+            };
+
+            var onTeamScores = function (scores) {
                 console.log('scores are', scores);
-            });
-            this.game.socket.on('game-start', function (event) {
+            };
+
+            var onUpdateSolist = function (event) {
+                self.game.game_state.solistPosition = event.solist;
+                console.log('solist', event.solist);
+            };
+
+            var onGlyphScore = function (event) {
+                self.game.game_state.glyphedScore = event.score;
+            };
+
+            var onGameEnd = function (event) {
+                self.showEndGame(event.winner, event.looser);
+            };
+
+            var removeListeners = function (socket) {
+                socket.on('start-countdown', onCountdown);
+                socket.on('user-joined', onUserJoined);
+                socket.on('team-scores', onTeamScores);
+                socket.on('game-start', onGameStart);
+                socket.on('update-solist', onUpdateSolist);
+                socket.on('glyphed-score', onGlyphScore);
+                socket.on('match-end', onGameEnd);
+            };
+
+            var onGameStart = function (event) {
                 console.log('start game !!!');
 
-                // FIXME: redondant avec Match-end?
-                // self.game.socket.on('game-end', function () {
-                //     self.game.state.start('Score', true, false);
-                //     console.log('game end!');
-                // });
+                removeListeners(self.game.socket);
 
                 if (event.game == 'Runes') {
                     var glyphs = self.game.cache.getJSON('glyphs');
@@ -116,22 +138,15 @@ define([
                 } else {
                     self.game.state.start(event.game, true, false);
                 }
+            };
 
-            });
-
-            self.game.socket.on('update-solist', function (event) {
-                self.game.game_state.solistPosition = event.solist;
-                console.log('solist', event.solist);
-            });
-
-            self.game.socket.on('glyphed-score', function (event) {
-                self.game.game_state.glyphedScore = event.score;
-            });
-
-
-            self.game.socket.on('match-end', function (event) {
-                self.showEndGame(event.winner, event.looser);
-            });
+            self.game.socket.on('start-countdown', onCountdown);
+            self.game.socket.on('user-joined', onUserJoined);
+            self.game.socket.on('team-scores', onTeamScores);
+            self.game.socket.on('game-start', onGameStart);
+            self.game.socket.on('update-solist', onUpdateSolist);
+            self.game.socket.on('glyphed-score', onGlyphScore);
+            self.game.socket.on('match-end', onGameEnd);
         },
 
         showEndGame: function (winner, looser) {
