@@ -24,6 +24,7 @@ define([
             this.timer.start();
             this.timer._last = this.timer._now;
             this.lastTap = this.timer._now;
+            this.notTapped = 1;
 
             this.game.input.onDown.add(this.tapControl, this);
         },
@@ -39,6 +40,13 @@ define([
             var latency = Math.min(Math.abs(this.timer._now - this.timer._last), Math.abs(this.timer._now - this.timer.next) );
             var color;
             var text;
+            
+            // Multi-tap cheaters ! 
+            if(this.timer._now - this.lastTap < 200) {
+                latency = 666;
+                this.score -= 100;
+            }
+            
             if( latency < 30) {
                 text = "PERFECT !";
                 color = "#ff0";
@@ -58,7 +66,6 @@ define([
                 text = "Bad";
                 color = "#f66";
                 this.score -= 50;
-
             }
 
             var wow = new Wow(this.game, this.game.rnd.integerInRange(50, this.game.width - 100), this.game.input.y , text, {font: '32px comicrunes', fill: color, align: 'center'});
@@ -66,16 +73,22 @@ define([
 
 //            this.scoreText.text = this.score;
             this.lastTap = this.timer._now;
+            this.notTapped = 0;
         },
 
         blink: function () {
             this.tap.alpha = 1;
             this.game.add.tween(this.tap).to({alpha: 0}, 1000, "Quart.easeOut", true);
 
-            this.bgColor = 255;
-//            if(this.lastTap < this.timer._last){
-//                this.resultText.text = "" ;
-//            }
+            if(this.lastTap < this.timer._last){
+                this.notTapped++;
+            }
+            
+            if(this.notTapped > 2 ) {
+                var wow = new Wow(this.game, 135, 420 , "Tap !", {font: '32px comicrunes', fill: '#fff', align: 'center'}, false);
+                this.texts.add(wow);
+            }
+
             this.timer._last = this.timer._now + 10;    // 10ms : Human latency
         },
 

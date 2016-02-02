@@ -4,6 +4,7 @@ define([
     'use strict';
 
     function Endmatch(game) {
+        this.restart = false;
     }
 
     Endmatch.prototype = {
@@ -29,14 +30,10 @@ define([
             return this.winnerTeam.name === 'black';
         },
         showVersus: function () {
-            console.log('team', this.team);
-
             this.myMonster = this.game.game_state.getMonster(this.game.game_state.myMonster);
             this.theOtherMonster = this.game.game_state.getMonster(this.game.game_state.theOtherMonster);
 
-
-
-            if (this.team == 'black') {
+            if (this.team.name == 'black') {
                 this.blackMonsterId = this.myMonster;
                 this.whiteMonsterId = this.theOtherMonster;
             } else {
@@ -74,7 +71,8 @@ define([
             this.game.add.text(10, this.game.height - 46, this.whiteTeam.score, style);
         },
         showWinner: function () {
-
+            var self = this;
+            
             if(this.winnerTeam.name == 'white') {
               this.game.add.tween(this[this.winnerTeam.name + 'Backgnd']).to({x: 0, y:0}, 500, "Quad.easeIn", true);
               this.game.add.tween(this[this.looserTeam.name + 'Monster']).to({x: -this.game.width - 180, y:0} , 500, "Quad.easeIn", true);
@@ -89,6 +87,10 @@ define([
             this.background = this.game.add.sprite(0, -this.game.height, 'win-' + this.winnerTeam.name);
             this.background.scale.setTo(0.5, 0.5);
             this.game.add.tween(this.background).to({y: 0} , 1700, "Quad.easeIn", true);
+            
+            setTimeout(function () {
+                self.showContinue();
+            }, 2000);            
         },
         showContinue: function () {
             if (! this.restart) {
@@ -106,9 +108,6 @@ define([
             setTimeout(function () {
                 self.showWinner();
             }, 3000);
-            setTimeout(function () {
-                self.showContinue();
-            }, 5000);
         }
     };
 

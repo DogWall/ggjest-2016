@@ -24,6 +24,7 @@ function Team (io, options) {
     this.tapScoreByRound = {};
     this.previousRoundTapsAccuracy = 0;
     this.monster = -1;
+    console.log('team regenerate');
 };
 
 Team.prototype.hasPlayer = function(player) {
@@ -54,7 +55,7 @@ Team.prototype.toJSON = function() {
         id: this.id,
         name: this.name,
         score: this.score,
-        monster: this.monster,
+        monster: this.getMonster(),
         tapScoreByRound: this.tapScoreByRound,
         players: _.invokeMap(this.players, 'toJSON'),
         previousRoundTapsAccuracy: this.previousRoundTapsAccuracy,

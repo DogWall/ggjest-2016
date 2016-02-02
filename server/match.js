@@ -66,12 +66,13 @@ Match.prototype.playersIn = function(team) {
 }
 
 Match.prototype.smallestTeam = function() {
-    var p, smallest = 10000000;
+    var smallest = 10000000;
     _.each(this.teams, function (t) {
         if (t.size() < smallest) {
-            smallest = t;
+            smallest = t.size();
         }
     });
+    console.log('max size :'+smallest)
     return smallest;
 }
 
@@ -93,7 +94,7 @@ Match.prototype.findTeamOfPlayer = function(player) {
 };
 
 Match.prototype.canBeJoined = function() {
-    return ! this.running;
+    return (!this.running) && (this.smallestTeam() < 3);
 };
 
 Match.prototype.join = function(player, team) {
@@ -122,9 +123,6 @@ Match.prototype.join = function(player, team) {
             }
             i++;
         }
-
-
-
 
         var event = {
             player: player.toJSON(),
@@ -203,10 +201,6 @@ Match.prototype.start = function() {
 };
 
 Match.prototype.end = function() {
-
-    // self.teams.white.addScore(Math.round(Math.random() * 10000));
-    // self.teams.black.addScore(Math.round(Math.random() * 10000));
-
     debug('match %o is ending, winner is %o', this.id, this.winner());
     this.emit('match-end', {
         winner: this.teams[this.winner()].toJSON(),
