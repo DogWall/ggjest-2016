@@ -24,8 +24,8 @@
     "lodash": "^4.1.0",
     "phaser": "~2.4.3",
     "requirejs": "~2.1.20",
+    "serve-static": "^1.10.2",
     "shortid": "^2.2.4",
-    "socket.io": "^1.4.5",
-    "serve-static": "^1.10.2"
+    "socket.io": "^2.4.1"
   }
 }
